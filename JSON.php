@@ -1,7 +1,7 @@
 <?php 
 namespace securechat;
 
-class JASONfile {
+class JSONfile {
 var $RSAciphertext
 var $AESciphertext
 var $HMACtag
