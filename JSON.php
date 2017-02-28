@@ -1,10 +1,10 @@
 <?php 
 namespace securechat;
 
-class JASONfile {
-var $RSAciphertext
-var $AESciphertext
-var $HMACtag
+class JSONfile {
+private $RSAciphertext
+private $AESciphertext
+private $HMACtag
 
 
 	public function __construct($RSAciphertext, $AESciphertext, $HMACtag) {
