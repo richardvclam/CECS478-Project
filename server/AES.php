@@ -1,6 +1,4 @@
 <?php 
-namespace securechat;
-
 class AES {
 	
 	var $salt = '0F188A340B13CC9C';
