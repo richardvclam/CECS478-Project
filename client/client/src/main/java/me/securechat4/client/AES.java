@@ -47,6 +47,14 @@ public class AES {
 	}
 	
 	/**
+	 * Returns a 256-bit SecretKey for AES.
+	 * @return a 256-bit SecretKey
+	 */
+	public SecretKey getKey() {
+		return key;
+	}
+	
+	/**
 	 * Encrypts a {@code message} using the AES-256-CBC encryption method. 
 	 * @param message is the message to encrypt
 	 * @return a Base64 encoded IV and encrypted message
@@ -62,9 +70,7 @@ public class AES {
 			cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
 			byte[] encryptedMessage = cipher.doFinal(message.getBytes());
 			
-			byte[] concatenatedIvEncryptedMessage =  new byte[iv.length + encryptedMessage.length];
-			System.arraycopy(iv, 0, concatenatedIvEncryptedMessage, 0, iv.length);
-			System.arraycopy(encryptedMessage, 0, concatenatedIvEncryptedMessage, iv.length, encryptedMessage.length);
+			byte[] concatenatedIvEncryptedMessage =  Util.concatenate(iv, encryptedMessage);
 			
 			encodedString = Base64.getEncoder().encodeToString(concatenatedIvEncryptedMessage);
 		} catch (Exception e) {
