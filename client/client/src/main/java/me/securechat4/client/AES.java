@@ -79,5 +79,21 @@ public class AES {
 		
 		return encodedString;
 	}
-
+          
+        	public String decrypt(byte[] encryptedMessage) {
+		String decodedString = "";
+		try {
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			byte[] iv = new byte[IV_BYTE_SIZE];
+                        cipher.init(Cipher.DECRYPT_MODE, key,
+					new IvParameterSpec(iv));
+			byte[] byteDecryptedText = cipher
+					.doFinal(encryptedMessage);
+                        decodedString = new String(byteDecryptedText);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return decodedString;
+                      
+	}
 }
