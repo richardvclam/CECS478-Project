@@ -90,12 +90,18 @@ public class RSA {
 	}
         
         
-        public String decrypt(byte[] data) {
-		byte[] decryptedData = null;
+        public byte[] decrypt(String text) {
+            byte[] decryptedText = null;
+            byte[] textInBytes = text.getBytes();
+            decryptedText = Base64.getDecoder().decode(decryptedText);
+                
+                
+                
+                
 		try {
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
 			cipher.init(Cipher.DECRYPT_MODE, publicKey);
-			decryptedData = cipher.doFinal(data);
+			decryptedText = cipher.doFinal(decryptedText);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
@@ -107,8 +113,7 @@ public class RSA {
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
 		}
-		
-		return Base64.getEncoder().encodeToString(decryptedData);
+		return decryptedText;
 	}
 	
 }
