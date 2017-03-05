@@ -88,5 +88,27 @@ public class RSA {
 		
 		return Base64.getEncoder().encodeToString(encryptedData);
 	}
+        
+        
+        public String decrypt(byte[] data) {
+		byte[] decryptedData = null;
+		try {
+			Cipher cipher = Cipher.getInstance(ALGORITHM);
+			cipher.init(Cipher.DECRYPT_MODE, publicKey);
+			decryptedData = cipher.doFinal(data);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		}
+		
+		return Base64.getEncoder().encodeToString(decryptedData);
+	}
 	
 }
