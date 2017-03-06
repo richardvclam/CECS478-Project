@@ -79,8 +79,9 @@ public class AES {
 		
 		return encodedString;
 	}
-          
-        	public String decrypt(byte[] encryptedMessage) {
+        
+        
+        	public String decrypt(String encryptedMessage) {
 		String decodedString = "";
 		try {
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
@@ -88,7 +89,7 @@ public class AES {
                         cipher.init(Cipher.DECRYPT_MODE, key,
 					new IvParameterSpec(iv));
 			byte[] byteDecryptedText = cipher
-					.doFinal(encryptedMessage);
+					.doFinal(encryptedMessage.getBytes());
                         decodedString = new String(byteDecryptedText);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,4 +97,6 @@ public class AES {
 		return decodedString;
                       
 	}
+        
+
 }
