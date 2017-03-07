@@ -8,6 +8,12 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 
+/**
+ * 
+ * @author Richard Lam
+ * @author Mark Tsujimura
+ *
+ */
 public class HMAC {
 	
 	/**
@@ -17,16 +23,16 @@ public class HMAC {
 	/**
 	 * The algorithm to use for calculating the hash tag.
 	 */
-	private static final String HMAC_SHA_256 = "HmacSHA256";
+	private static final String ALGORITHM = "HmacSHA256";
 	
 	/**
 	 * Returns a randomly generated 256-bit HMAC key.
-	 * @return a randomly generated 256-bit HMAC key
+	 * @return randomly generated 256-bit HMAC key
 	 */
 	public static SecretKey generateHMACKey() {
 		KeyGenerator keygen = null;
 		try {
-			keygen = KeyGenerator.getInstance(HMAC_SHA_256);
+			keygen = KeyGenerator.getInstance(ALGORITHM);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
@@ -36,14 +42,14 @@ public class HMAC {
 	
 	/**
 	 * Returns a Base64 encoded HMAC integrity tag for {@code data} using the {@code key}.
-	 * @param data is the data to generate the hash
-	 * @param key is the key used to generate the hash
-	 * @return a Base64 encoded HMAC integrity tag
+	 * @param data - the data to generate the hash
+	 * @param key - the key used to generate the hash
+	 * @return Base64 encoded HMAC integrity tag
 	 */
 	public static String calculateIntegrity(String data, SecretKey key) {
 		Mac mac = null;
 		try {
-			mac = Mac.getInstance(HMAC_SHA_256);
+			mac = Mac.getInstance(ALGORITHM);
 			mac.init(key);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
