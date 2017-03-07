@@ -80,8 +80,8 @@ public class Crypto {
         for (int i = 0; i < KEY_BYTE_SIZE; i++) {
             aesKeyinBytes[i] = decryptedRSAText[i]; 
         }
-        
-        aesKey = new SecretKeySpec(aesKeyinBytes, 0, aesKeyinBytes.length, "AES");
+        // AES Secret Key
+        aesKey = new SecretKeySpec(aesKeyinBytes, 0, KEY_BYTE_SIZE, "AES");
         aes = new AES(aesKey);
         
         // Get HMAC Key from the text
@@ -89,7 +89,7 @@ public class Crypto {
         for (int i = 0; i < KEY_BYTE_SIZE; i++) {
             hmacKeyinBytes[i] = decryptedRSAText[KEY_BYTE_SIZE + i];
         }
-        
+        // HMAC Secret Key
         hmacKey = new SecretKeySpec(hmacKeyinBytes, 0, KEY_BYTE_SIZE, "HMAC");  
         
         // Run HMAC w/ key from JSON
