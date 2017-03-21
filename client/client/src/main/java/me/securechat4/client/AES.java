@@ -86,7 +86,7 @@ public class AES {
 		random.nextBytes(iv);
 		
 		try {
-			Cipher cipher = Cipher.getInstance(ALGORITHM);
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
 			
 			byte[] encryptedMessage = cipher.doFinal(message.getBytes());
