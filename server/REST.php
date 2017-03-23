@@ -1,9 +1,12 @@
 <?php
 
+/**
+ * @author Richard Lam
+ * @author Mark Tsujimura
+ */
 class REST {
 
-    public $_allow = array();
-    public $_content_type = "application/json; version=1";
+    public $_content_type = "application/json";
     public $_request = array();
 
     private $_code = 200;
@@ -12,17 +15,17 @@ class REST {
         $this->inputs();
     }
 
-    public function get_referer() {
+    public function getReferer() {
         return $_SERVER['HTTP_REFERER'];
     }
 
     public function response($data, $status) {
         $this->_code = ($status) ? $status : 200;
-        $this->set_headers();
+        $this->setHeaders();
         echo $data;
     }
 
-    protected function get_status_message() {
+    protected function getStatusMessage() {
         $status = array(
             100 => 'Continue',
             101 => 'Switching Protocols',
@@ -69,18 +72,52 @@ class REST {
         return ($status[$this->_code]) ? $status[$this->_code] : $status[500];
     }
 
-    public function get_request_method() {
+
+    public function getRequestMethod() {
         return $_SERVER['REQUEST_METHOD'];
     }
 
+    /**
+     * Returns the content type of the page.
+     *
+     * @return string the content type
+     */
+    public function getContentType() {
+        return isset ($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
+    }
+
+    /**
+     * Moves and clean HTTP request data into an internal array.
+     *
+     * @throws Exception thrown when an invalid JSON object is received
+     */
     private function inputs() {
-        switch($this->get_request_method()) {
+        switch($this->getRequestMethod()) {
             case "POST":
-                $this->_request = $this->cleanInputs($_POST);
+                // Checks if Content Type is a json object
+                if (strcasecmp($this->getContentType(), 'application/json') == 0) {
+                    // Receive the raw post data
+                    $jsonObj = trim(file_get_contents("php://input"));
+                    //echo $jsonObj;
+
+                    // Attempt to decode the incoming raw post data from JSON object
+                    $decodedJson = json_decode($jsonObj, true);
+
+                    // Checks if is a valid JSON object
+                    if (!is_array($decodedJson)) {
+                        throw new Exception('Received an invalid JSON object.');
+                    }
+
+                    // Cleans input and puts data into this API's request array
+                    $this->_request = $this->cleanInputs($decodedJson);
+                } else {
+                    $this->_request = $this->cleanInputs($_POST);
+                }
                 break;
             case "GET":
             case "DELETE":
                 $this->_request = $this->cleanInputs($_GET);
+                //print_r(array_values($_GET));
                 break;
             case "PUT":
                 parse_str(file_get_contents("php://input"), $this->_request);
@@ -92,24 +129,40 @@ class REST {
         }
     }
 
+    /**
+     * Cleans input from HTTP requests to prevent exploits such as SQL injection.
+     *
+     * @param $data         the data to clean
+     * @return array|string the cleaned data
+     */
     private function cleanInputs($data) {
         $clean_input = array();
+
+        // Checks if the data is an array
         if (is_array($data)) {
+            // Recursively cleans input from array
             foreach ($data as $k => $v) {
                 $clean_input[$k] = $this->cleanInputs($v);
             }
         } else {
+            // Checks if current configuration settings of magic quotes is ON
             if (get_magic_quotes_gpc()) {
+                // Escapes all slashes and trims white space
                 $data = trim(stripslashes($data));
             }
+            // Strips HTML and PHP tags from a string
             $data = strip_tags($data);
+            // Strips whitespace from the beginning and end of a string
             $clean_input = trim($data);
         }
         return $clean_input;
     }
 
-    private function set_headers() {
-        header("HTTP/1.1 ".$this->_code." ".$this->get_status_message());
+    /**
+     * Sets the headers for a page.
+     */
+    private function setHeaders() {
+        header("HTTP/1.1 ".$this->_code." ".$this->getStatusMessage());
         //header("Content-Type:".$this->_content_type);
     }
 }

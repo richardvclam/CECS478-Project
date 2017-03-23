@@ -1,8 +1,11 @@
 <?php
-
 require_once("REST.php");
 require_once("Route.php");
 
+/**
+ * @author Richard Lam
+ * @author Mark Tsujimura
+ */
 class API extends REST {
 
     /**
@@ -74,17 +77,6 @@ class API extends REST {
             // If the method does not exist within the Route.class, then the response would be "Page not found".
             $this->response('Error code 404, Page not found', 404);
         }
-    }
-
-    private function test() {
-        // Cross validation if the request method is GET else it will return "Not Acceptable" status
-        if($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        }
-        $myDatabase = $this->conn;
-        $param = $this->_request['var'];
-        // If successful, send header as "OK" return param
-        $this->response($param, 200);
     }
 
     /**

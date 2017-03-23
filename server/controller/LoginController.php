@@ -1,19 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Richard
- * Date: 3/18/2017
- * Time: 11:00 PM
- */
+
 require_once('vendor/autoload.php');
+include('MessageController.php');
 use \Firebase\JWT\JWT;
-define('SECRET_KEY', base64_encode('Ax4SJFE6PDbhiLU4E6Y0uftKEuTXzTQSkcWfXmGx'));
+
 define('ALGORITHM','HS256');
 
 class LoginController {
 
     public static function login($api, $user, $pass) {
-        echo "test";
         if ($user && $pass) {
             // if there is no error below code run
             $sql = "SELECT * FROM account WHERE accountName='$user'";
@@ -42,19 +37,33 @@ class LoginController {
                         'name' => $row['accountName'], //  name
                     ]
                 ];
-                $secretKey = base64_decode(SECRET_KEY);    // get key from api class
-                /// Here we will transform this array into JWT:
-                $jwt = JWT::encode(
-                    $data, //Data to be encoded in the JWT
-                    $secretKey, // The signing key
-                    ALGORITHM
-                );
-                $unencodedArray = ['jwt' => $jwt];
-
-                return  json_encode($unencodedArray);
+                //open key from file
+                try {
+                    $myfile = fopen("/var/www/html/key.txt", "r") or die("Unable to open file!");
+                    $key = fgets($myfile);
+                    //close($myfile);
+                    $secretKey = base64_decode($key);
+                    /// Here we will transform this array into JWT:
+                    $jwt = JWT::encode(
+                        $data, //Data to be encoded in the JWT
+                        $secretKey, // The signing key
+                        ALGORITHM
+                    );
+                    $unencodedArray = ['jwt' => $jwt];
+			        echo "Login sucessful";
+			        $json = json_encode($unencodedArray);
+               		echo $json;
+	         	    return json_encode($unencodedArray);
+                } catch ( Exception $e ) {
+                        echo "error";
+                } 
             } else {
-                echo "{'status' : 'error','msg':'Invalid email or passowrd'}";
+                echo "Invalid email or password. Try again.";
             }
         }
     }
 }
+
+
+
+
