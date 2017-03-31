@@ -1,4 +1,4 @@
-package me.securechat4.client;
+package me.securechat4.client.crypto;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -14,6 +14,8 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+
+import me.securechat4.client.Util;
 
 /**
  * 

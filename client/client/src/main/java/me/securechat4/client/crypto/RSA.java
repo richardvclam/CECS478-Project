@@ -1,4 +1,4 @@
-package me.securechat4.client;
+package me.securechat4.client.crypto;
 
 import java.io.File;
 import java.io.IOException;

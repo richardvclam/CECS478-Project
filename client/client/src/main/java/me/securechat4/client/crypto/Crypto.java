@@ -1,8 +1,10 @@
-package me.securechat4.client;
+package me.securechat4.client.crypto;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.json.simple.JSONObject;
+
+import me.securechat4.client.Util;
 
 /**
  * 
