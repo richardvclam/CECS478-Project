@@ -10,6 +10,15 @@ import org.json.simple.JSONObject;
 public class App {
 	
 	public static ContentPanel panel;
+	private static JSONObject jwt;
+	
+	public static JSONObject getJWT() {
+		return App.jwt;
+	}
+	
+	public static void setJWT(JSONObject jwt) {
+		App.jwt = jwt;
+	}
 	
     public static void main(String[] args) {      
         //JSONObject jsonObject = Crypto.encrypt("Hi world!", "public.der");

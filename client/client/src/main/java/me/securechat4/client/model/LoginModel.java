@@ -11,12 +11,12 @@ public class LoginModel extends Model {
 		super(controller);
 	}
 	
-	public void login(String username, String password) {
-		JSONObject json = new JSONObject();
-		json.put("username", username);
-		json.put("password", password);
+	public JSONObject login(String username, String password) {
+		JSONObject loginJSON = new JSONObject();
+		loginJSON.put("username", username);
+		loginJSON.put("password", password);
 		
-		HttpsApi.post("login", json);
+		return HttpsApi.post("login", loginJSON);
 	}
 
 }

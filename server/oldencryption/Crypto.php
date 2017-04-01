@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @author Mark Tsujimura
  * @author Richard Lam
  */
-
 class Crypto {
 
     /**

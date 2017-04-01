@@ -1,18 +1,16 @@
 package me.securechat4.client.controller;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.json.simple.JSONObject;
+
 import me.securechat4.client.App;
-import me.securechat4.client.model.LoginModel;
 import me.securechat4.client.model.RegisterModel;
 import me.securechat4.client.view.RegisterView;
-import me.securechat4.client.view.View;
 
 public class RegisterController extends Controller {
 	
@@ -24,10 +22,10 @@ public class RegisterController extends Controller {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
-		System.out.println(actionCommand);
+		System.out.println("Action: " + actionCommand);
 		switch (actionCommand) {
 			case "Register":
-				System.out.println("Attempting to login!");
+				System.out.println("Attempting to register!");
 				JTextField username = (JTextField) view.getComponent("usernameField");
 				System.out.println(username.getText());
 				JPasswordField passwordField = (JPasswordField) view.getComponent("passwordField");
@@ -38,46 +36,49 @@ public class RegisterController extends Controller {
 				
 				boolean valid = true;
 				
-				if (username.getText().equals("")) {
-					((JLabel) view.getComponent("usernameLabel")).setText("Username (This field is required!)");
-					((JLabel) view.getComponent("usernameLabel")).setForeground(View.RED);
+				if (username.getText().isEmpty()) {
 					valid = false;
+					((RegisterView) getView()).displayEmptyUsernameLabel();
 				} else {
-					((JLabel) view.getComponent("usernameLabel")).setText("Username");
-					((JLabel) view.getComponent("usernameLabel")).setForeground(Color.WHITE);
+					((RegisterView) getView()).displayNormalUsernameLabel();
 				}
 				
-				
 				if (password.length() == 0) {
-					((JLabel) view.getComponent("passwordLabel")).setText("Password (This field is required!)");
-					((JLabel) view.getComponent("passwordLabel")).setForeground(View.RED);
 					valid = false;
+					((RegisterView) getView()).displayEmptyPasswordLabel();
 				} else {
-					((JLabel) view.getComponent("passwordLabel")).setText("Password");
-					((JLabel) view.getComponent("passwordLabel")).setForeground(Color.WHITE);
+					((RegisterView) getView()).displayNormalPasswordLabel();
 				}
 				
 				if (confirmPassword.length() == 0) {
-					((JLabel) view.getComponent("confirmPasswordLabel")).setText("Confirm Password (This field is required!)");
-					((JLabel) view.getComponent("confirmPasswordLabel")).setForeground(View.RED);
 					valid = false;
+					((RegisterView) getView()).displayEmptyConfirmPasswordLabel();
 				} else if (!confirmPassword.equals(password)) {
-					((JLabel) view.getComponent("confirmPasswordLabel")).setText("Confirm Password (Passwords must match!)");
-					((JLabel) view.getComponent("confirmPasswordLabel")).setForeground(View.RED);
 					valid = false;
+					((RegisterView) getView()).displayInvalidConfirmPasswordLabel();
 				} else {
-					((JLabel) view.getComponent("confirmPasswordLabel")).setText("Confirm Password");
-					((JLabel) view.getComponent("confirmPasswordLabel")).setForeground(Color.WHITE);
+					((RegisterView) getView()).displayNormalConfirmPasswordLabel();
 				}
 				
-				if (valid) {
-					((JLabel) view.getComponent("usernameLabel")).setText("Username");
-					((JLabel) view.getComponent("usernameLabel")).setForeground(Color.WHITE);
-					((JLabel) view.getComponent("passwordLabel")).setText("Password");
-					((JLabel) view.getComponent("passwordLabel")).setForeground(Color.WHITE);
-					((JLabel) view.getComponent("confirmPasswordLabel")).setText("Confirm Password");
-					((JLabel) view.getComponent("confirmPasswordLabel")).setForeground(Color.WHITE);				
-					((RegisterModel) getModel()).register(username.getText(), password);
+				if (valid) {				
+					JSONObject jsonResponse = ((RegisterModel) getModel()).register(username.getText(), password);
+					
+					int response = Integer.parseInt((String) jsonResponse.get("response"));
+					System.out.println("Response: " + response);
+					
+					switch (response) {
+						case 0: // Successful registration
+							((RegisterView) getView()).displayNormalUsernameLabel();
+							((RegisterView) getView()).displayNormalPasswordLabel();
+							CardLayout cardLayout = (CardLayout) App.panel.getLayout();
+							cardLayout.show(App.panel, "login");
+							break;
+						case 1: // Username already exists
+							((RegisterView) getView()).displayInvalidUsername();
+							break;
+						case 2: // SQL Error
+							break;
+					}
 				}
 				break;
 			case "Login":
@@ -85,7 +86,7 @@ public class RegisterController extends Controller {
 				cardLayout.show(App.panel, "login");
 				break;
 			default:
-				System.out.println("Attempting to call action");
+				System.out.println("Attempting to call undefined action.");
 				break;
 		}
 		

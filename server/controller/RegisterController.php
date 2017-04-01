@@ -6,33 +6,71 @@
  */
 class RegisterController {
 
+    /**
+     * Registers a new user account.
+     * Returns a JSON object with a response value.
+     *
+     * Response values:
+     * 0 - Success
+     * 1 - Username already exists
+     * 2 - SQL Error
+     *
+     * @param $api
+     * @param $user
+     * @param $pass
+     */
     public static function register($api, $user, $pass) {
-        //check if user put nothing in the field
-        if ($pass == NULL || $user == NULL){
-            echo "Please don't leave username or password empty<br>";
-            echo "<a href='./register'>Register Again</a>";
-            return 0;
-        }
-        //check if username is already taken
-        $check =  $api->getConnection()->query('SELECT COUNT(*) FROM `account` WHERE `accountName` = $user ');
-        if ($check == 1){
-            echo "Username is already taken<br>";
-            echo "<a href='./register'>Register Again</a>";
-            return 0;
-        }
+        // Check if user put something in the field
+        if ($user && $pass) {
 
-        // Adds user into database
-        $sql = "INSERT INTO account (accountName, accountPassword) VALUES ('" . $user . "', '" . $pass ."')";
-        $result = $api->getConnection()->query($sql);
+            // Check if username is already taken
+            $checkUsernameQuery = "SELECT accountName FROM account WHERE accountName=?;";
+            if ($stmt = $api->getConnection()->prepare($checkUsernameQuery)) {
+                $stmt->bind_param("s", $user);
+                $stmt->execute();
+                $stmt->store_result();
+                $numRows = $stmt->num_rows;
+                $stmt->close();
 
-        if($result) {
-            echo "You have registered successfully! <br/><br/>";
-            echo "<a href='./'>Back to Home</a>";
-        } else {
-            echo "An error occurred during registration. Please try again. <br/><br/>";
-            echo "<a href='./register'>Register Again</a>";
+                // If count is greater than 0, then accountName is not unique
+                // Return response 1
+                if ($numRows > 0) {
+                    $unencodedArray = array(
+                        'response' => '1',
+                    );
+
+                    echo json_encode($unencodedArray);
+                    return;
+                }
+            }
+
+            $hashPass = password_hash($pass, PASSWORD_BCRYPT);
+
+            // Create a prepared statement
+            $registerQuery = "INSERT INTO account (accountName, accountPassword) VALUES (?, ?);";
+            if ($stmt = $api->getConnection()->prepare($registerQuery)) {
+                // Bind params
+                $stmt->bind_param("ss", $user, $hashPass);
+
+                // Execute query
+                $stmt->execute();
+
+                // Close statement
+                $stmt->close();
+
+                // Successful registration
+                $unencodedArray = array(
+                    'response' => '0',
+                );
+            } else {
+                // SQL Error
+                $unencodedArray = array(
+                    'response' => '2',
+                );
+            }
+
+            echo json_encode($unencodedArray);
         }
-
-        return $result;
     }
+
 }

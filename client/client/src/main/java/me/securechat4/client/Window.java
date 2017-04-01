@@ -5,8 +5,6 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import me.securechat4.client.view.LoginView;
-
 public class Window extends JFrame {
 	
 	public static final int WINDOW_WIDTH = 630;

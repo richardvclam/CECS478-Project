@@ -12,7 +12,7 @@ class AuthenticationController {
 
     public static function authentication($api, $jwt) {
         try {
-            $myfile = fopen("/var/www/html/key.txt", "r") or die("Unable to open file!");
+            $myfile = fopen("/var/www/html/jwtkey.txt", "r") or die("Unable to open file!");
             $secretKey = base64_decode(fgets($myfile));
 
             $token = JWT::decode(

@@ -113,4 +113,40 @@ public class LoginView extends View {
 		super.paintComponent(g);
 	}
 	
+	public void displayEmptyUsernameLabel() {
+		JLabel usernameLabel = ((JLabel) getComponent("usernameLabel"));
+		usernameLabel.setText("Username (This field is required!)");
+		usernameLabel.setForeground(View.RED);
+	}
+	
+	public void displayNormalUsernameLabel() {
+		JLabel usernameLabel = ((JLabel) getComponent("usernameLabel"));
+		usernameLabel.setText("Username");
+		usernameLabel.setForeground(Color.WHITE);
+	}
+	
+	public void displayEmptyPasswordLabel() {
+		JLabel passwordLabel = ((JLabel) getComponent("passwordLabel"));
+		passwordLabel.setText("Password (This field is required!)");
+		passwordLabel.setForeground(View.RED);	
+	}
+
+	public void displayNormalPasswordLabel() {
+		JLabel passwordLabel = ((JLabel) getComponent("passwordLabel"));
+		passwordLabel.setText("Password");
+		passwordLabel.setForeground(Color.WHITE);
+	}
+	
+	public void displayInvalidUsername() {
+		JLabel usernameLabel = ((JLabel) getComponent("usernameLabel"));
+		usernameLabel.setText("Username (Username does not exist.)");
+		usernameLabel.setForeground(View.RED);
+	}
+	
+	public void displayInvalidPassword() {
+		JLabel passwordLabel = ((JLabel) getComponent("passwordLabel"));
+		passwordLabel.setText("Password (Password does not match.)");
+		passwordLabel.setForeground(View.RED);	
+	}
+	
 }

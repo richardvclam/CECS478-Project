@@ -3,20 +3,33 @@
 require_once('vendor/autoload.php');
 include('MessageController.php');
 use \Firebase\JWT\JWT;
-
+//define('SECRET_KEY', base64_encode('Ax4SJFE6PDbhiLU4E6Y0uftKEuTXzTQSkcWfXmGx'));
 define('ALGORITHM','HS256');
 
 class LoginController {
 
+    /**
+     * Login with user credentials.
+     * Returns a JSON object with a JSON web token and a response value.
+     *
+     * Response values:
+     * 0 - Success
+     * 1 - Username does not exist
+     * 2 - Password does not match
+     *
+     * @param $api
+     * @param $user
+     * @param $pass
+     */
     public static function login($api, $user, $pass) {
         if ($user && $pass) {
             // if there is no error below code run
             $sql = "SELECT * FROM account WHERE accountName='$user'";
+            //$sql = "SELECT * FROM account WHERE accountName=?";
             $result = $api->getConnection()->query($sql);
             $row = $result->fetch_assoc();
-            $hashAndSalt = password_hash($pass, PASSWORD_BCRYPT);
 
-            if (count($row) > 0 && password_verify($row['accountPassword'], $hashAndSalt)) {
+            if (count($row) > 0 && password_verify($pass, $row['accountPassword'])) {
                 $tokenId = base64_encode(random_bytes(32));
                 $issuedAt = time();
                 $notBefore = $issuedAt + 10;  //Adding 10 seconds
@@ -39,7 +52,7 @@ class LoginController {
                 ];
                 //open key from file
                 try {
-                    $myfile = fopen("/var/www/html/key.txt", "r") or die("Unable to open file!");
+                    $myfile = fopen("/var/www/html/jwtkey.txt", "r") or die("Unable to open file!");
                     $key = fgets($myfile);
                     //close($myfile);
                     $secretKey = base64_decode($key);
@@ -49,17 +62,30 @@ class LoginController {
                         $secretKey, // The signing key
                         ALGORITHM
                     );
-                    $unencodedArray = ['jwt' => $jwt];
-			        echo "Login sucessful";
-			        $json = json_encode($unencodedArray);
-               		echo $json;
-	         	    return json_encode($unencodedArray);
+
+                    $unencodedArray = array(
+                        'response' => '0',
+                        'jwt' => $jwt
+                    );
+			        //echo "Login sucessful";
+
                 } catch ( Exception $e ) {
-                        echo "error";
+                    echo "error";
                 } 
-            } else {
-                echo "Invalid email or password. Try again.";
+            } else if (count($row) == 0) {
+                // Username does not exist.
+                $unencodedArray = array(
+                    'response' => '1',
+                );
+            } else if (!password_verify($pass, $row['accountPassword'])) {
+                // Invalid password
+                $unencodedArray = array(
+                    'response' => '2',
+                );
             }
+
+            $json = json_encode($unencodedArray);
+            echo $json;
         }
     }
 }

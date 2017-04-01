@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.json.simple.JSONObject;
+
 import me.securechat4.client.App;
 import me.securechat4.client.model.LoginModel;
 import me.securechat4.client.view.LoginView;
@@ -23,43 +25,47 @@ public class LoginController extends Controller {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
-		System.out.println(actionCommand);
+		System.out.println("Action: " + (!actionCommand.isEmpty() ? actionCommand : "Undefined"));
 		switch (actionCommand) {
 			case "Login":
-				System.out.println("Attempting to login!");
-				JTextField username = (JTextField) view.getComponent("usernameField");
-				System.out.println(username.getText());
-				JPasswordField password = (JPasswordField) view.getComponent("passwordField");
-				System.out.println(password.getPassword());
+				JTextField usernameField = (JTextField) getView().getComponent("usernameField");
+				JPasswordField passwordField = (JPasswordField) getView().getComponent("passwordField");
 				
-				boolean valid = true;
+				boolean empty = false;
 				
-				if (username.getText().equals("")) {
-					((JLabel) view.getComponent("usernameLabel")).setText("Username (This field is required!)");
-					((JLabel) view.getComponent("usernameLabel")).setForeground(View.RED);
-					valid = false;
+				if (usernameField.getText().isEmpty()) {
+					empty = true;
+					((LoginView) getView()).displayEmptyUsernameLabel();
 				} else {
-					((JLabel) view.getComponent("usernameLabel")).setText("Username");
-					((JLabel) view.getComponent("usernameLabel")).setForeground(Color.WHITE);
+					((LoginView) getView()).displayNormalUsernameLabel();
+				}
+
+				if (passwordField.getPassword().length == 0) {
+					empty = true;
+					((LoginView) getView()).displayEmptyPasswordLabel();
+				} else {
+					((LoginView) getView()).displayNormalPasswordLabel();
 				}
 				
-				
-				if (password.getPassword().length == 0) {
-					((JLabel) view.getComponent("passwordLabel")).setText("Password (This field is required!)");
-					((JLabel) view.getComponent("passwordLabel")).setForeground(View.RED);
-					valid = false;
-				} else {
-					((JLabel) view.getComponent("passwordLabel")).setText("Password");
-					((JLabel) view.getComponent("passwordLabel")).setForeground(Color.WHITE);
-				}
-				
-				
-				if (valid) {
-					((JLabel) view.getComponent("usernameLabel")).setText("Username");
-					((JLabel) view.getComponent("usernameLabel")).setForeground(Color.WHITE);
-					((JLabel) view.getComponent("passwordLabel")).setText("Password");
-					((JLabel) view.getComponent("passwordLabel")).setForeground(Color.WHITE);
-					((LoginModel) getModel()).login(username.getText(), new String(password.getPassword()));
+				if (!empty) {
+					JSONObject jwt = ((LoginModel) getModel()).login(usernameField.getText(), new String(passwordField.getPassword()));
+					
+					int response = Integer.parseInt((String) jwt.get("response"));
+					System.out.println("Response: " + response);
+					
+					switch (response) {
+						case 0: // Successful authentication
+							((LoginView) getView()).displayNormalUsernameLabel();
+							((LoginView) getView()).displayNormalPasswordLabel();
+							App.setJWT(jwt);
+							break;
+						case 1: // Username does not exist
+							((LoginView) getView()).displayInvalidUsername();
+							break;
+						case 2: // Password does not match
+							((LoginView) getView()).displayInvalidPassword();
+							break;
+					}
 				}
 				break;
 			case "Register":
@@ -67,7 +73,7 @@ public class LoginController extends Controller {
 				cardLayout.show(App.panel, "register");
 				break;
 			default:
-				System.out.println("Attempting to call action");
+				System.out.println("Attempting to call undefined action.");
 				break;
 		}
 	}

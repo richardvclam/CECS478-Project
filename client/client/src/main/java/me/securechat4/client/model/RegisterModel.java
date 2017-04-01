@@ -11,11 +11,11 @@ public class RegisterModel extends Model {
 		super(controller);
 	}
 	
-	public void register(String username, String password) {
+	public JSONObject register(String username, String password) {
 		JSONObject json = new JSONObject();
 		json.put("username", username);
 		json.put("password", password);
 		
-		HttpsApi.post("register", json);
+		return HttpsApi.post("register", json);
 	}
 }
