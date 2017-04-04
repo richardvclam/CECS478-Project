@@ -1,4 +1,4 @@
-package me.securechat4.client.view;
+package me.securechat4.client.views;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -19,7 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import me.securechat4.client.Window;
-import me.securechat4.client.controller.Controller;
+import me.securechat4.client.controllers.Controller;
 
 public class RegisterView extends View {
 	

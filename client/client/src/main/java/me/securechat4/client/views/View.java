@@ -1,4 +1,4 @@
-package me.securechat4.client.view;
+package me.securechat4.client.views;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import me.securechat4.client.controller.Controller;
+import me.securechat4.client.controllers.Controller;
 
 public abstract class View extends JPanel {
 	

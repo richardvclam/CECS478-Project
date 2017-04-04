@@ -1,15 +1,16 @@
 package me.securechat4.client;
 
 import java.awt.CardLayout;
-import java.security.KeyStore.Entry;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
-import me.securechat4.client.controller.Controller;
-import me.securechat4.client.controller.LoginController;
-import me.securechat4.client.controller.RegisterController;
+import me.securechat4.client.controllers.Controller;
+import me.securechat4.client.controllers.LoginController;
+import me.securechat4.client.controllers.MainController;
+import me.securechat4.client.controllers.RegisterController;
 
 public class ContentPanel extends JPanel {
 	
@@ -18,6 +19,7 @@ public class ContentPanel extends JPanel {
 	public ContentPanel() {
 		setBorder(null);
 		setLayout(new CardLayout());
+		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
 		
 		init();
 		
@@ -27,6 +29,7 @@ public class ContentPanel extends JPanel {
 	public static void init() {
 		controllers.put("login", new LoginController());
 		controllers.put("register", new RegisterController());
+		controllers.put("main", new MainController());
 	}
 	
 	public void addContent() {

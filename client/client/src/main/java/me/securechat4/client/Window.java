@@ -22,7 +22,7 @@ public class Window extends JFrame {
 		);
 		setTitle(WINDOW_TITLE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		//setResizable(false);
 	}
 	
 }

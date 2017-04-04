@@ -1,9 +1,9 @@
-package me.securechat4.client.model;
+package me.securechat4.client.models;
 
 import org.json.simple.JSONObject;
 
 import me.securechat4.client.HttpsApi;
-import me.securechat4.client.controller.Controller;
+import me.securechat4.client.controllers.Controller;
 
 public class RegisterModel extends Model {
 

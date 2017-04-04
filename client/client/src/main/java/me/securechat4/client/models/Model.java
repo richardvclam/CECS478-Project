@@ -1,6 +1,6 @@
-package me.securechat4.client.model;
+package me.securechat4.client.models;
 
-import me.securechat4.client.controller.Controller;
+import me.securechat4.client.controllers.Controller;
 
 public abstract class Model {
 	

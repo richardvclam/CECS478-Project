@@ -1,5 +1,7 @@
 package me.securechat4.client;
 
+import java.awt.CardLayout;
+
 import org.json.simple.JSONObject;
 /**
  * 
@@ -27,6 +29,11 @@ public class App {
     	Window window = new Window();
     	panel = new ContentPanel();
     	window.getContentPane().add(panel);
+    	
+    	// Always show login first!
+    	CardLayout cardLayout = (CardLayout) App.panel.getLayout();
+		cardLayout.show(App.panel, "login");
+    	//window.pack();
     	window.setVisible(true);
     }
     

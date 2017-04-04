@@ -1,4 +1,4 @@
-package me.securechat4.client.controller;
+package me.securechat4.client.controllers;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -9,8 +9,8 @@ import javax.swing.JTextField;
 import org.json.simple.JSONObject;
 
 import me.securechat4.client.App;
-import me.securechat4.client.model.RegisterModel;
-import me.securechat4.client.view.RegisterView;
+import me.securechat4.client.models.RegisterModel;
+import me.securechat4.client.views.RegisterView;
 
 public class RegisterController extends Controller {
 	

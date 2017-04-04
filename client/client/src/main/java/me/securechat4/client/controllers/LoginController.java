@@ -1,4 +1,4 @@
-package me.securechat4.client.controller;
+package me.securechat4.client.controllers;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -11,9 +11,9 @@ import javax.swing.JTextField;
 import org.json.simple.JSONObject;
 
 import me.securechat4.client.App;
-import me.securechat4.client.model.LoginModel;
-import me.securechat4.client.view.LoginView;
-import me.securechat4.client.view.View;
+import me.securechat4.client.models.LoginModel;
+import me.securechat4.client.views.LoginView;
+import me.securechat4.client.views.View;
 
 public class LoginController extends Controller {
 	
@@ -58,6 +58,8 @@ public class LoginController extends Controller {
 							((LoginView) getView()).displayNormalUsernameLabel();
 							((LoginView) getView()).displayNormalPasswordLabel();
 							App.setJWT(jwt);
+							CardLayout cardLayout = (CardLayout) App.panel.getLayout();
+							cardLayout.show(App.panel, "main");
 							break;
 						case 1: // Username does not exist
 							((LoginView) getView()).displayInvalidUsername();
