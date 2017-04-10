@@ -1,6 +1,12 @@
 <?php
 require_once("REST.php");
 require_once("Route.php");
+require_once('vendor/autoload.php');
+use \Firebase\JWT\JWT;
+
+JWT::$leeway = 60;
+
+define('ALGORITHM','HS256');
 
 /**
  * @author Richard Lam
@@ -88,6 +94,40 @@ class API extends REST {
     public static function json($data) {
         if(is_array($data)) {
             return json_encode($data);
+        }
+    }
+
+    public function authentication() {
+        $headers = apache_request_headers();
+        //print_r($headers);
+        //echo $headers['Authorization'];
+
+        if (isset($headers['Authorization'])) {
+            //list($jwt) = sscanf($headers['Authorization'], '%s');
+            $jwt = $headers['Authorization'];
+            //echo $jwt;
+
+            try {
+                $myfile = fopen("/var/www/html/jwtkey.txt", "r") or die("Unable to open file!");
+                $secretKey = base64_decode(fgets($myfile));
+
+                $token = JWT::decode(
+                    $jwt,
+                    $secretKey,
+                    array(ALGORITHM)
+                );
+
+                //print_r($token);
+                return $token;
+
+            } catch (Exception $e) {
+                //throw new Exception($e);
+                header('HTTP/1.0 401 Unauthorized');
+                die("Error 401. Unauthorized. Token is invalid.");
+            }
+        } else {
+            header('HTTP/1.0 401 Unauthorized');
+            die("Error 401. Unauthorized. No token found.");
         }
     }
 

@@ -1,10 +1,7 @@
 <?php
 
 require_once('vendor/autoload.php');
-include('MessageController.php');
 use \Firebase\JWT\JWT;
-//define('SECRET_KEY', base64_encode('Ax4SJFE6PDbhiLU4E6Y0uftKEuTXzTQSkcWfXmGx'));
-define('ALGORITHM','HS256');
 
 class LoginController {
 
@@ -65,6 +62,7 @@ class LoginController {
 
                     $unencodedArray = array(
                         'response' => '0',
+                        'userid' => $row['accountID'],
                         'jwt' => $jwt
                     );
 			        //echo "Login sucessful";

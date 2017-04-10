@@ -11,6 +11,7 @@ public abstract class Controller implements ActionListener {
 
 	protected Model model;
 	protected View view;
+	protected boolean addEnabled = true;
 	
 	public abstract void actionPerformed(ActionEvent e);
 	
@@ -20,6 +21,10 @@ public abstract class Controller implements ActionListener {
 	
 	public View getView() {
 		return view;
+	}
+	
+	public boolean isAddEnabled() {
+		return addEnabled;
 	}
 
 }

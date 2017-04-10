@@ -10,12 +10,17 @@ public class MessageController extends Controller {
 	public MessageController() {
 		this.model = new MessageModel(this);
 		this.view = new MessageView(this);
+		this.addEnabled = false;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void updateView(String username) {
+		((MessageView) view).getNavPane().setHeaderLabel(username);
 	}
 
 }

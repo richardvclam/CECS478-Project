@@ -15,18 +15,6 @@ class Route {
         readfile("view/index.html");
     }
 
-    public static function authentication($api) {
-        switch ($api->getRequestMethod()) {
-            case "POST":
-                AuthenticationController::authentication($api, $api->_request['jwt']);
-                break;
-            default:
-                echo "Authentication error.";
-                break;
-        }
-
-    }
-
     public static function register($api) {
         // If there isn't a POST request, then load the view.
         switch ($api->getRequestMethod()) {
@@ -58,12 +46,7 @@ class Route {
     public static function message($api) {
         switch ($api->getRequestMethod()) {
             case "GET":
-                // Check to make sure there are valid and exist
-                if (isset($api->_request['fromUser']) && isset($api->_request['toUser'])) {
-                    MessageController::getMessage($api, $api->_request['fromUser'], $api->_request['toUser']);
-                } else {
-                    echo "Error 404. Messages not found.";
-                }
+                MessageController::getMessage($api);
                 break;
             case "POST":
                 MessageController::postMessage($api, $api->_request['fromUser'], $api->_request['toUser'], $api->_request['jsonEncMsg']);

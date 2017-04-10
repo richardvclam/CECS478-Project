@@ -3,56 +3,67 @@ package me.securechat4.client.views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+
+import org.jdesktop.swingx.prompt.PromptSupport;
+import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
 
 import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
-import me.securechat4.client.views.templates.NavigationView;
+import me.securechat4.client.views.templates.NavigationPane;
 
 public class MessageView extends View {
+	
+	private NavigationPane navigationPane;
 
 	public MessageView(Controller controller) {
 		super(controller);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.WHITE);
 		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
-		
-		
-		JPanel nav = new JPanel(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		
+
 		
 		Font labelFont = new Font("Ariel", Font.BOLD, 14);
-		
-		JLabel messagesLabel = new JLabel("John Doe");
-		messagesLabel.setForeground(Color.BLACK);
-		messagesLabel.setFont(labelFont);
-		//gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.insets = new Insets(15, 15, 15, 15);
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.weightx = 0;
-		nav.add(messagesLabel, gbc);
 		
 		JPanel messages = new JPanel();
 		
 		JLabel noContacts = new JLabel("Start a conversation!");
-		
 		messages.add(noContacts);
 		
-		NavigationView navigationView = new NavigationView(nav, messages);
+		JPanel messageArea = new JPanel(new BorderLayout());
+		messageArea.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
+
+		JTextArea messageTextArea = new JTextArea();
+		messageTextArea.setLineWrap(true);
+		messageTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
+		messageArea.add(messageTextArea, BorderLayout.CENTER);
 		
-		add(navigationView);
+		PromptSupport.setPrompt("Type a message...", messageTextArea);
+		PromptSupport.setFocusBehavior(FocusBehavior.HIDE_PROMPT, messageTextArea);
 		
+		JButton messageSendButton = new JButton("Send");
+		messageSendButton.setBorder(new EmptyBorder(5, 5, 5, 5));
+		messageSendButton.setFocusPainted(false);
+		//messageArea.add(messageSendButton, BorderLayout.EAST);
+		
+		messageArea.add(messageTextArea);
+		
+		navigationPane = new NavigationPane("", null, messages);
+		navigationPane.add(messageArea, BorderLayout.SOUTH);
+		
+		add(navigationPane);
+	}
+	
+	public NavigationPane getNavPane() {
+		return navigationPane;
 	}
 
 }

@@ -1,19 +1,15 @@
 package me.securechat4.client.controllers;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.json.simple.JSONObject;
-
 import me.securechat4.client.App;
 import me.securechat4.client.models.LoginModel;
+import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.LoginView;
-import me.securechat4.client.views.View;
 
 public class LoginController extends Controller {
 	
@@ -48,18 +44,20 @@ public class LoginController extends Controller {
 				}
 				
 				if (!empty) {
-					JSONObject jwt = ((LoginModel) getModel()).login(usernameField.getText(), new String(passwordField.getPassword()));
-					
-					int response = Integer.parseInt((String) jwt.get("response"));
+					int response = ((LoginModel) getModel()).login(usernameField.getText(), new String(passwordField.getPassword()));
+
 					System.out.println("Response: " + response);
 					
 					switch (response) {
 						case 0: // Successful authentication
 							((LoginView) getView()).displayNormalUsernameLabel();
 							((LoginView) getView()).displayNormalPasswordLabel();
-							App.setJWT(jwt);
-							CardLayout cardLayout = (CardLayout) App.panel.getLayout();
-							cardLayout.show(App.panel, "main");
+
+							CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();
+							cardLayout.show(App.getPanel(), "messages");
+
+							MessagesModel model = (MessagesModel) App.getControllers().get("messages").getModel();
+							model.getMessagesFromServer();
 							break;
 						case 1: // Username does not exist
 							((LoginView) getView()).displayInvalidUsername();
@@ -71,8 +69,8 @@ public class LoginController extends Controller {
 				}
 				break;
 			case "Register":
-				CardLayout cardLayout = (CardLayout) App.panel.getLayout();
-				cardLayout.show(App.panel, "register");
+				CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();
+				cardLayout.show(App.getPanel(), "register");
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");

@@ -1,8 +1,11 @@
 package me.securechat4.client;
 
 import java.awt.CardLayout;
+import java.util.HashMap;
 
 import org.json.simple.JSONObject;
+
+import me.securechat4.client.controllers.Controller;
 /**
  * 
  * @author Richard Lam
@@ -11,14 +14,35 @@ import org.json.simple.JSONObject;
  */
 public class App {
 	
-	public static ContentPanel panel;
-	private static JSONObject jwt;
+	private static MainPanel panel;
+	private static String jwt;
+	private static int userID;
 	
-	public static JSONObject getJWT() {
+	public static HashMap<String, Controller> getControllers() {
+		if (panel == null) 
+			System.out.println("panel is null");
+		if (panel.getControllers() == null) 
+			System.err.println("controller is null");
+		return panel.getControllers();
+	}
+	
+	public static MainPanel getPanel() {
+		return panel;
+	}
+	
+	public static int getUserID() {
+		return userID;
+	}
+	
+	public static void setUserID(int userID) {
+		App.userID = userID;
+	}
+	
+	public static String getJWT() {
 		return App.jwt;
 	}
 	
-	public static void setJWT(JSONObject jwt) {
+	public static void setJWT(String jwt) {
 		App.jwt = jwt;
 	}
 	
@@ -26,8 +50,11 @@ public class App {
         //JSONObject jsonObject = Crypto.encrypt("Hi world!", "public.der");
         //System.out.println(Crypto.decrypt(jsonObject, "private.der"));
     	
+    	panel = new MainPanel();
+    	panel.init();
+    	panel.addContent();
+    	
     	Window window = new Window();
-    	panel = new ContentPanel();
     	window.getContentPane().add(panel);
     	
     	// Always show login first!

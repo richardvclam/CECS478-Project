@@ -70,8 +70,8 @@ public class RegisterController extends Controller {
 						case 0: // Successful registration
 							((RegisterView) getView()).displayNormalUsernameLabel();
 							((RegisterView) getView()).displayNormalPasswordLabel();
-							CardLayout cardLayout = (CardLayout) App.panel.getLayout();
-							cardLayout.show(App.panel, "login");
+							CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();
+							cardLayout.show(App.getPanel(), "login");
 							break;
 						case 1: // Username already exists
 							((RegisterView) getView()).displayInvalidUsername();
@@ -82,8 +82,8 @@ public class RegisterController extends Controller {
 				}
 				break;
 			case "Login":
-				CardLayout cardLayout = (CardLayout) App.panel.getLayout();
-				cardLayout.show(App.panel, "login");
+				CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();
+				cardLayout.show(App.getPanel(), "login");
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");

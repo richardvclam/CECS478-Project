@@ -8,28 +8,36 @@ class MessageController {
 
     /**
      * HTTP GET request handler.
-     * Retrieves messages between two users from the database.
+     * Retrieves all messages from a user through their JWT.
      *
      * @param $api      the api reference
-     * @param $fromUser the user ID of the message it was sent from
-     * @param $toUser   the user ID of the message it was sent to
      */
-    public static function getMessage($api, $fromUser, $toUser) {
-        $sql = "SELECT * FROM message WHERE (senderID='$fromUser' AND receiverID='$toUser')";
+    public static function getMessage($api) {
+        $token = $api->authentication();
+        $userID = $token->data->id;
+
+        $sql = "SELECT senderID, s.accountName sender, receiverID, r.accountName receiver, timestamp, data 
+                FROM message m 
+                INNER JOIN account s ON m.senderID=s.accountID
+                INNER JOIN account r ON m.receiverID=r.accountID
+                WHERE (senderID='$userID' OR receiverID='$userID')";
+
         $result = $api->getConnection()->query($sql);
 
         if ($result) {
+            $arr = array();
             while ($row = $result->fetch_assoc()) {
-                $arr = array(
-                    'sender' => $row['senderID'],
-                    'receiver' => $row['receiverID'],
+                array_push($arr, array(
+                    'senderID' => $row['senderID'],
+                    'sender' => $row['sender'],
+                    'receiverID' => $row['receiverID'],
+                    'receiver' => $row['receiver'],
                     'timestamp' => $row['timestamp'],
                     'data' => $row['data']
-                );
-
-                $json = json_encode($arr);
-                echo $json;
+                ));
             }
+            $json = json_encode($arr);
+            echo $json;
         } else {
             echo "An error occured while retrieving the message from the database.";
         }

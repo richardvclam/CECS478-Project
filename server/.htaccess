@@ -14,3 +14,5 @@ RewriteRule ^(.*)$ index.php [QSA,NC,L]
 
 RewriteCond %{REQUEST_FILENAME} -s
 RewriteRule ^(.*)$ index.php [QSA,NC,L]
+
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1

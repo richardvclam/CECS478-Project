@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import me.securechat4.client.Window;
@@ -11,7 +12,7 @@ import me.securechat4.client.views.View;
 
 public class MasterDetailView extends JSplitPane {
 
-	public MasterDetailView(View masterView, View detailView) {
+	public MasterDetailView(JPanel masterView, JPanel detailView) {
 		super(JSplitPane.HORIZONTAL_SPLIT, masterView, detailView);
 		setBackground(Color.WHITE);
 		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
