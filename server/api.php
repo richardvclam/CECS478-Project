@@ -1,6 +1,7 @@
 <?php
 require_once("REST.php");
 require_once("Route.php");
+require_once('Password.php');
 require_once('vendor/autoload.php');
 use \Firebase\JWT\JWT;
 

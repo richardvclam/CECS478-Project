@@ -34,6 +34,10 @@ public class MessagesModel extends Model {
 		
 		System.out.println("hi");
 	}
+	
+	public LinkedList<JSONObject> getMessages(String username) {
+		return allUserMessages.get(username);
+	}
 
 	@SuppressWarnings("unchecked")
 	private void sortMessages(JSONArray messagesArray) {

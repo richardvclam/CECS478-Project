@@ -19,11 +19,11 @@ public class HMAC {
 	/**
 	 * HMAC key bit size for generating a random key.
 	 */
-	private static final int HMAC_KEY_BIT_SIZE = 256;
+	public static final int HMAC_KEY_BIT_SIZE = 256;
 	/**
 	 * The algorithm to use for calculating the hash tag.
 	 */
-	private static final String ALGORITHM = "HmacSHA256";
+	public static final String ALGORITHM = "HmacSHA256";
 	
 	/**
 	 * Returns a randomly generated 256-bit HMAC key.
@@ -37,6 +37,7 @@ public class HMAC {
 			e.printStackTrace();
 		}
 		keygen.init(HMAC_KEY_BIT_SIZE);
+		
 		return keygen.generateKey();
 	}
 	
@@ -56,6 +57,7 @@ public class HMAC {
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		}
+		
 		return Base64.getEncoder().encodeToString(mac.doFinal(data.getBytes()));
 	}
 

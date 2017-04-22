@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.LinkedList;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,14 +17,20 @@ import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
+import org.json.simple.JSONObject;
 
+import me.securechat4.client.App;
 import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
+import me.securechat4.client.controllers.MessagesController;
+import me.securechat4.client.models.MessageModel;
+import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.templates.NavigationPane;
 
 public class MessageView extends View {
 	
 	private NavigationPane navigationPane;
+	private JPanel messagesPanel;
 
 	public MessageView(Controller controller) {
 		super(controller);
@@ -30,13 +38,12 @@ public class MessageView extends View {
 		setBackground(Color.WHITE);
 		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
 
-		
 		Font labelFont = new Font("Ariel", Font.BOLD, 14);
 		
-		JPanel messages = new JPanel();
+		messagesPanel = new JPanel();
 		
 		JLabel noContacts = new JLabel("Start a conversation!");
-		messages.add(noContacts);
+		messagesPanel.add(noContacts);
 		
 		JPanel messageArea = new JPanel(new BorderLayout());
 		messageArea.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
@@ -52,11 +59,10 @@ public class MessageView extends View {
 		JButton messageSendButton = new JButton("Send");
 		messageSendButton.setBorder(new EmptyBorder(5, 5, 5, 5));
 		messageSendButton.setFocusPainted(false);
-		//messageArea.add(messageSendButton, BorderLayout.EAST);
 		
 		messageArea.add(messageTextArea);
 		
-		navigationPane = new NavigationPane("", null, messages);
+		navigationPane = new NavigationPane("", null, messagesPanel);
 		navigationPane.add(messageArea, BorderLayout.SOUTH);
 		
 		add(navigationPane);
@@ -64,6 +70,16 @@ public class MessageView extends View {
 	
 	public NavigationPane getNavPane() {
 		return navigationPane;
+	}
+	
+	public void addMessages(JPanel panel) {
+		MessagesModel model = ((MessagesModel) App.getControllers().get("messages").getModel());
+		LinkedList<JSONObject> messages = model.getMessages(((MessageModel) controller.getModel()).getCurrentID());
+		
+		for (JSONObject json : messages) {
+			JLabel message = new JLabel((String) json.get("jsonEncMsg"));
+			panel.add(message);
+		}
 	}
 
 }

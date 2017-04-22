@@ -21,6 +21,7 @@ public class MessageController extends Controller {
 	
 	public void updateView(String username) {
 		((MessageView) view).getNavPane().setHeaderLabel(username);
+		((MessageModel) model).setCurrentID(username);
 	}
 
 }

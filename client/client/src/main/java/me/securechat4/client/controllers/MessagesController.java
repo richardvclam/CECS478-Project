@@ -30,6 +30,7 @@ public class MessagesController extends Controller implements ListSelectionListe
 		if (!lsm.getValueIsAdjusting()) {
 			String selectedUser = ((MessagesView) getView()).getList().getSelectedValue().toString();
 			((MessageController) App.getControllers().get("message")).updateView(selectedUser);
+			//((MessageView) App.getControllers().get("message").getView());
 		}
 	}
 

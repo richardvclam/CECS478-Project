@@ -43,6 +43,24 @@ class Route {
         }
     }
 
+    public static function login1($api) {
+        switch ($api->getRequestMethod()) {
+            case "POST":
+                LoginController::loginChallenge($api, $api->_request['username']);
+                unset($_POST['username']);
+                break;
+        }
+    }
+
+    public static function login2($api) {
+        switch ($api->getRequestMethod()) {
+            case "POST":
+                LoginController::loginResponse($api, $api->_request['username'], $api->_request['challenge'], $api->_request['hashTag']);
+                unset($_POST['username']);
+                break;
+        }
+    }
+
     public static function message($api) {
         switch ($api->getRequestMethod()) {
             case "GET":

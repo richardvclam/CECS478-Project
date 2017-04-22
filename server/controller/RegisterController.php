@@ -14,6 +14,7 @@ class RegisterController {
      * 0 - Success
      * 1 - Username already exists
      * 2 - SQL Error
+     * 3 - Empty Input
      *
      * @param $api
      * @param $user
@@ -36,7 +37,7 @@ class RegisterController {
                 // Return response 1
                 if ($numRows > 0) {
                     $unencodedArray = array(
-                        'response' => '1',
+                        'response' => '1'
                     );
 
                     echo json_encode($unencodedArray);
@@ -44,13 +45,11 @@ class RegisterController {
                 }
             }
 
-            $hashPass = password_hash($pass, PASSWORD_BCRYPT);
-
             // Create a prepared statement
             $registerQuery = "INSERT INTO account (accountName, accountPassword) VALUES (?, ?);";
             if ($stmt = $api->getConnection()->prepare($registerQuery)) {
                 // Bind params
-                $stmt->bind_param("ss", $user, $hashPass);
+                $stmt->bind_param("ss", $user, $pass);
 
                 // Execute query
                 $stmt->execute();
