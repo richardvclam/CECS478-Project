@@ -20,6 +20,6 @@ public class RegisterModel extends Model {
 		json.put("username", username);
 		json.put("password", hashedPass);
 		
-		return HttpsApi.post("register", json);
+		return HttpsApi.post("register", json, false);
 	}
 }

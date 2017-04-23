@@ -17,6 +17,9 @@ public class App {
 	private static MainPanel panel;
 	private static String jwt;
 	private static int userID;
+	private static String username;
+	private static Thread refreshThread;
+	private static HashMap<Integer, String> users = new HashMap<Integer, String>(); 
 	
 	public static HashMap<String, Controller> getControllers() {
 		if (panel == null) 
@@ -24,6 +27,10 @@ public class App {
 		if (panel.getControllers() == null) 
 			System.err.println("controller is null");
 		return panel.getControllers();
+	}
+	
+	public static HashMap<Integer, String> getUsers() {
+		return users;
 	}
 	
 	public static MainPanel getPanel() {
@@ -38,12 +45,38 @@ public class App {
 		App.userID = userID;
 	}
 	
+	public static String getUsername() {
+		return username;
+	}
+	
+	public static void setUsername(String username) {
+		App.username = username;
+	}
+	
 	public static String getJWT() {
 		return App.jwt;
 	}
 	
 	public static void setJWT(String jwt) {
 		App.jwt = jwt;
+	}
+	
+	public static void startRefreshThread() {
+		refreshThread = new Thread() {
+			public void run() {
+				while (true) {
+					
+					
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		
+		refreshThread.start();
 	}
 	
     public static void main(String[] args) {      

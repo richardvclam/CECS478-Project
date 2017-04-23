@@ -65,7 +65,7 @@ public class HttpsApi {
 		return result;
 	}
 	
-	public static JSONObject post(String route, JSONObject json) {
+	public static JSONObject post(String route, JSONObject json, boolean authenticate) {
 		JSONObject result = null;
 		
 		try {
@@ -83,6 +83,9 @@ public class HttpsApi {
 			StringEntity entity = new StringEntity(json.toJSONString());
 			
 			httpPost.setEntity(entity);
+			if (authenticate) {
+				httpPost.setHeader(HttpHeaders.AUTHORIZATION, App.getJWT());
+			}
 			httpPost.setHeader("Accept", "application/json");
 			httpPost.setHeader("Content-type", "application/json");
 			

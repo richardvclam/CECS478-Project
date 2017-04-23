@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionListener;
 
 import me.securechat4.client.App;
 import me.securechat4.client.models.MessagesModel;
+import me.securechat4.client.views.MessageView;
 import me.securechat4.client.views.MessagesView;
 
 public class MessagesController extends Controller implements ListSelectionListener{
@@ -30,7 +31,6 @@ public class MessagesController extends Controller implements ListSelectionListe
 		if (!lsm.getValueIsAdjusting()) {
 			String selectedUser = ((MessagesView) getView()).getList().getSelectedValue().toString();
 			((MessageController) App.getControllers().get("message")).updateView(selectedUser);
-			//((MessageView) App.getControllers().get("message").getView());
 		}
 	}
 

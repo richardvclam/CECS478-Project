@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.awt.event.KeyListener;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +46,7 @@ public class LoginView extends View {
 		usernameField.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 45, 350, 40);
 		usernameField.setFont(fieldFont);
 		usernameField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		usernameField.addKeyListener((KeyListener) controller);
 		components.put("usernameField", usernameField);
 		
 		JLabel passwordLabel = new JLabel("Password");
@@ -57,6 +59,7 @@ public class LoginView extends View {
 		passwordField.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 125, 350, 40);
 		passwordField.setFont(fieldFont);
 		passwordField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		passwordField.addKeyListener((KeyListener) controller);
 		components.put("passwordField", passwordField);
 		
 		JButton loginButton = new JButton("Login");

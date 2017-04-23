@@ -42,7 +42,7 @@ public class LoginModel extends Model {
 		JSONObject json = new JSONObject();
 		json.put("username", username);
 		
-		JSONObject responseJSON = HttpsApi.post("login1", json);
+		JSONObject responseJSON = HttpsApi.post("login1", json, false);
 		int response = Integer.parseInt((String) responseJSON.get("response"));
 		
 		if (response == 0) {
@@ -57,12 +57,13 @@ public class LoginModel extends Model {
 			json.put("challenge", challenge);
 			json.put("hashTag", hashTag);
 			
-			responseJSON = HttpsApi.post("login2", json);
+			responseJSON = HttpsApi.post("login2", json, false);
 			response = Integer.parseInt((String) responseJSON.get("response"));
 			
 			if (response == 0) {
 				App.setJWT((String) responseJSON.get("jwt"));
 				App.setUserID((int) ((long)responseJSON.get("userid")));
+				App.setUsername(username);
 			}
 		}
 		

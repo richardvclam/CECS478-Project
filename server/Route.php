@@ -67,7 +67,7 @@ class Route {
                 MessageController::getMessage($api);
                 break;
             case "POST":
-                MessageController::postMessage($api, $api->_request['fromUser'], $api->_request['toUser'], $api->_request['jsonEncMsg']);
+                MessageController::postMessage($api, $api->_request['receiver'], $api->_request['data']);
                 break;
             default:
                 echo "Message";

@@ -48,18 +48,30 @@ class MessageController {
      * Adds an encoded JSON message between two users into the database.
      *
      * @param $api
-     * @param $fromUser
-     * @param $toUser
-     * @param $jsonEncMsg
+     * @param $receiver
+     * @param $data
      */
-    public static function postMessage($api, $fromUser, $toUser, $jsonEncMsg) {
-	    $sql = "INSERT INTO message (senderID, receiverID, data) VALUES ('$fromUser', '$toUser', '$jsonEncMsg')";
-        $result = $api->getConnection()->query($sql);	 //Add message to database
+    public static function postMessage($api, $receiver, $data) {
+        $token = $api->authentication();
+        $userID = $token->data->id;
 
-        if ($result) {    //echo out result messsage
-            echo "Message has been successfully added into database.";
+        // Add message to database
+	    $sql = "INSERT INTO message (senderID, receiverID, data) VALUES ('$userID', '$receiver', '$data')";
+        $result = $api->getConnection()->query($sql);
+
+        // Print result messsage
+        if ($result) {
+            // Success
+            $response = '0';
         } else {
-            echo "An error occured while adding the message into the database.";
+            // Error
+            $response = '-1';
         }
+
+        $responseArray = [
+            'response' => $response
+        ];
+
+        echo json_encode($responseArray);
     }
 }
