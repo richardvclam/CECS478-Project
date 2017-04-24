@@ -100,7 +100,7 @@ public class RegisterView extends View {
 		
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(controller);
-		loginButton.setBounds(((Window.WINDOW_WIDTH - 350)/ 2) + 115, offset + 330, 100, 20);
+		loginButton.setBounds(((Window.WINDOW_WIDTH - 350)/ 2) + 275, offset + 330, 100, 20);
 		loginButton.setForeground(Color.WHITE);
 		loginButton.setFocusPainted(false);
 		loginButton.setMargin(new Insets(0, 0, 0, 0));
