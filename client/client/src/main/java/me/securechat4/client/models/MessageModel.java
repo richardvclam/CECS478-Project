@@ -34,7 +34,13 @@ public class MessageModel extends Model {
 			int response = Integer.parseInt((String) responseJSON.get("response"));
 			
 			if (response == 0) {
-				((MessageView) controller.getView()).addMessage(App.getUsername(), message);
+				MessageView view = (MessageView) controller.getView();
+				
+				view.addMessage(
+						view.getMessagePanels().get(currentID), 
+						App.getUsername(), 
+						message
+				);
 			}
 		}
 	}

@@ -13,8 +13,7 @@ import me.securechat4.client.HttpsApi;
 import me.securechat4.client.controllers.Controller;
 
 public class MessagesModel extends Model {
-	
-	//public ArrayList<Integer> userIDs;
+
 	public DefaultListModel<String> usernames;
 	private HashMap<Integer, LinkedList<JSONObject>> allMessages;
 
@@ -22,21 +21,6 @@ public class MessagesModel extends Model {
 		super(controller);
 		
 		usernames = new DefaultListModel<>();
-		allMessages = new HashMap<>();
-	}
-	
-	public void createListModel() {
-		for (String username : App.getUsers().values()) {
-			usernames.addElement(username);
-		}		
-	}
-	
-	public void getMessagesFromServer() {
-		JSONArray messagesArray = HttpsApi.get("message", null);
-		
-		parseMessages(messagesArray);
-		
-		System.out.println("hi");
 	}
 	
 	public HashMap<Integer, LinkedList<JSONObject>> getAllMessages() {
@@ -46,34 +30,54 @@ public class MessagesModel extends Model {
 	public LinkedList<JSONObject> getMessages(String username) {
 		return allMessages.get(username);
 	}
+	
+	public void getMessagesFromServer(boolean update) {
+		String uri = update ? "message?update=true" : "message";
+		
+		JSONArray messagesArray = HttpsApi.get(uri, null);
+		
+		parseMessages(messagesArray);
+	}
 
 	@SuppressWarnings("unchecked")
 	private void parseMessages(JSONArray messagesArray) {
+		allMessages = new HashMap<>();
+		
 		messagesArray.forEach((object) -> {
 			JSONObject messageJson = (JSONObject) object;
-			int senderID = Integer.parseInt((String) messageJson.get("senderID"));
-			String senderName = (String) messageJson.get("sender");
-			if (senderID != App.getUserID() && !App.getUsers().containsKey(senderID)) {
-				App.getUsers().put(senderID, senderName);
-				//userIDs.addElement((String) messageJson.get("sender"));
-			}
-			
-			int receiverID = Integer.parseInt((String) messageJson.get("receiverID"));
-			String receiverName = (String) messageJson.get("receiver"); 
-			if (receiverID != App.getUserID() && !App.getUsers().containsKey(receiverID)) {
-				App.getUsers().put(receiverID, receiverName);
-				//userIDs.addElement((String) messageJson.get("receiver"));
-			}
-			
-			int id = senderID == App.getUserID() ? receiverID : senderID;
 
+			int senderID = Integer.parseInt((String) messageJson.get("senderID"));
+			int receiverID = Integer.parseInt((String) messageJson.get("receiverID"));
+			
+			int id;
+			String username;
+			
+			// Set ID to the the user that is not us
+			if (senderID != App.getUserID()) {
+				id = senderID;
+				username = (String) messageJson.get("sender");
+			} else {
+				id = receiverID;
+				username = (String) messageJson.get("receiver"); 
+			}
+			
+			// Index unique user id to username
+			if (!App.getUsers().containsKey(id)) {
+				App.getUsers().put(id, username);
+			}
+
+			// Add messages to appropriate conversations
 			if (allMessages.containsKey(id)) {
 				allMessages.get(id).add(messageJson);
 			} else {
 				LinkedList<JSONObject> messages = new LinkedList<>();
 				messages.add(messageJson);
-				
 				allMessages.put(id, messages);
+			}
+			
+			// Add unique username to list model
+			if (!usernames.contains(username)) {
+				usernames.addElement(username);
 			}
 		});
 	}

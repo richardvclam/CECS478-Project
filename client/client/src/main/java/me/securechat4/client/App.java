@@ -2,10 +2,15 @@ package me.securechat4.client;
 
 import java.awt.CardLayout;
 import java.util.HashMap;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
 import org.json.simple.JSONObject;
 
 import me.securechat4.client.controllers.Controller;
+import me.securechat4.client.controllers.MessageController;
+import me.securechat4.client.controllers.MessagesController;
+import me.securechat4.client.models.MessagesModel;
 /**
  * 
  * @author Richard Lam
@@ -14,11 +19,12 @@ import me.securechat4.client.controllers.Controller;
  */
 public class App {
 	
+	private static Window window;
 	private static MainPanel panel;
 	private static String jwt;
 	private static int userID;
 	private static String username;
-	private static Thread refreshThread;
+	private static Thread refreshMessagesThread;
 	private static HashMap<Integer, String> users = new HashMap<Integer, String>(); 
 	
 	public static HashMap<String, Controller> getControllers() {
@@ -27,6 +33,10 @@ public class App {
 		if (panel.getControllers() == null) 
 			System.err.println("controller is null");
 		return panel.getControllers();
+	}
+	
+	public static Controller getController(String controller) {
+		return panel.getController(controller);
 	}
 	
 	public static HashMap<Integer, String> getUsers() {
@@ -61,22 +71,27 @@ public class App {
 		App.jwt = jwt;
 	}
 	
+	public static Window getWindow() {
+		return window;
+	}
+	
 	public static void startRefreshThread() {
-		refreshThread = new Thread() {
+		refreshMessagesThread = new Thread() {
 			public void run() {
 				while (true) {
-					
-					
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					System.out.println("is it refreshing");
+					((MessagesController) App.getController("messages")).getMessagesFromServer(true);
+					((MessageController) App.getController("message")).createMessagePanels();
 				}
 			}
 		};
 		
-		refreshThread.start();
+		refreshMessagesThread.start();
 	}
 	
     public static void main(String[] args) {      
@@ -87,7 +102,7 @@ public class App {
     	panel.init();
     	panel.addContent();
     	
-    	Window window = new Window();
+    	window = new Window();
     	window.getContentPane().add(panel);
     	
     	// Always show login first!

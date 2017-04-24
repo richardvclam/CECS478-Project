@@ -65,4 +65,9 @@ public class MessagesView extends View {
 	public JList getList() {
 		return list;
 	}
+	
+	public void updateList() {
+		list.revalidate();
+		list.repaint();
+	}
 }

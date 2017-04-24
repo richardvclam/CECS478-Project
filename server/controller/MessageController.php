@@ -12,17 +12,32 @@ class MessageController {
      *
      * @param $api      the api reference
      */
-    public static function getMessage($api) {
+    public static function getMessage($api, $update) {
         $token = $api->authentication();
         $userID = $token->data->id;
+        $updateSQL = "UPDATE message SET messageRead=0 WHERE receiverID='$userID';";
 
-        $sql = "SELECT senderID, s.accountName sender, receiverID, r.accountName receiver, timestamp, data 
+        if (!$update) {
+            $sql = "SELECT senderID, s.accountName sender, receiverID, r.accountName receiver, timestamp, data 
                 FROM message m 
                 INNER JOIN account s ON m.senderID=s.accountID
                 INNER JOIN account r ON m.receiverID=r.accountID
-                WHERE (senderID='$userID' OR receiverID='$userID')";
+                WHERE (senderID='$userID' OR receiverID='$userID');";
 
-        $result = $api->getConnection()->query($sql);
+            $api->getConnection()->query($updateSQL);
+            $result = $api->getConnection()->query($sql);
+        } else {
+            $sql = "
+                SELECT senderID, s.accountName sender, receiverID, r.accountName receiver, timestamp, data 
+                FROM message m 
+                INNER JOIN account s ON m.senderID=s.accountID
+                INNER JOIN account r ON m.receiverID=r.accountID
+                WHERE receiverID='$userID' AND messageRead=1;
+                ";
+
+            $result = $api->getConnection()->query($sql);
+            $api->getConnection()->query($updateSQL);
+        }
 
         if ($result) {
             $arr = array();

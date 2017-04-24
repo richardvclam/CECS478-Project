@@ -22,8 +22,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
@@ -40,9 +42,9 @@ import me.securechat4.client.views.templates.NavigationPane;
 public class MessageView extends View {
 	
 	private NavigationPane navigationPane;
-	private JPanel mainMessagePanel;
+	private JPanel rootMessagePanel;
 	private JTextArea messageTextArea;
-	private HashMap<String, JPanel> messagePanels; 
+	private HashMap<Integer, JPanel> messagePanels; 
 
 	public MessageView(Controller controller) {
 		super(controller);
@@ -52,10 +54,16 @@ public class MessageView extends View {
 
 		Font labelFont = new Font("Ariel", Font.BOLD, 14);
 		
-		messagePanels = new HashMap<String, JPanel>();
+		messagePanels = new HashMap<Integer, JPanel>();
 		
-		mainMessagePanel = new JPanel();
-		mainMessagePanel.setLayout(new CardLayout());
+		
+		rootMessagePanel = new JPanel();
+		rootMessagePanel.setLayout(new CardLayout());
+		
+		JScrollPane scrollPane = new JScrollPane(rootMessagePanel);
+		scrollPane.setBorder(null);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		//JLabel noContacts = new JLabel("Start a conversation!");
 		//messagesPanel.add(noContacts);
@@ -94,7 +102,7 @@ public class MessageView extends View {
 		
 		messageArea.add(messageTextArea);
 		
-		navigationPane = new NavigationPane("", null, mainMessagePanel);
+		navigationPane = new NavigationPane("", null, scrollPane);
 		navigationPane.add(messageArea, BorderLayout.SOUTH);
 		
 		add(navigationPane);
@@ -104,11 +112,11 @@ public class MessageView extends View {
 		return navigationPane;
 	}
 	
-	public JPanel getMainMessagePanel() {
-		return mainMessagePanel;
+	public JPanel getRootMessagePanel() {
+		return rootMessagePanel;
 	}
 	
-	public HashMap<String, JPanel> getMessagePanels() {
+	public HashMap<Integer, JPanel> getMessagePanels() {
 		return messagePanels;
 	}
 	
@@ -116,44 +124,46 @@ public class MessageView extends View {
 		return messageTextArea;
 	}
 	
-	public void createMessagePanels() {
-		MessagesModel model = ((MessagesModel) App.getControllers().get("messages").getModel());
-		HashMap<Integer, LinkedList<JSONObject>> allmessages = model.getAllMessages();
-		
+	public void createMessagePanels(HashMap<Integer, LinkedList<JSONObject>> allmessages) {
 		for (Entry<Integer, LinkedList<JSONObject>> message : allmessages.entrySet()) {
+			JPanel panel;
+			if (!messagePanels.containsKey(message.getKey())) {
+				panel = new JPanel();
+				panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+				panel.setBackground(Color.WHITE);
+				
+				rootMessagePanel.add(panel, message.getKey().toString());
+				messagePanels.put(message.getKey(), panel);
+			} else {
+				panel = messagePanels.get(message.getKey());
+			}
+
+			for (JSONObject json : message.getValue()) {
+				String sender = (String) json.get("sender");
+				String msg = (String) json.get("data"); 
+				
+				addMessage(panel, sender, msg);
+			}		
+		}
+		
+		if (!messagePanels.containsKey(-1)) {
 			JPanel panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.setBackground(Color.WHITE);
 			
-			for (JSONObject json : message.getValue()) {
-				String sender = (String) json.get("sender");
-				String msg = (String) json.get("data"); 
-				System.out.println(msg);
-				JLabel messageLabel = new JLabel(sender + ": " + msg);
-				panel.add(messageLabel);
-			}
+			JLabel noContacts = new JLabel("Start a conversation!");
+			noContacts.setAlignmentX(Component.CENTER_ALIGNMENT);
+			panel.add(noContacts);
 			
-			mainMessagePanel.add(panel, message.getKey().toString());
-			messagePanels.put(message.getKey().toString(), panel);
+			rootMessagePanel.add(panel, "empty");
+			messagePanels.put(-1, panel);
+			
+			CardLayout layout = (CardLayout) rootMessagePanel.getLayout();
+			layout.show(rootMessagePanel, "empty");
 		}
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setBackground(Color.WHITE);
-		
-		JLabel noContacts = new JLabel("Start a conversation!");
-		noContacts.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(noContacts);
-		
-		mainMessagePanel.add(panel, "empty");
-		
-		CardLayout layout = (CardLayout) mainMessagePanel.getLayout();
-		layout.show(mainMessagePanel, "empty");
 	}
 	
-	public void addMessage(String username, String message) {
-		JPanel panel = messagePanels.get(Integer.toString(((MessageModel) controller.getModel()).getCurrentID()));
-		
+	public void addMessage(JPanel panel, String username, String message) {		
 		JLabel label = new JLabel(username + ": " + message);
 		
 		panel.add(label);

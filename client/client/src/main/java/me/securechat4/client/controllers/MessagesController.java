@@ -33,5 +33,9 @@ public class MessagesController extends Controller implements ListSelectionListe
 			((MessageController) App.getControllers().get("message")).updateView(selectedUser);
 		}
 	}
+	
+	public void getMessagesFromServer(boolean update) {
+		((MessagesModel) model).getMessagesFromServer(update);
+	}
 
 }

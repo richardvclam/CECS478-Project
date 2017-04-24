@@ -88,11 +88,8 @@ public class LoginController extends Controller implements KeyListener {
 					((LoginView) getView()).displayNormalUsernameLabel();
 					((LoginView) getView()).displayNormalPasswordLabel();
 
-					MessagesModel model = (MessagesModel) App.getControllers().get("messages").getModel();
-					model.getMessagesFromServer();
-					model.createListModel();
-					
-					((MessageController) App.getControllers().get("message")).createMessagePanels();
+					((MessagesController) App.getController("messages")).getMessagesFromServer(false);
+					((MessageController) App.getController("message")).createMessagePanels();
 					App.startRefreshThread();
 					
 					CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();

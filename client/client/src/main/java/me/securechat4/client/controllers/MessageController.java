@@ -4,14 +4,19 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import org.json.simple.JSONObject;
+
 import me.securechat4.client.App;
 import me.securechat4.client.models.MessageModel;
+import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.MessageView;
 
 public class MessageController extends Controller implements KeyListener {
@@ -28,7 +33,10 @@ public class MessageController extends Controller implements KeyListener {
 	}
 	
 	public void createMessagePanels() {
-		((MessageView) view).createMessagePanels();
+		MessagesModel model = ((MessagesModel) App.getControllers().get("messages").getModel());
+		HashMap<Integer, LinkedList<JSONObject>> allmessages = model.getAllMessages();
+		
+		((MessageView) view).createMessagePanels(allmessages);
 	}
 	
 	public void updateView(String username) {
@@ -42,8 +50,8 @@ public class MessageController extends Controller implements KeyListener {
 		((MessageView) view).getNavPane().setHeaderLabel(username);
 		((MessageModel) model).setCurrentID(userID);
 		
-		CardLayout cardLayout = (CardLayout) ((MessageView) view).getMainMessagePanel().getLayout();
-		cardLayout.show(((MessageView) view).getMainMessagePanel(), Integer.toString(userID));
+		CardLayout cardLayout = (CardLayout) ((MessageView) view).getRootMessagePanel().getLayout();
+		cardLayout.show(((MessageView) view).getRootMessagePanel(), Integer.toString(userID));
 	}
 
 	@Override

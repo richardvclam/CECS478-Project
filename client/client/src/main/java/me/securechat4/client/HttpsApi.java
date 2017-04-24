@@ -55,8 +55,6 @@ public class HttpsApi {
 				result = (JSONArray) parser.parse(content);
 			}
 
-			
-			
 			client.close();
 		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException | IOException | ParseException e) {
 			e.printStackTrace();

@@ -64,6 +64,7 @@ public class LoginModel extends Model {
 				App.setJWT((String) responseJSON.get("jwt"));
 				App.setUserID((int) ((long)responseJSON.get("userid")));
 				App.setUsername(username);
+				App.getWindow().setTitle("SecureChat - " + username);
 			}
 		}
 		

@@ -43,5 +43,9 @@ public class MainPanel extends JPanel {
 	public HashMap<String, Controller> getControllers() {
 		return controllers;
 	}
+	
+	public Controller getController(String controller) {
+		return controllers.get(controller);
+	}
 
 }
