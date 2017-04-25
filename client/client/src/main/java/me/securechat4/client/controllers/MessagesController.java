@@ -1,13 +1,16 @@
 package me.securechat4.client.controllers;
 
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import me.securechat4.client.App;
 import me.securechat4.client.models.MessagesModel;
+import me.securechat4.client.views.AddContactView;
 import me.securechat4.client.views.MessageView;
 import me.securechat4.client.views.MessagesView;
 
@@ -20,8 +23,20 @@ public class MessagesController extends Controller implements ListSelectionListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		String actionCommand = e.getActionCommand();
+		System.out.println("Action: " + (!actionCommand.isEmpty() ? actionCommand : "Undefined"));
+		switch (actionCommand) {
+			case "Add Contact":
+				changeDetailView("addContact");
+				break;
+			case "Register":
+				CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();
+				cardLayout.show(App.getPanel(), "register");
+				break;
+			default:
+				System.out.println("Attempting to call undefined action.");
+				break;
+		}
 	}
 
 	@Override
@@ -36,6 +51,10 @@ public class MessagesController extends Controller implements ListSelectionListe
 	
 	public void getMessagesFromServer(boolean update) {
 		((MessagesModel) model).getMessagesFromServer(update);
+	}
+	
+	public void changeDetailView(String panel) {
+		((MessagesView) view).changeDetailView(panel);
 	}
 
 }

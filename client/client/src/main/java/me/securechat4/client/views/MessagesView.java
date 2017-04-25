@@ -1,12 +1,14 @@
 package me.securechat4.client.views;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
@@ -23,6 +25,8 @@ import me.securechat4.client.views.templates.NavigationPane;
 public class MessagesView extends View {
 	
 	private JList list;
+	private MasterDetailView mdView;
+	private JPanel detailView;
 
 	public MessagesView(Controller controller) {
 		super(controller);
@@ -36,6 +40,7 @@ public class MessagesView extends View {
 		addContact.setForeground(Color.BLACK);
 		addContact.setFont(labelFont);
 		addContact.setFocusPainted(false);
+		addContact.addActionListener(controller);
 		
 		JButton newMessage = new JButton("New Message");
 		newMessage.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,8 +63,29 @@ public class MessagesView extends View {
 		navigationView.getHeader().add(addContact, BorderLayout.WEST);
 		navigationView.getHeader().add(newMessage, BorderLayout.EAST);
 		
-		MasterDetailView mdView = new MasterDetailView(navigationView, App.getControllers().get("message").getView());
+		//left side of the screen is master . right side of the screen is details
+		
+		detailView = new JPanel();
+		detailView.setLayout(new CardLayout());
+		detailView.add(App.getControllers().get("message").getView(), "message");
+		
+		detailView.add((AddContactView)(App.getController("addContact").getView()), "addContact");
+		
+		mdView = new MasterDetailView(navigationView, detailView);
+		
+		CardLayout cardLayout = (CardLayout) detailView.getLayout();
+		cardLayout.show(detailView, "message");
+		
+//		mdView.setRightComponent(comp);
+//		mdView.revalidate();
+//		mdView.repaint();
+		
 		add(mdView);
+	}
+	
+	public void changeDetailView(String panel) {
+		CardLayout cardLayout = (CardLayout) detailView.getLayout();
+		cardLayout.show(detailView, panel);
 	}
 	
 	public JList getList() {
