@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -23,7 +26,9 @@ import me.securechat4.client.views.templates.NavigationPane;
 public class MessagesView extends View {
 	
 	private JList list;
-
+	public static final ImageIcon newMsgIconNormal = new ImageIcon("img/new_message_button_normal.png");
+	public static final ImageIcon newMsgIconPressed = new ImageIcon("img/new_message_button_pressed.png");
+	
 	public MessagesView(Controller controller) {
 		super(controller);
 		setLayout(new BorderLayout());
@@ -37,11 +42,15 @@ public class MessagesView extends View {
 		addContact.setFont(labelFont);
 		addContact.setFocusPainted(false);
 		
-		JButton newMessage = new JButton("New Message");
+		JButton newMessage = new JButton(newMsgIconNormal);
 		newMessage.setBorder(new EmptyBorder(5, 5, 5, 5));
 		newMessage.setForeground(Color.BLACK);
 		newMessage.setFont(labelFont);
 		newMessage.setFocusPainted(false);
+		newMessage.setBorderPainted(false);
+		newMessage.setContentAreaFilled(false);
+		newMessage.setOpaque(false);
+		newMessage.addMouseListener((MouseListener) controller);
 		
 		MessagesModel model = (MessagesModel) getController().getModel();
 	
@@ -55,8 +64,8 @@ public class MessagesView extends View {
 		
 		NavigationPane navigationView = new NavigationPane("Messages", null, listScroller);
 		navigationView.setMinimumSize(new Dimension(300, getHeight()));
-		navigationView.getHeader().add(addContact, BorderLayout.WEST);
-		navigationView.getHeader().add(newMessage, BorderLayout.EAST);
+		navigationView.getHeader().add(addContact, BorderLayout.WEST, 0);
+		navigationView.getHeader().add(newMessage, BorderLayout.EAST, 1);
 		
 		MasterDetailView mdView = new MasterDetailView(navigationView, App.getControllers().get("message").getView());
 		add(mdView);

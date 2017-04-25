@@ -20,18 +20,17 @@ public class NavigationPane extends JPanel {
 		Font labelFont = new Font("Ariel", Font.BOLD, 14);
 		
 		header = new JPanel(new BorderLayout());
-		header.setBackground(Color.WHITE);
+		header.setBackground(new Color(245, 245, 245));
 		header.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
 		
 		headerLabel = new JLabel(headerStr);
 		headerLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
-		headerLabel.setBackground(Color.WHITE);
+		headerLabel.setBackground(new Color(245, 245, 245));
 		headerLabel.setFont(labelFont);
 		headerLabel.setHorizontalAlignment(JLabel.CENTER);
 		headerLabel.setVerticalAlignment(JLabel.CENTER);
 		header.add(headerLabel, BorderLayout.CENTER);
 		
-		//navBar.setBackground(Color.WHITE);
 		content.setBackground(Color.WHITE);
 		
 		setLayout(new BorderLayout());

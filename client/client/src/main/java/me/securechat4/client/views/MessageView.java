@@ -56,14 +56,8 @@ public class MessageView extends View {
 		
 		messagePanels = new HashMap<Integer, JPanel>();
 		
-		
 		rootMessagePanel = new JPanel();
 		rootMessagePanel.setLayout(new CardLayout());
-		
-		JScrollPane scrollPane = new JScrollPane(rootMessagePanel);
-		scrollPane.setBorder(null);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		//JLabel noContacts = new JLabel("Start a conversation!");
 		//messagesPanel.add(noContacts);
@@ -102,7 +96,7 @@ public class MessageView extends View {
 		
 		messageArea.add(messageTextArea);
 		
-		navigationPane = new NavigationPane("", null, scrollPane);
+		navigationPane = new NavigationPane(" ", null, rootMessagePanel);
 		navigationPane.add(messageArea, BorderLayout.SOUTH);
 		
 		add(navigationPane);
@@ -132,7 +126,12 @@ public class MessageView extends View {
 				panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 				panel.setBackground(Color.WHITE);
 				
-				rootMessagePanel.add(panel, message.getKey().toString());
+				JScrollPane scrollPane = new JScrollPane(panel);
+				scrollPane.setBorder(null);
+				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+				rootMessagePanel.add(scrollPane, message.getKey().toString());
 				messagePanels.put(message.getKey(), panel);
 			} else {
 				panel = messagePanels.get(message.getKey());

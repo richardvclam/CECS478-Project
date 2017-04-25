@@ -64,7 +64,11 @@ class Route {
     public static function message($api) {
         switch ($api->getRequestMethod()) {
             case "GET":
-                MessageController::getMessage($api);
+                if (isset($api->_request['update'])) {
+                    MessageController::getMessage($api, true);
+                } else {
+                    MessageController::getMessage($api, false);
+                }
                 break;
             case "POST":
                 MessageController::postMessage($api, $api->_request['receiver'], $api->_request['data']);

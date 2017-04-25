@@ -1,7 +1,11 @@
 package me.securechat4.client.controllers;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -11,7 +15,7 @@ import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.MessageView;
 import me.securechat4.client.views.MessagesView;
 
-public class MessagesController extends Controller implements ListSelectionListener{
+public class MessagesController extends Controller implements ListSelectionListener, MouseListener {
 	
 	public MessagesController() {
 		this.model = new MessagesModel(this);
@@ -36,6 +40,34 @@ public class MessagesController extends Controller implements ListSelectionListe
 	
 	public void getMessagesFromServer(boolean update) {
 		((MessagesModel) model).getMessagesFromServer(update);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		((JButton) e.getComponent()).setIcon(MessagesView.newMsgIconPressed);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		((JButton) e.getComponent()).setIcon(MessagesView.newMsgIconNormal);
 	}
 
 }
