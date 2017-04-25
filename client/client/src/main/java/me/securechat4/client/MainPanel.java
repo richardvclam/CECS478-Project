@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import me.securechat4.client.controllers.AddContactController;
 import me.securechat4.client.controllers.Controller;
 import me.securechat4.client.controllers.LoginController;
 import me.securechat4.client.controllers.MessageController;
@@ -30,6 +31,7 @@ public class MainPanel extends JPanel {
 		controllers.put("register", new RegisterController());
 		controllers.put("message", new MessageController());
 		controllers.put("messages", new MessagesController());
+		controllers.put("addContact", new AddContactController());
 	}
 	
 	public void addContent() {

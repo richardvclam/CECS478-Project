@@ -23,5 +23,6 @@ public class MasterDetailView extends JSplitPane {
 		setContinuousLayout(true);
 		setEnabled(false);
 	}
+	
 
 }

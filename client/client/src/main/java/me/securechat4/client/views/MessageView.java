@@ -95,8 +95,8 @@ public class MessageView extends View {
 		messageSendButton.setFocusPainted(false);
 		
 		messageArea.add(messageTextArea);
-		
-		navigationPane = new NavigationPane(" ", null, rootMessagePanel);
+
+		navigationPane = new NavigationPane(" ", rootMessagePanel);
 		navigationPane.add(messageArea, BorderLayout.SOUTH);
 		
 		add(navigationPane);

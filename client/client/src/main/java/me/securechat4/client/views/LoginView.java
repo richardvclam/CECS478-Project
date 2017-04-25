@@ -87,7 +87,7 @@ public class LoginView extends View {
 		
 		JButton registerButton = new JButton("Register");
 		registerButton.addActionListener(controller);
-		registerButton.setBounds(((Window.WINDOW_WIDTH - 350)/ 2) + 80, offset + 260, 100, 20);
+		registerButton.setBounds(((Window.WINDOW_WIDTH - 350)/ 2) + 270, offset + 260, 100, 20);
 		registerButton.setForeground(Color.WHITE);
 		registerButton.setFocusPainted(false);
 		registerButton.setMargin(new Insets(0, 0, 0, 0));

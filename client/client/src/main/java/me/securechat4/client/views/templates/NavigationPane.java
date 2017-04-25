@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -16,7 +15,9 @@ public class NavigationPane extends JPanel {
 	private JPanel header;
 	private JLabel headerLabel;
 	
-	public NavigationPane(String headerStr, JPanel navBar, Component content) {
+	public NavigationPane(String headerStr, Component content) {
+		setLayout(new BorderLayout());
+		
 		Font labelFont = new Font("Ariel", Font.BOLD, 14);
 		
 		header = new JPanel(new BorderLayout());
@@ -30,13 +31,16 @@ public class NavigationPane extends JPanel {
 		headerLabel.setHorizontalAlignment(JLabel.CENTER);
 		headerLabel.setVerticalAlignment(JLabel.CENTER);
 		header.add(headerLabel, BorderLayout.CENTER);
+
+		
+		if (content == null) {
+			content = new JPanel();
+		}
 		
 		content.setBackground(Color.WHITE);
 		
-		setLayout(new BorderLayout());
-		
-		add(header, BorderLayout.NORTH);
 		add(content, BorderLayout.CENTER);
+		add(header, BorderLayout.NORTH);
 	}
 	
 	public JPanel getHeader() {
