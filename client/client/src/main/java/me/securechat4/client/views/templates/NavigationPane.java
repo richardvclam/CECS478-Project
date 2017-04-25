@@ -16,7 +16,9 @@ public class NavigationPane extends JPanel {
 	private JPanel header;
 	private JLabel headerLabel;
 	
-	public NavigationPane(String headerStr, JPanel navBar, Component content) {
+	public NavigationPane(String headerStr, Component content) {
+		setLayout(new BorderLayout());
+		
 		Font labelFont = new Font("Ariel", Font.BOLD, 14);
 		
 		header = new JPanel(new BorderLayout());
@@ -31,13 +33,17 @@ public class NavigationPane extends JPanel {
 		headerLabel.setVerticalAlignment(JLabel.CENTER);
 		header.add(headerLabel, BorderLayout.CENTER);
 		
-		//navBar.setBackground(Color.WHITE);
-		content.setBackground(Color.WHITE);
-		
-		setLayout(new BorderLayout());
-		
+		if (content != null) {
+			content.setBackground(Color.WHITE);
+			add(content, BorderLayout.CENTER);
+		} else {
+			JPanel emptyPanel = new JPanel();
+			emptyPanel.setBackground(Color.WHITE);
+			emptyPanel.setBorder(null);
+			add(emptyPanel, BorderLayout.CENTER);
+		}
+
 		add(header, BorderLayout.NORTH);
-		add(content, BorderLayout.CENTER);
 	}
 	
 	public JPanel getHeader() {

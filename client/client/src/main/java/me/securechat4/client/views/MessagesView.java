@@ -58,7 +58,7 @@ public class MessagesView extends View {
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setBorder(null);
 		
-		NavigationPane navigationView = new NavigationPane("Messages", null, listScroller);
+		NavigationPane navigationView = new NavigationPane("Messages", listScroller);
 		navigationView.setMinimumSize(new Dimension(300, getHeight()));
 		navigationView.getHeader().add(addContact, BorderLayout.WEST);
 		navigationView.getHeader().add(newMessage, BorderLayout.EAST);
@@ -67,25 +67,27 @@ public class MessagesView extends View {
 		
 		detailView = new JPanel();
 		detailView.setLayout(new CardLayout());
-		detailView.add(App.getControllers().get("message").getView(), "message");
-		
-		detailView.add((AddContactView)(App.getController("addContact").getView()), "addContact");
-		
+		detailView.setBackground(Color.WHITE);
+		detailView.setBorder(null);
+
 		mdView = new MasterDetailView(navigationView, detailView);
 		
-		CardLayout cardLayout = (CardLayout) detailView.getLayout();
-		cardLayout.show(detailView, "message");
-		
-//		mdView.setRightComponent(comp);
-//		mdView.revalidate();
-//		mdView.repaint();
-		
 		add(mdView);
+	}
+	
+	public void initDetailViews() {
+		detailView.add(App.getControllers().get("message").getView(), "message");
+		detailView.add(App.getController("addContact").getView(), "addContact");
+		detailView.add(new NavigationPane(" ", null), "empty");
 	}
 	
 	public void changeDetailView(String panel) {
 		CardLayout cardLayout = (CardLayout) detailView.getLayout();
 		cardLayout.show(detailView, panel);
+	}
+	
+	public JPanel getDetailView() {
+		return detailView;
 	}
 	
 	public JList getList() {

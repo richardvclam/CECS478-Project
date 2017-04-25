@@ -102,7 +102,7 @@ public class MessageView extends View {
 		
 		messageArea.add(messageTextArea);
 		
-		navigationPane = new NavigationPane("", null, scrollPane);
+		navigationPane = new NavigationPane(" ", scrollPane);
 		navigationPane.add(messageArea, BorderLayout.SOUTH);
 		
 		add(navigationPane);

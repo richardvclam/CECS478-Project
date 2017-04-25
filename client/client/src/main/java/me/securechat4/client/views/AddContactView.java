@@ -47,9 +47,9 @@ import me.securechat4.client.views.templates.NavigationPane;
 public class AddContactView extends View {
 	
 	private NavigationPane navigationPane;
-	private JPanel rootMessagePanel;
-	private JTextArea messageTextArea;
-	private HashMap<Integer, JPanel> messagePanels; 
+	//private JPanel rootMessagePanel;
+	//private JTextArea messageTextArea;
+	//private HashMap<Integer, JPanel> messagePanels; 
 
 	public AddContactView(Controller controller) {
 		super(controller);
@@ -94,6 +94,6 @@ public class AddContactView extends View {
 		
 		//Submit Button
 		
-		
+		addComponents();
 	}
 }
