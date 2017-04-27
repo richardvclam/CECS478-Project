@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -54,10 +57,14 @@ public class RSA {
 	 */
 	public RSA(String keyFileName, boolean isPrivate) {
 		this.keyFilePath = keyFileName;
-		if (isPrivate) {
-			privateKey = loadPrivateKey();
-		} else {
-			publicKey = loadPublicKey();
+		try {
+			if (isPrivate) {				
+					privateKey = loadPrivateKey(Files.readAllBytes(new File(keyFilePath).toPath()));				
+			} else {
+				publicKey = loadPublicKey(Files.readAllBytes(new File(keyFilePath).toPath()));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -65,19 +72,15 @@ public class RSA {
 	 * Loads a 2048-bit RSA private key file.
 	 * @return 2048-bit RSA private key
 	 */
-	public PrivateKey loadPrivateKey() {
+	public static PrivateKey loadPrivateKey(byte[] keyBytes) {
 		try {
-			byte[] keyBytes = Files.readAllBytes(new File(keyFilePath).toPath());
 			PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
 			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 			return keyFactory.generatePrivate(spec);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 	
@@ -85,17 +88,29 @@ public class RSA {
 	 * Loads a 2048-bit RSA public key file.
 	 * @return 2048-bit RSA public key
 	 */
-	public PublicKey loadPublicKey() {
+	public static PublicKey loadPublicKey(byte[] keyBytes) {
 		try {
-			byte[] keyBytes = Files.readAllBytes(new File(keyFilePath).toPath());
 			X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
 			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 			return keyFactory.generatePublic(spec);
-		} catch (IOException e) {
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Generate a 2048-bit public & private key pair for RSA.
+	 * @return a keypair
+	 */
+	public static KeyPair generateKeyPair() {
+		try {
+			KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+			generator.initialize(2048, new SecureRandom());
+			
+			return generator.generateKeyPair();
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -114,15 +129,8 @@ public class RSA {
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 			encryptedData = cipher.doFinal(data);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | 
+				IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
 		}
 		
@@ -142,15 +150,8 @@ public class RSA {
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
 			cipher.init(Cipher.DECRYPT_MODE, privateKey);
 			decryptedText = cipher.doFinal(decryptedText);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | 
+				IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
 		}
 		

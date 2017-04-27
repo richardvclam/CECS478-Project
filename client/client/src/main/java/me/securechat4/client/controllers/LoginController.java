@@ -88,8 +88,8 @@ public class LoginController extends Controller implements KeyListener {
 					((LoginView) getView()).displayNormalUsernameLabel();
 					((LoginView) getView()).displayNormalPasswordLabel();
 
+					((AccountController) App.getController("account")).init();
 					((MessagesController) App.getController("messages")).init();
-					((MessagesController) App.getController("messages")).getMessagesFromServer(false);
 					((MessageController) App.getController("message")).createMessagePanels();
 					App.startRefreshThread();
 					

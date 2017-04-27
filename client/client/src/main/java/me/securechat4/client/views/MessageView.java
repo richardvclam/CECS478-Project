@@ -51,19 +51,11 @@ public class MessageView extends View {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.WHITE);
 		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
-
-		Font labelFont = new Font("Ariel", Font.BOLD, 14);
 		
 		messagePanels = new HashMap<Integer, JPanel>();
 		
 		rootMessagePanel = new JPanel();
 		rootMessagePanel.setLayout(new CardLayout());
-		
-		//JLabel noContacts = new JLabel("Start a conversation!");
-		//messagesPanel.add(noContacts);
-		
-		JPanel messageArea = new JPanel(new BorderLayout());
-		messageArea.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
 
 		messageTextArea = new JTextArea();
 		messageTextArea.setLineWrap(true);
@@ -85,16 +77,13 @@ public class MessageView extends View {
 			}
 		});
 		
+		JPanel messageArea = new JPanel(new BorderLayout());
+		messageArea.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
+		
 		messageArea.add(messageTextArea, BorderLayout.CENTER);
 		
 		PromptSupport.setPrompt("Type a message...", messageTextArea);
 		PromptSupport.setFocusBehavior(FocusBehavior.HIDE_PROMPT, messageTextArea);
-		
-		JButton messageSendButton = new JButton("Send");
-		messageSendButton.setBorder(new EmptyBorder(5, 5, 5, 5));
-		messageSendButton.setFocusPainted(false);
-		
-		messageArea.add(messageTextArea);
 
 		navigationPane = new NavigationPane(" ", rootMessagePanel);
 		navigationPane.add(messageArea, BorderLayout.SOUTH);

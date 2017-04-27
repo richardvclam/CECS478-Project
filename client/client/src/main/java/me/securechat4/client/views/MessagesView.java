@@ -24,6 +24,8 @@ import me.securechat4.client.views.templates.NavigationPane;
 
 public class MessagesView extends View {
 	
+	public static final ImageIcon accountIconNormal = new ImageIcon("img/account_normal.png");
+	public static final ImageIcon accountIconPressed = new ImageIcon("img/account_pressed.png");
 	public static final ImageIcon newMsgIconNormal = new ImageIcon("img/new_message_button_normal.png");
 	public static final ImageIcon newMsgIconPressed = new ImageIcon("img/new_message_button_pressed.png");
 	
@@ -45,7 +47,20 @@ public class MessagesView extends View {
 		addContact.setFocusPainted(false);
 		addContact.addActionListener(controller);
 		
+		JButton account = new JButton(accountIconNormal);
+		account.setActionCommand("Account");
+		account.setBorder(new EmptyBorder(5, 5, 5, 5));
+		account.setForeground(Color.BLACK);
+		account.setFont(labelFont);
+		account.setFocusPainted(false);
+		account.setBorderPainted(false);
+		account.setContentAreaFilled(false);
+		account.setOpaque(false);
+		account.addActionListener(controller);
+		account.addMouseListener((MouseListener) controller);
+		
 		JButton newMessage = new JButton(newMsgIconNormal);
+		newMessage.setActionCommand("New Message");
 		newMessage.setBorder(new EmptyBorder(5, 5, 5, 5));
 		newMessage.setForeground(Color.BLACK);
 		newMessage.setFont(labelFont);
@@ -53,6 +68,7 @@ public class MessagesView extends View {
 		newMessage.setBorderPainted(false);
 		newMessage.setContentAreaFilled(false);
 		newMessage.setOpaque(false);
+		newMessage.addActionListener(controller);
 		newMessage.addMouseListener((MouseListener) controller);
 		
 		MessagesModel model = (MessagesModel) getController().getModel();
@@ -67,8 +83,9 @@ public class MessagesView extends View {
 		
 		NavigationPane navigationView = new NavigationPane("Messages", listScroller);
 		navigationView.setMinimumSize(new Dimension(300, getHeight()));
-		navigationView.getHeader().add(addContact, BorderLayout.WEST, 0);
-		navigationView.getHeader().add(newMessage, BorderLayout.EAST, 1);
+		//navigationView.getHeader().add(addContact, BorderLayout.WEST, 0);
+		navigationView.getHeader().add(account, BorderLayout.WEST);
+		navigationView.getHeader().add(newMessage, BorderLayout.EAST);
 		
 		//left side of the screen is master . right side of the screen is details
 		
@@ -83,8 +100,10 @@ public class MessagesView extends View {
 	}
 	
 	public void initDetailViews() {
-		detailView.add(App.getControllers().get("message").getView(), "message");
+		detailView.add(App.getController("account").getView(), "account");
+		detailView.add(App.getController("message").getView(), "message");
 		detailView.add(App.getController("addContact").getView(), "addContact");
+		
 		detailView.add(new NavigationPane(" ", null), "empty");
 	}
 	

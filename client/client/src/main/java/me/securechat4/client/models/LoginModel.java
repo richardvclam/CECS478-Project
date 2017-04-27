@@ -16,25 +16,6 @@ public class LoginModel extends Model {
 		super(controller);
 	}
 	
-	/*
-	public int login(String username, String password) {
-		JSONObject loginJSON = new JSONObject();
-		loginJSON.put("username", username);
-		loginJSON.put("password", password);
-		
-		JSONObject loginResponseJSON =  HttpsApi.post("login", loginJSON);
-		
-		int response = Integer.parseInt((String) loginResponseJSON.get("response"));
-		if (response == 0) {
-			App.setJWT((String) loginResponseJSON.get("jwt"));
-			App.setUserID(Integer.parseInt((String) loginResponseJSON.get("userid")));
-		}
-		//System.out.println("UserID: " + App.getUserID());
-		
-		return response;
-	}
-	*/
-	
 	public int login(String username, String password) {
 		String challenge = "";
 		String salt = "";
@@ -65,6 +46,7 @@ public class LoginModel extends Model {
 				App.setUserID((int) ((long)responseJSON.get("userid")));
 				App.setUsername(username);
 				App.getWindow().setTitle("SecureChat - " + username);
+				App.initKeys();
 			}
 		}
 		

@@ -26,6 +26,7 @@ public class App {
 	private static String username;
 	private static Thread refreshMessagesThread;
 	private static HashMap<Integer, String> users = new HashMap<Integer, String>(); 
+	private static UserKeys userKeys;
 	
 	public static HashMap<String, Controller> getControllers() {
 		if (panel == null) 
@@ -73,6 +74,14 @@ public class App {
 	
 	public static Window getWindow() {
 		return window;
+	}
+	
+	public static void initKeys() {
+		userKeys = new UserKeys(username);
+	}
+	
+	public static UserKeys getUserKeys() {
+		return userKeys;
 	}
 	
 	public static void startRefreshThread() {

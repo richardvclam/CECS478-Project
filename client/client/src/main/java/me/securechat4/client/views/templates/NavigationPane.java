@@ -22,7 +22,8 @@ public class NavigationPane extends JPanel {
 		
 		header = new JPanel(new BorderLayout());
 		header.setBackground(new Color(245, 245, 245));
-		header.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
+		//header.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
+		header.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(237, 237, 237)));
 		
 		headerLabel = new JLabel(headerStr);
 		headerLabel.setBorder(new EmptyBorder(10, 0, 10, 0));

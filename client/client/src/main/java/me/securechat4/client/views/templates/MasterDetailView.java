@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -18,10 +19,12 @@ public class MasterDetailView extends JSplitPane {
 		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
 		
 		setBorder(null);
-		setDividerSize(1);
+		setDividerSize(0);
 		setDividerLocation(Window.WINDOW_WIDTH / 2);
 		setContinuousLayout(true);
 		setEnabled(false);
+		
+		masterView.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(237, 237, 237)));
 	}
 	
 

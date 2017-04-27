@@ -5,17 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import me.securechat4.client.App;
 import me.securechat4.client.models.MessagesModel;
-import me.securechat4.client.views.AddContactView;
-import me.securechat4.client.views.MessageView;
 import me.securechat4.client.views.MessagesView;
 
 public class MessagesController extends Controller implements ListSelectionListener, MouseListener {
@@ -33,9 +29,11 @@ public class MessagesController extends Controller implements ListSelectionListe
 			case "Add Contact":
 				changeDetailView("addContact");
 				break;
-			case "Register":
-				CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();
-				cardLayout.show(App.getPanel(), "register");
+			case "Account":
+				changeDetailView("account");
+				break;
+			case "New Message":
+				changeDetailView("newMessage");
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");
@@ -59,6 +57,8 @@ public class MessagesController extends Controller implements ListSelectionListe
 		mv.initDetailViews();
 
 		changeDetailView("empty");
+		
+		getMessagesFromServer(false);
 	}
 	
 	public void getMessagesFromServer(boolean update) {
@@ -89,12 +89,28 @@ public class MessagesController extends Controller implements ListSelectionListe
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		((JButton) e.getComponent()).setIcon(MessagesView.newMsgIconPressed);
+		String actionCommand = ((JButton) e.getSource()).getActionCommand();
+		switch (actionCommand) {
+			case "Account":
+				((JButton) e.getComponent()).setIcon(MessagesView.accountIconPressed);
+				break;
+			case "New Message":
+				((JButton) e.getComponent()).setIcon(MessagesView.newMsgIconPressed);
+				break;
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		((JButton) e.getComponent()).setIcon(MessagesView.newMsgIconNormal);
+		String actionCommand = ((JButton) e.getSource()).getActionCommand();
+		switch (actionCommand) {
+			case "Account":
+				((JButton) e.getComponent()).setIcon(MessagesView.accountIconNormal);
+				break;
+			case "New Message":
+				((JButton) e.getComponent()).setIcon(MessagesView.newMsgIconNormal);
+				break;
+		}
 	}
 
 }
