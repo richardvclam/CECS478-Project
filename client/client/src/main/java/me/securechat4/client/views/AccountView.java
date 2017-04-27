@@ -21,10 +21,14 @@ import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
 import me.securechat4.client.views.templates.NavigationPane;
 
+//
+//	View for the User's Account Information (Right side of the screen)
+//
 public class AccountView extends View {
 	
 	JLabel usernameLabel;
 	JTextArea publicKeyTextArea;
+
 
 	public AccountView(Controller controller) {
 		super(controller);
@@ -37,11 +41,13 @@ public class AccountView extends View {
 		JPanel profileArea = new JPanel();
 		profileArea.setLayout(new BoxLayout(profileArea, BoxLayout.Y_AXIS));
 		
+		//Username Label
 		usernameLabel = new JLabel();
 		usernameLabel.setFont(labelFont);
 		usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		profileArea.add(usernameLabel);
 		
+		//"RSA-2048 Bit Public Key" Label Init
 		JLabel publicKeyLabel = new JLabel("RSA-2048 Bit Public Key");
 		publicKeyLabel.setFont(labelFont);
 		publicKeyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -50,6 +56,8 @@ public class AccountView extends View {
 		Border outsideMargin = new EmptyBorder(5, 10, 10, 10);
 		Border border = BorderFactory.createLineBorder(new Color(237, 237, 237), 1);
 		Border insideMargin = new EmptyBorder(5, 5, 5, 5);
+		
+		
 		
 		publicKeyTextArea = new JTextArea("Public key not found!");
 		publicKeyTextArea.setAlignmentX(Component.CENTER_ALIGNMENT);

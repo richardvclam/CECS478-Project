@@ -22,6 +22,9 @@ import javax.swing.event.ChangeListener;
 import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
 
+//
+//	View for the Login in page
+//
 public class LoginView extends View {
 	
 	public LoginView(Controller controller) {

@@ -29,6 +29,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -47,6 +49,7 @@ import me.securechat4.client.views.templates.NavigationPane;
 public class AddContactView extends View {
 	
 	private NavigationPane navigationPane;
+	private JTextArea publicKeyTextArea;
 	//private JPanel rootMessagePanel;
 	//private JTextArea messageTextArea;
 	//private HashMap<Integer, JPanel> messagePanels; 
@@ -58,42 +61,50 @@ public class AddContactView extends View {
 		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
 
 		Font font = new Font("Ariel", Font.BOLD, 14);
-		components = new HashMap<String, Component>();
-				
-		JPanel addContactArea = new JPanel(new BorderLayout());
-		addContactArea.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
+		
+
+		JPanel addContactArea = new JPanel();
+		addContactArea.setLayout(new BoxLayout(addContactArea, BoxLayout.Y_AXIS));
+		
 		
 		// Label for Username Input
 		JLabel usernameLabel = new JLabel("Receiver's username");
-		usernameLabel.setBounds(Window.WINDOW_WIDTH/2, 20, 200, 20);	//(x, y, width, height)
-		usernameLabel.setForeground(Color.WHITE);
+		usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		usernameLabel.setFont(font);
-		components.put("usernameLabel", usernameLabel);
+		addContactArea.add(usernameLabel);
 		
 		// Username Input Field
 		JTextField usernameField = new JTextField(20);
-		usernameField.setBounds(Window.WINDOW_WIDTH/2, 45, 200, 40);
+		usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		usernameField.setFont(font);
-		usernameField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		usernameField.setMaximumSize(new Dimension(300,25));
 		//usernameField.addKeyListener((KeyListener) controller);
-		components.put("usernameField", usernameField);
+		addContactArea.add(usernameField);
 		
 		// Label for Key Input
-		JLabel keyLabel = new JLabel("Password");
-		keyLabel.setBounds(Window.WINDOW_WIDTH/2, 100, 350, 20);
-		keyLabel.setForeground(Color.WHITE);
+		JLabel keyLabel = new JLabel("Receiver's RSA Key");
+		keyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		keyLabel.setFont(font);
+		addContactArea.add(keyLabel);
 		
 		// Key Input Field
-		JTextField keyField = new JTextField(20);
-		keyField.setBounds(Window.WINDOW_WIDTH/2, 125, 350, 40);
+		JTextArea keyField = new JTextArea(300,20);
+		keyField.setEditable(true);
+		keyField.setLineWrap(true);
 		keyField.setFont(font);
-		keyField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		keyField.setMaximumSize(new Dimension(300,300));
+		keyField.setBorder(new CompoundBorder(BorderFactory.createLineBorder(new Color(237, 237, 237)),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		//keyField.addKeyListener((KeyListener) controller);
-		components.put("keyField", keyField);
+		addContactArea.add(keyField);		
+		
 		
 		//Submit Button
 		
-		addComponents();
+		
+		NavigationPane navigationPane = new NavigationPane("Account", addContactArea);
+		
+		add(navigationPane);
+		
+		
 	}
 }

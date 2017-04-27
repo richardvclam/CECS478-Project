@@ -22,6 +22,9 @@ import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.templates.MasterDetailView;
 import me.securechat4.client.views.templates.NavigationPane;
 
+//
+//		View for the message list (Left side of the screen)
+//
 public class MessagesView extends View {
 	
 	public static final ImageIcon accountIconNormal = new ImageIcon("img/account_normal.png");
@@ -87,7 +90,6 @@ public class MessagesView extends View {
 		navigationView.getHeader().add(account, BorderLayout.WEST);
 		navigationView.getHeader().add(newMessage, BorderLayout.EAST);
 		
-		//left side of the screen is master . right side of the screen is details
 		
 		detailView = new JPanel();
 		detailView.setLayout(new CardLayout());

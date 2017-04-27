@@ -39,6 +39,9 @@ import me.securechat4.client.models.MessageModel;
 import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.templates.NavigationPane;
 
+//
+//	View for the individual page (Right side of the screen)
+//
 public class MessageView extends View {
 	
 	private NavigationPane navigationPane;

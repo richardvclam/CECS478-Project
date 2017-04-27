@@ -22,6 +22,10 @@ import javax.swing.event.ChangeListener;
 import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
 
+
+//
+//	View for the Register Page
+//
 public class RegisterView extends View {
 	
 	public RegisterView(Controller controller) {
@@ -94,7 +98,7 @@ public class RegisterView extends View {
 		components.put("registerButton", registerButton);
 		
 		JLabel loginLabel = new JLabel("Already have an account?");
-		loginLabel.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 330, 150, 20);
+		loginLabel.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 330, 225, 20);
 		loginLabel.setForeground(Color.WHITE);
 		components.put("loginLabel", loginLabel);
 		
