@@ -6,7 +6,9 @@ public class AccountModel extends Model {
 
 	public AccountModel(Controller controller) {
 		super(controller);
-		// TODO Auto-generated constructor stub
 	}
 
+	public int sendEmail() {
+		return 0;
+	}
 }

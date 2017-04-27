@@ -66,6 +66,7 @@ public class AccountView extends View {
 		
 		JButton emailKey = new JButton("Email Key");
 		emailKey.setAlignmentX(Component.CENTER_ALIGNMENT);
+		emailKey.addActionListener(controller);
 		profileArea.add(emailKey);
 		
 		NavigationPane navigationPane = new NavigationPane("Account", profileArea);

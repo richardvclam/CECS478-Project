@@ -26,8 +26,8 @@ import org.json.simple.parser.ParseException;
 
 public class HttpsApi {
 	
-	public static JSONArray get(String route, List<NameValuePair> params) {
-		JSONArray result = null;
+	public static Object get(String route, List<NameValuePair> params) {
+		Object result = null;
 		
 		try {
 			SSLContext sslContext = new SSLContextBuilder()
@@ -52,7 +52,7 @@ public class HttpsApi {
 			
 			if (!content.isEmpty()) {
 				JSONParser parser = new JSONParser();			
-				result = (JSONArray) parser.parse(content);
+				result = parser.parse(content);
 			}
 
 			client.close();

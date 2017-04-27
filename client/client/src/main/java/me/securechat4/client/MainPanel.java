@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import me.securechat4.client.controllers.AccountController;
 import me.securechat4.client.controllers.AddContactController;
 import me.securechat4.client.controllers.Controller;
+import me.securechat4.client.controllers.EmailController;
 import me.securechat4.client.controllers.LoginController;
 import me.securechat4.client.controllers.MessageController;
 import me.securechat4.client.controllers.MessagesController;
@@ -34,6 +35,7 @@ public class MainPanel extends JPanel {
 		controllers.put("messages", new MessagesController());
 		controllers.put("addContact", new AddContactController());
 		controllers.put("account", new AccountController());
+		controllers.put("email", new EmailController());
 	}
 	
 	public void addContent() {

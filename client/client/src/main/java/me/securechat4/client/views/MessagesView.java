@@ -103,6 +103,7 @@ public class MessagesView extends View {
 		detailView.add(App.getController("account").getView(), "account");
 		detailView.add(App.getController("message").getView(), "message");
 		detailView.add(App.getController("addContact").getView(), "addContact");
+		detailView.add(App.getController("email").getView(), "email");
 		
 		detailView.add(new NavigationPane(" ", null), "empty");
 	}

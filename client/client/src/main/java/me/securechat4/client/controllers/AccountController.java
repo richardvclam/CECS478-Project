@@ -23,7 +23,7 @@ public class AccountController extends Controller{
 				((AccountView) view).updatePublicKey();
 				break;
 			case "Email Key":
-				
+				((MessagesController) App.getController("messages")).changeDetailView("email");
 				break;
 		}
 	}
