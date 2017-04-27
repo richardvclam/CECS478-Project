@@ -5,6 +5,7 @@ import javax.crypto.SecretKey;
 import org.json.simple.JSONObject;
 
 import me.securechat4.client.App;
+import me.securechat4.client.Constants;
 import me.securechat4.client.HttpsApi;
 import me.securechat4.client.controllers.Controller;
 import me.securechat4.client.crypto.CryptoUtil;
@@ -31,9 +32,12 @@ public class LoginModel extends Model {
 			challenge.replace("\\", "");
 			salt = (String) responseJSON.get("salt");
 			
-			SecretKey key = CryptoUtil.convertStringToKey(challenge, HMAC.ALGORITHM);
+			SecretKey hashKey = CryptoUtil.convertStringToKey(Constants.hashKey, HMAC.ALGORITHM);
 			String hashedPass = CryptoUtil.scrypt(password, salt, 16384, 8, 1);
-			String hashTag = HMAC.calculateIntegrity(hashedPass, key);
+			String doubleHashPass = HMAC.calculateIntegrity(hashedPass, hashKey);
+			
+			SecretKey passKey = CryptoUtil.convertStringToKey(doubleHashPass, HMAC.ALGORITHM);
+			String hashTag = HMAC.calculateIntegrity(challenge, passKey);
 			
 			json.put("challenge", challenge);
 			json.put("hashTag", hashTag);

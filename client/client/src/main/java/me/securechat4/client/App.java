@@ -1,8 +1,12 @@
 package me.securechat4.client;
 
 import java.awt.CardLayout;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.http.NameValuePair;
 import org.json.simple.JSONObject;
@@ -27,6 +31,7 @@ public class App {
 	private static Thread refreshMessagesThread;
 	private static HashMap<Integer, String> users = new HashMap<Integer, String>(); 
 	private static UserKeys userKeys;
+	private static SecretKey hmacKey;
 	
 	public static HashMap<String, Controller> getControllers() {
 		if (panel == null) 
@@ -84,6 +89,10 @@ public class App {
 		return userKeys;
 	}
 	
+	public static SecretKey getHMACKey() {
+		return hmacKey;
+	}
+	
 	public static void startRefreshThread() {
 		refreshMessagesThread = new Thread() {
 			public void run() {
@@ -106,6 +115,7 @@ public class App {
     public static void main(String[] args) {      
         //JSONObject jsonObject = Crypto.encrypt("Hi world!", "public.der");
         //System.out.println(Crypto.decrypt(jsonObject, "private.der"));
+    	hmacKey = new SecretKeySpec(Base64.getDecoder().decode(Constants.hashKey), 0, 32, "HMAC");
     	
     	panel = new MainPanel();
     	panel.init();
