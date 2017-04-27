@@ -31,9 +31,11 @@ public class MessagesController extends Controller implements ListSelectionListe
 				break;
 			case "Account":
 				changeDetailView("account");
+				((MessagesView) view).getList().clearSelection();
 				break;
 			case "New Message":
 				changeDetailView("newMessage");
+				((MessagesView) view).getList().clearSelection();
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");
@@ -46,9 +48,12 @@ public class MessagesController extends Controller implements ListSelectionListe
 		JList lsm = (JList) e.getSource();
 
 		if (!lsm.getValueIsAdjusting()) {
-			String selectedUser = ((MessagesView) getView()).getList().getSelectedValue().toString();
-			((MessageController) App.getControllers().get("message")).updateView(selectedUser);
-			changeDetailView("message");
+			JList list = ((MessagesView) getView()).getList();
+			if (list.getSelectedValue() != null) {
+				String selectedUser = list.getSelectedValue().toString();
+				((MessageController) App.getControllers().get("message")).updateView(selectedUser);
+				changeDetailView("message");
+			}
 		}
 	}
 	
