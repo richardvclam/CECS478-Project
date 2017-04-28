@@ -14,6 +14,7 @@ import me.securechat4.client.controllers.EmailController;
 import me.securechat4.client.controllers.LoginController;
 import me.securechat4.client.controllers.MessageController;
 import me.securechat4.client.controllers.MessagesController;
+import me.securechat4.client.controllers.NewMessageController;
 import me.securechat4.client.controllers.RegisterController;
 
 public class MainPanel extends JPanel {
@@ -36,6 +37,7 @@ public class MainPanel extends JPanel {
 		controllers.put("addContact", new AddContactController());
 		controllers.put("account", new AccountController());
 		controllers.put("email", new EmailController());
+		controllers.put("newMessage", new NewMessageController());
 	}
 	
 	public void addContent() {

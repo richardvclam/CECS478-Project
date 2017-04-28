@@ -1,5 +1,6 @@
 package me.securechat4.client.views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -52,8 +53,9 @@ public class EmailView extends View {
 		emailKey.setAlignmentX(Component.CENTER_ALIGNMENT);
 		emailKey.addActionListener(controller);
 		emailArea.add(emailKey);
-		
+
 		NavigationPane navigationPane = new NavigationPane("Email Public Key", emailArea);
+		
 		
 		add(navigationPane);
 	}

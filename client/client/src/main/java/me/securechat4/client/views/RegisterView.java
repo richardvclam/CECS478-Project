@@ -95,8 +95,8 @@ public class RegisterView extends View {
 		JButton registerButton = new JButton("Register");
 		registerButton.addActionListener(controller);
 		registerButton.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 350, 350, 50);
-		//registerButton.setBorderPainted(false);
-		//registerButton.setFocusPainted(false);
+		registerButton.setBorderPainted(false);
+		registerButton.setFocusPainted(false);
 		registerButton.setBackground(new Color(232, 232, 232));
 		/*
 		registerButton.getModel().addChangeListener(new ChangeListener() {

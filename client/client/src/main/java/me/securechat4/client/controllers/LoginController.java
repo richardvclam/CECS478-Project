@@ -132,7 +132,7 @@ public class LoginController extends Controller implements KeyListener, MouseLis
 	public void mouseEntered(MouseEvent e) {
 		System.out.println("firing?");
 		JButton button = ((JButton) e.getComponent());
-		button.setBackground(Color.red);
+		button.setBackground(new Color(207, 207, 207));
 	}
 
 	@Override

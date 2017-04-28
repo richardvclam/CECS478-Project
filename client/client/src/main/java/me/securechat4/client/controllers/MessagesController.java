@@ -34,7 +34,7 @@ public class MessagesController extends Controller implements ListSelectionListe
 				((MessagesView) view).getList().clearSelection();
 				break;
 			case "New Message":
-				changeDetailView("addContact");
+				changeDetailView("newMessage");
 				((MessagesView) view).getList().clearSelection();
 				break;
 			default:

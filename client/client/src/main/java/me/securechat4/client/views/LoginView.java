@@ -69,8 +69,8 @@ public class LoginView extends View {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(controller);
 		loginButton.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 190, 350, 60);
-		//loginButton.setBorderPainted(false);
-		//loginButton.setFocusPainted(false);
+		loginButton.setBorderPainted(false);
+		loginButton.setFocusPainted(false);
 		loginButton.setRolloverEnabled(true);
 		loginButton.setBackground(new Color(232, 232, 232));
 		loginButton.addMouseListener((MouseListener) controller); 
