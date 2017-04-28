@@ -48,6 +48,8 @@ import me.securechat4.client.views.templates.NavigationPane;
 
 public class AddContactView extends View {
 	
+	private JTextField usernameField;
+	private JTextArea keyField;
 	private NavigationPane navigationPane;
 	private JTextArea publicKeyTextArea;
 	//private JPanel rootMessagePanel;
@@ -74,7 +76,8 @@ public class AddContactView extends View {
 		addContactArea.add(usernameLabel);
 		
 		// Username Input Field
-		JTextField usernameField = new JTextField(20);
+		usernameField = new JTextField();
+		//JTextField usernameField = new JTextField(20);
 		usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
 		usernameField.setFont(font);
 		usernameField.setMaximumSize(new Dimension(300,25));
@@ -82,29 +85,39 @@ public class AddContactView extends View {
 		addContactArea.add(usernameField);
 		
 		// Label for Key Input
+		
 		JLabel keyLabel = new JLabel("Receiver's RSA Key");
 		keyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		keyLabel.setFont(font);
 		addContactArea.add(keyLabel);
 		
 		// Key Input Field
-		JTextArea keyField = new JTextArea(300,20);
+		keyField = new JTextArea(300,20);
 		keyField.setEditable(true);
 		keyField.setLineWrap(true);
 		keyField.setFont(font);
-		keyField.setMaximumSize(new Dimension(300,300));
-		keyField.setBorder(new CompoundBorder(BorderFactory.createLineBorder(new Color(237, 237, 237)),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		keyField.setMaximumSize(new Dimension(300,15));
+		keyField.setBorder(new CompoundBorder(BorderFactory.createLineBorder(new Color(64, 64, 64)),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		//keyField.addKeyListener((KeyListener) controller);
 		addContactArea.add(keyField);		
 		
 		
-		//Submit Button
-		
+		// Add User Button
+		JButton addUserButton = new JButton("Add User");
+		addUserButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addUserButton.addActionListener(controller);
+		addContactArea.add(addUserButton);
 		
 		NavigationPane navigationPane = new NavigationPane("Account", addContactArea);
 		
 		add(navigationPane);
 		
-		
 	}
+	public JTextField getUsernameField() {
+		return usernameField;
+	}
+	public JTextArea getKeyField() {
+		return keyField;
+	}
+
 }
