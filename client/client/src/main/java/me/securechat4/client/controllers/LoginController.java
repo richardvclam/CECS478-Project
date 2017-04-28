@@ -1,11 +1,15 @@
 package me.securechat4.client.controllers;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.security.Key;
 
+import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -14,7 +18,7 @@ import me.securechat4.client.models.LoginModel;
 import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.LoginView;
 
-public class LoginController extends Controller implements KeyListener {
+public class LoginController extends Controller implements KeyListener, MouseListener {
 	
 	public LoginController() {
 		this.model = new LoginModel(this);
@@ -104,6 +108,36 @@ public class LoginController extends Controller implements KeyListener {
 					break;
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		System.out.println("firing?");
+		JButton button = ((JButton) e.getComponent());
+		button.setBackground(Color.red);
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		((JButton) e.getComponent()).setBackground(new Color(232, 232, 232));
 	}
 
 }

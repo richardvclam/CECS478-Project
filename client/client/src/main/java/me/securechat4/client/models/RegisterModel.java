@@ -12,13 +12,14 @@ public class RegisterModel extends Model {
 		super(controller);
 	}
 	
-	public JSONObject register(String username, String password) {
+	public JSONObject register(String username, String password, String email) {
 		String hashedPass = CryptoUtil.scrypt(password);
 		System.out.println(hashedPass.length());
 		
 		JSONObject json = new JSONObject();
 		json.put("username", username);
 		json.put("password", hashedPass);
+		json.put("email", email);
 		
 		return HttpsApi.post("register", json, false);
 	}
