@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class LoginView extends View {
 		
 		components = new HashMap<String, Component>();
 		
-		int offset = 50;
+		int offset = 80;
 		
 		Font labelFont = new Font("Arial Bold", Font.PLAIN, 13);
 		Font fieldFont = new Font("Ariel", Font.PLAIN, 14);
@@ -68,9 +69,12 @@ public class LoginView extends View {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(controller);
 		loginButton.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 190, 350, 60);
-		loginButton.setBorderPainted(false);
-		loginButton.setFocusPainted(false);
+		//loginButton.setBorderPainted(false);
+		//loginButton.setFocusPainted(false);
+		loginButton.setRolloverEnabled(true);
 		loginButton.setBackground(new Color(232, 232, 232));
+		loginButton.addMouseListener((MouseListener) controller); 
+		/*
 		loginButton.getModel().addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				ButtonModel model = (ButtonModel) e.getSource();
@@ -81,6 +85,7 @@ public class LoginView extends View {
 				}
 			}
 		});
+		*/
 		components.put("loginButton", loginButton);
 		
 		JLabel registerLabel = new JLabel("Need an account?");

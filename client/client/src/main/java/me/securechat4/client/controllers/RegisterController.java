@@ -68,6 +68,7 @@ public class RegisterController extends Controller implements KeyListener {
 		System.out.println(passwordField.getPassword());
 		JPasswordField confirmPasswordField = (JPasswordField) view.getComponent("confirmPasswordField");
 		String confirmPassword = new String(confirmPasswordField.getPassword());
+		String email = ((JTextField) view.getComponent("emailField")).getText();
 		
 		boolean valid = true;
 		
@@ -96,7 +97,7 @@ public class RegisterController extends Controller implements KeyListener {
 		}
 		
 		if (valid) {				
-			JSONObject jsonResponse = ((RegisterModel) getModel()).register(username.getText(), password);
+			JSONObject jsonResponse = ((RegisterModel) getModel()).register(username.getText(), password, email);
 			
 			int response = Integer.parseInt((String) jsonResponse.get("response"));
 			System.out.println("Response: " + response);

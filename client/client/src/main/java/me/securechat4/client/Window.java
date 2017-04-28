@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class Window extends JFrame {
 	
 	public static final int WINDOW_WIDTH = 630;
-	public static final int WINDOW_HEIGHT = 430;
+	public static final int WINDOW_HEIGHT = 480;
 	private static final String WINDOW_TITLE = "SecureChat";
 	
 	public Window() {

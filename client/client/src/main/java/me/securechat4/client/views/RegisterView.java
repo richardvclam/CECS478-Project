@@ -79,12 +79,26 @@ public class RegisterView extends View {
 		confirmPasswordField.addKeyListener((KeyListener) controller);
 		components.put("confirmPasswordField", confirmPasswordField);
 		
+		JLabel emailLabel = new JLabel("Email");
+		emailLabel.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 260, 350, 20);
+		emailLabel.setForeground(Color.WHITE);
+		emailLabel.setFont(labelFont);
+		components.put("emailLabel", emailLabel);
+		
+		JTextField emailField = new JTextField(20);
+		emailField.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 285, 350, 40);
+		emailField.setFont(fieldFont);
+		emailField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		emailField.addKeyListener((KeyListener) controller);
+		components.put("emailField", emailField);
+		
 		JButton registerButton = new JButton("Register");
 		registerButton.addActionListener(controller);
-		registerButton.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 270, 350, 50);
-		registerButton.setBorderPainted(false);
-		registerButton.setFocusPainted(false);
+		registerButton.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 350, 350, 50);
+		//registerButton.setBorderPainted(false);
+		//registerButton.setFocusPainted(false);
 		registerButton.setBackground(new Color(232, 232, 232));
+		/*
 		registerButton.getModel().addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				ButtonModel model = (ButtonModel) e.getSource();
@@ -95,16 +109,17 @@ public class RegisterView extends View {
 				}
 			}
 		});
+		*/
 		components.put("registerButton", registerButton);
 		
 		JLabel loginLabel = new JLabel("Already have an account?");
-		loginLabel.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 330, 225, 20);
+		loginLabel.setBounds((Window.WINDOW_WIDTH - 350)/ 2, offset + 410, 225, 20);
 		loginLabel.setForeground(Color.WHITE);
 		components.put("loginLabel", loginLabel);
 		
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(controller);
-		loginButton.setBounds(((Window.WINDOW_WIDTH - 350)/ 2) + 275, offset + 330, 100, 20);
+		loginButton.setBounds(((Window.WINDOW_WIDTH - 350)/ 2) + 275, offset + 410, 100, 20);
 		loginButton.setForeground(Color.WHITE);
 		loginButton.setFocusPainted(false);
 		loginButton.setMargin(new Insets(0, 0, 0, 0));
