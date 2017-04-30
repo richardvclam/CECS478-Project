@@ -1,9 +1,9 @@
 package me.securechat4.client.crypto;
 
-import static com.lambdaworks.codec.Base64.encode;
-
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.Key;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -82,11 +82,18 @@ public class CryptoUtil {
             throw new IllegalStateException("JVM doesn't support SHA1PRNG or HMAC_SHA256?");
         }
     }
+    
+    /**
+	 * Converts a Key to a Base64 encoded string.
+	 * @param key the Key to encoded
+	 * @return a Base64 encoded Key string
+	 */
+	public static String encodeKeyToString(Key key) {
+		return Base64.getEncoder().encodeToString(key.getEncoded());
+	}
 	
-	public static SecretKey convertStringToKey(String encodedString, String algorithm) {
-		byte[] key = Base64.getDecoder().decode(encodedString);
-		
-		return new SecretKeySpec(key, algorithm);
+	public static SecretKey convertStringToKey(String encodedString, String algorithm) {		
+		return new SecretKeySpec(Base64.getDecoder().decode(encodedString), algorithm);
 	}
 
 	private static int log2(int n) {

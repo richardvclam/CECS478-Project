@@ -14,6 +14,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import me.securechat4.client.Util;
 
@@ -73,6 +74,10 @@ public class AES {
 	 */
 	public SecretKey getKey() {
 		return key;
+	}
+	
+	public static SecretKey loadKey(String aesKey) {
+		return new SecretKeySpec(Base64.getDecoder().decode(aesKey), ALGORITHM);
 	}
 	
 	/**

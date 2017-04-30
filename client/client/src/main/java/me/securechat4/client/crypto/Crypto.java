@@ -32,7 +32,7 @@ public class Crypto {
 		// Encrypt the message with AES
 		String encryptedMessage = aes.encrypt(message);
 		// Generate a random HMAC key
-		SecretKey hmacKey = HMAC.generateHMACKey();
+		SecretKey hmacKey = HMAC.generateKey();
 		// Calculate the integrity hash with HMAC key
 		String hash = HMAC.calculateIntegrity(encryptedMessage, hmacKey);
 		

@@ -1,49 +1,22 @@
 package me.securechat4.client.views;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map.Entry;
 
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonModel;
-import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import org.jdesktop.swingx.prompt.PromptSupport;
-import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
-import org.json.simple.JSONObject;
-
-import me.securechat4.client.App;
 import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
-import me.securechat4.client.models.MessageModel;
-import me.securechat4.client.models.MessagesModel;
+
 import me.securechat4.client.views.templates.NavigationPane;
 
 public class AddContactView extends View {

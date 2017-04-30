@@ -14,13 +14,20 @@ import me.securechat4.client.controllers.Controller;
 
 public class MessagesModel extends Model {
 
-	public DefaultListModel<String> usernames;
+	public DefaultListModel<String> conversations;
 	private HashMap<Integer, LinkedList<JSONObject>> allMessages;
 
 	public MessagesModel(Controller controller) {
 		super(controller);
 		
-		usernames = new DefaultListModel<>();
+		conversations = new DefaultListModel<>();
+	}
+	
+	public void addConversation(String username) {
+		// Add unique username to list model
+		if (!conversations.contains(username)) {
+			conversations.addElement(username);
+		}
 	}
 	
 	public HashMap<Integer, LinkedList<JSONObject>> getAllMessages() {
@@ -75,10 +82,7 @@ public class MessagesModel extends Model {
 				allMessages.put(id, messages);
 			}
 			
-			// Add unique username to list model
-			if (!usernames.contains(username)) {
-				usernames.addElement(username);
-			}
+			addConversation(username);
 		});
 	}
 

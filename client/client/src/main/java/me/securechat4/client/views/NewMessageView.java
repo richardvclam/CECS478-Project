@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import javax.swing.border.EmptyBorder;
@@ -21,6 +22,8 @@ public class NewMessageView extends View {
 	
 	public static final ImageIcon addIconNormal = new ImageIcon("img/add_normal.png");
 	public static final ImageIcon addIconPressed = new ImageIcon("img/add_pressed.png");
+	
+	private JList list;
 
 	public NewMessageView(Controller controller) {
 		super(controller);
@@ -60,6 +63,10 @@ public class NewMessageView extends View {
 		navigationPane.getHeader().add(select, BorderLayout.EAST);
 		
 		add(navigationPane);
+	}
+	
+	public JList getList() {
+		return list;
 	}
 
 }

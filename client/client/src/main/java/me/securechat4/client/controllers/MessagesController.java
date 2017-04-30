@@ -73,6 +73,10 @@ public class MessagesController extends Controller implements ListSelectionListe
 	public void changeDetailView(String panel) {
 		((MessagesView) view).changeDetailView(panel);
 	}
+	
+	public void addConversation(String username) {
+		((MessagesModel) model).addConversation(username);
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

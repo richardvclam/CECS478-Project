@@ -76,7 +76,7 @@ public class MessagesView extends View {
 		
 		MessagesModel model = (MessagesModel) getController().getModel();
 	
-		list = new JList(model.usernames);
+		list = new JList(model.conversations);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBorder(null);
 		list.addListSelectionListener((ListSelectionListener) getController());

@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -57,6 +59,7 @@ public class RSA {
 	 */
 	public RSA(String keyFileName, boolean isPrivate) {
 		this.keyFilePath = keyFileName;
+		/*
 		try {
 			if (isPrivate) {				
 					privateKey = loadPrivateKey(Files.readAllBytes(new File(keyFilePath).toPath()));				
@@ -66,13 +69,17 @@ public class RSA {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 	
 	/**
 	 * Loads a 2048-bit RSA private key file.
+	 * @param publicKey the Base64 encoded String of the key to load
 	 * @return 2048-bit RSA private key
 	 */
-	public static PrivateKey loadPrivateKey(byte[] keyBytes) {
+	public static PrivateKey loadPrivateKey(String publicKey) {
+		byte[] keyBytes = Base64.getDecoder().decode(publicKey);
+		
 		try {
 			PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
 			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -86,9 +93,12 @@ public class RSA {
 	
 	/**
 	 * Loads a 2048-bit RSA public key file.
+	 * @param privateKey the Base64 encoded String of the key to load
 	 * @return 2048-bit RSA public key
 	 */
-	public static PublicKey loadPublicKey(byte[] keyBytes) {
+	public static PublicKey loadPublicKey(String privateKey) {
+		byte[] keyBytes = Base64.getDecoder().decode(privateKey);
+		
 		try {
 			X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
 			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -114,6 +124,36 @@ public class RSA {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String sign(String plaintext, PrivateKey privateKey) {
+		Signature privateSignature;
+		try {
+			privateSignature = Signature.getInstance("SHA256withRSA");
+			privateSignature.initSign(privateKey);
+			privateSignature.update(plaintext.getBytes());
+			
+			return Base64.getEncoder().encodeToString(privateSignature.sign());
+		} catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static boolean verify(String plaintext, String signature, PublicKey publicKey) {
+		Signature publicSignature;
+		try {
+			publicSignature = Signature.getInstance("SHA256withRSA");
+			publicSignature.initVerify(publicKey);
+			publicSignature.update(plaintext.getBytes());
+			
+			return publicSignature.verify(Base64.getDecoder().decode(signature));
+		} catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	/**

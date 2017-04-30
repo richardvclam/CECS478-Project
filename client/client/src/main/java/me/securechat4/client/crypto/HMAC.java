@@ -7,6 +7,7 @@ import java.util.Base64;
 import javax.crypto.KeyGenerator;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * 
@@ -29,7 +30,7 @@ public class HMAC {
 	 * Returns a randomly generated 256-bit HMAC key.
 	 * @return randomly generated 256-bit HMAC key
 	 */
-	public static SecretKey generateHMACKey() {
+	public static SecretKey generateKey() {
 		KeyGenerator keygen = null;
 		try {
 			keygen = KeyGenerator.getInstance(ALGORITHM);
@@ -39,6 +40,10 @@ public class HMAC {
 		keygen.init(HMAC_KEY_BIT_SIZE);
 		
 		return keygen.generateKey();
+	}
+	
+	public static SecretKey loadKey(String hmacKey) {
+		return new SecretKeySpec(Base64.getDecoder().decode(hmacKey), ALGORITHM);
 	}
 	
 	/**

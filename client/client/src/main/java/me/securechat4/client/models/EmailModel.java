@@ -18,7 +18,7 @@ public class EmailModel extends Model {
 		//HttpsApi.get("user?username=" + username, null);
 		JSONObject json = new JSONObject();
 		json.put("recipient", username);
-		json.put("message", Base64.getEncoder().encodeToString(App.getUserKeys().getPublicKey().getEncoded()));
+		json.put("message", Base64.getEncoder().encodeToString(App.getUserKeys().getRSAPublicKey().getEncoded()));
 		
 		JSONObject responseJSON = HttpsApi.post("email", json, true);
 		

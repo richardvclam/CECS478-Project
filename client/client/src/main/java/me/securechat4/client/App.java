@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -30,7 +31,7 @@ public class App {
 	private static String username;
 	private static Thread refreshMessagesThread;
 	private static HashMap<Integer, String> users = new HashMap<Integer, String>(); 
-	private static UserKeys userKeys;
+	private static Keys userKeys;
 	private static SecretKey hmacKey;
 	
 	public static HashMap<String, Controller> getControllers() {
@@ -47,6 +48,16 @@ public class App {
 	
 	public static HashMap<Integer, String> getUsers() {
 		return users;
+	}
+	
+	public static int getIDFromUsername(String username) {
+		for (Entry<Integer, String> entry : users.entrySet()) {
+			if (entry.getValue().equals(username)) {
+				return entry.getKey();
+			}
+		}
+		
+		return -1;
 	}
 	
 	public static MainPanel getPanel() {
@@ -82,10 +93,10 @@ public class App {
 	}
 	
 	public static void initKeys() {
-		userKeys = new UserKeys(username);
+		userKeys = new Keys(username);
 	}
 	
-	public static UserKeys getUserKeys() {
+	public static Keys getUserKeys() {
 		return userKeys;
 	}
 	
@@ -102,7 +113,6 @@ public class App {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					System.out.println("is it refreshing");
 					((MessagesController) App.getController("messages")).getMessagesFromServer(true);
 					((MessageController) App.getController("message")).createMessagePanels();
 				}

@@ -5,9 +5,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JList;
 
 import me.securechat4.client.App;
 import me.securechat4.client.models.NewMessageModel;
+import me.securechat4.client.views.MessagesView;
 import me.securechat4.client.views.NewMessageView;
 
 public class NewMessageController extends Controller implements MouseListener {
@@ -26,7 +28,21 @@ public class NewMessageController extends Controller implements MouseListener {
 				((MessagesController) App.getController("messages")).changeDetailView("addContact");
 				break;
 			case "Select":
-				((MessagesController) App.getController("messages")).changeDetailView("empty");
+				// Get selected contact username from list
+				JList list = ((NewMessageView) getView()).getList();
+				if (list.getSelectedValue() != null) {
+					String selectedUser = list.getSelectedValue().toString();
+					// Check if user conversation already exists
+					((MessagesController) App.getController("messages")).addConversation(selectedUser);
+					((MessageController) App.getController("message")).updateView(selectedUser);
+					
+					((NewMessageModel) model).createConversation(selectedUser);
+				}
+				
+				
+				
+				
+				((MessagesController) App.getController("messages")).changeDetailView("message");
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");

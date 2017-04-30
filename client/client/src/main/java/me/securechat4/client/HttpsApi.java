@@ -42,7 +42,7 @@ public class HttpsApi {
 			HttpGet httpGet = new HttpGet(Constants.URL + route + "/" /*+ URLEncodedUtils.format(params, "utf-8")*/);
 			
 			httpGet.setHeader(HttpHeaders.AUTHORIZATION, App.getJWT());
-			System.out.println(App.getJWT());
+			//System.out.println(App.getJWT());
 			
 			CloseableHttpResponse response = client.execute(httpGet);
 			System.out.println("Status Code: " + response.getStatusLine().getStatusCode());
