@@ -24,7 +24,7 @@ public class MasterDetailView extends JSplitPane {
 		setContinuousLayout(true);
 		setEnabled(false);
 		
-		masterView.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(237, 237, 237)));
+		masterView.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(142, 142, 146)));
 	}
 	
 

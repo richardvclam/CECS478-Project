@@ -41,7 +41,7 @@ public class MessagesModel extends Model {
 	public void getMessagesFromServer(boolean update) {
 		String uri = update ? "message?update=true" : "message";
 		
-		JSONArray messagesArray = (JSONArray) HttpsApi.get(uri, null);
+		JSONArray messagesArray = (JSONArray) HttpsApi.get(uri);
 		
 		parseMessages(messagesArray);
 	}

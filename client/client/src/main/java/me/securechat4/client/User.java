@@ -12,6 +12,7 @@ import me.securechat4.client.crypto.RSA;
 
 public class User {
 	
+	private String username;
 	private byte[] sharedSecretKey;
 	private PublicKey rsaPublicKey;
 	private PublicKey dhPublicKey;
@@ -20,6 +21,14 @@ public class User {
 	private SecretKey hmacKey;
 	
 	public User() {
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public byte[] getSharedSecret() {

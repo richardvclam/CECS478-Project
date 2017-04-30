@@ -38,34 +38,13 @@ public class NewMessageController extends Controller implements MouseListener {
 					
 					((NewMessageModel) model).createConversation(selectedUser);
 				}
-				
-				
-				
-				
+
 				((MessagesController) App.getController("messages")).changeDetailView("message");
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");
 				break;
 		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -86,6 +65,24 @@ public class NewMessageController extends Controller implements MouseListener {
 				((JButton) e.getComponent()).setIcon(NewMessageView.addIconNormal);
 				break;
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

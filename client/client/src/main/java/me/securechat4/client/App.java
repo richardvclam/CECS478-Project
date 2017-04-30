@@ -3,19 +3,16 @@ package me.securechat4.client;
 import java.awt.CardLayout;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.http.NameValuePair;
-import org.json.simple.JSONObject;
-
 import me.securechat4.client.controllers.Controller;
 import me.securechat4.client.controllers.MessageController;
 import me.securechat4.client.controllers.MessagesController;
-import me.securechat4.client.models.MessagesModel;
+import me.securechat4.client.crypto.CryptoUtil;
+
 /**
  * 
  * @author Richard Lam
@@ -125,7 +122,7 @@ public class App {
     public static void main(String[] args) {      
         //JSONObject jsonObject = Crypto.encrypt("Hi world!", "public.der");
         //System.out.println(Crypto.decrypt(jsonObject, "private.der"));
-    	hmacKey = new SecretKeySpec(Base64.getDecoder().decode(Constants.hashKey), 0, 32, "HMAC");
+    	hmacKey = CryptoUtil.convertStringToKey(Constants.hashKey, "HMAC");
     	
     	panel = new MainPanel();
     	panel.init();

@@ -1,6 +1,5 @@
 package me.securechat4.client.controllers;
 
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -26,9 +25,6 @@ public class MessagesController extends Controller implements ListSelectionListe
 		String actionCommand = e.getActionCommand();
 		System.out.println("Action: " + (!actionCommand.isEmpty() ? actionCommand : "Undefined"));
 		switch (actionCommand) {
-			case "Add Contact":
-				changeDetailView("addContact");
-				break;
 			case "Account":
 				changeDetailView("account");
 				((MessagesView) view).getList().clearSelection();

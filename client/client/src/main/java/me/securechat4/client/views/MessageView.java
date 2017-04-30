@@ -5,10 +5,10 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -17,6 +17,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -32,17 +33,18 @@ import org.jdesktop.swingx.prompt.PromptSupport;
 import org.jdesktop.swingx.prompt.PromptSupport.FocusBehavior;
 import org.json.simple.JSONObject;
 
-import me.securechat4.client.App;
 import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
 import me.securechat4.client.models.MessageModel;
-import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.views.templates.NavigationPane;
 
 //
 //	View for the individual page (Right side of the screen)
 //
 public class MessageView extends View {
+	
+	public static final ImageIcon detailsIconNormal = new ImageIcon("img/details_normal.png");
+	public static final ImageIcon detailsIconPressed = new ImageIcon("img/details_pressed.png");
 	
 	private NavigationPane navigationPane;
 	private JPanel rootMessagePanel;
@@ -61,6 +63,7 @@ public class MessageView extends View {
 		rootMessagePanel.setLayout(new CardLayout());
 
 		messageTextArea = new JTextArea();
+		messageTextArea.setBackground(new Color(250, 250, 250));
 		messageTextArea.setLineWrap(true);
 		messageTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
 		messageTextArea.addKeyListener((KeyListener) controller);
@@ -69,7 +72,6 @@ public class MessageView extends View {
 		
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
 		actionMap.put("enter", new AbstractAction() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String message = messageTextArea.getText();
@@ -81,14 +83,26 @@ public class MessageView extends View {
 		});
 		
 		JPanel messageArea = new JPanel(new BorderLayout());
-		messageArea.setBorder(BorderFactory.createLineBorder(new Color(237, 237, 237), 1));
 		
+		messageArea.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(199, 199, 203)));
 		messageArea.add(messageTextArea, BorderLayout.CENTER);
 		
 		PromptSupport.setPrompt("Type a message...", messageTextArea);
 		PromptSupport.setFocusBehavior(FocusBehavior.HIDE_PROMPT, messageTextArea);
 
+		JButton account = new JButton(detailsIconNormal);
+		account.setActionCommand("Details");
+		account.setBorder(new EmptyBorder(5, 5, 5, 5));
+		account.setForeground(Color.BLACK);
+		account.setFocusPainted(false);
+		account.setBorderPainted(false);
+		account.setContentAreaFilled(false);
+		account.setOpaque(false);
+		account.addActionListener(controller);
+		account.addMouseListener((MouseListener) controller);
+		
 		navigationPane = new NavigationPane(" ", rootMessagePanel);
+		navigationPane.getHeader().add(account, BorderLayout.EAST);
 		navigationPane.add(messageArea, BorderLayout.SOUTH);
 		
 		add(navigationPane);

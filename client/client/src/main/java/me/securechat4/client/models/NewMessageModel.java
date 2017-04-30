@@ -47,7 +47,7 @@ public class NewMessageModel extends Model {
 	}
 	
 	public int pullDHFromServer(int userid) {
-		JSONObject jsonResponse = (JSONObject) HttpsApi.get("key?id=" + userid, null);
+		JSONObject jsonResponse = (JSONObject) HttpsApi.get("key?id=" + userid);
 		User user = App.getUserKeys().getUser(userid);
 		
 		int response = Integer.parseInt((String) jsonResponse.get("response"));

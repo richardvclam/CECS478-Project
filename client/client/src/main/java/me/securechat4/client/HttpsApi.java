@@ -1,6 +1,5 @@
 package me.securechat4.client;
 
-import java.util.List;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -10,7 +9,6 @@ import javax.net.ssl.SSLContext;
 
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.HttpHeaders;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -26,7 +24,7 @@ import org.json.simple.parser.ParseException;
 
 public class HttpsApi {
 	
-	public static Object get(String route, List<NameValuePair> params) {
+	public static Object get(String route) {
 		Object result = null;
 		
 		try {
@@ -39,7 +37,7 @@ public class HttpsApi {
 					.setSSLHostnameVerifier(new NoopHostnameVerifier())
 					.build();
 			
-			HttpGet httpGet = new HttpGet(Constants.URL + route + "/" /*+ URLEncodedUtils.format(params, "utf-8")*/);
+			HttpGet httpGet = new HttpGet(Constants.URL + route /*+ URLEncodedUtils.format(params, "utf-8")*/);
 			
 			httpGet.setHeader(HttpHeaders.AUTHORIZATION, App.getJWT());
 			//System.out.println(App.getJWT());

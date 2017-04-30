@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import me.securechat4.client.App;
 import me.securechat4.client.HttpsApi;
 import me.securechat4.client.controllers.Controller;
+import me.securechat4.client.crypto.CryptoUtil;
 
 public class EmailModel extends Model {
 
@@ -15,10 +16,9 @@ public class EmailModel extends Model {
 	}
 	
 	public int sendEmail(String username) {
-		//HttpsApi.get("user?username=" + username, null);
 		JSONObject json = new JSONObject();
 		json.put("recipient", username);
-		json.put("message", Base64.getEncoder().encodeToString(App.getUserKeys().getRSAPublicKey().getEncoded()));
+		json.put("message", CryptoUtil.encodeKeyToString(App.getUserKeys().getRSAPublicKey()));
 		
 		JSONObject responseJSON = HttpsApi.post("email", json, true);
 		

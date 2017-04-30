@@ -23,7 +23,6 @@ public class AddContactView extends View {
 	
 	private JTextField usernameField;
 	private JTextArea keyField;
-	private NavigationPane navigationPane;
 	private JTextArea publicKeyTextArea;
 	//private JPanel rootMessagePanel;
 	//private JTextArea messageTextArea;
@@ -36,11 +35,9 @@ public class AddContactView extends View {
 		setMinimumSize(new Dimension(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT));
 
 		Font font = new Font("Ariel", Font.BOLD, 14);
-		
 
 		JPanel addContactArea = new JPanel();
 		addContactArea.setLayout(new BoxLayout(addContactArea, BoxLayout.Y_AXIS));
-		
 		
 		// Label for Username Input
 		JLabel usernameLabel = new JLabel("Receiver's username");
@@ -52,7 +49,6 @@ public class AddContactView extends View {
 		usernameField = new JTextField();
 		//JTextField usernameField = new JTextField(20);
 		usernameField.setAlignmentX(Component.CENTER_ALIGNMENT);
-		usernameField.setFont(font);
 		usernameField.setMaximumSize(new Dimension(300,25));
 		//usernameField.addKeyListener((KeyListener) controller);
 		addContactArea.add(usernameField);
@@ -68,12 +64,9 @@ public class AddContactView extends View {
 		keyField = new JTextArea(300,20);
 		keyField.setEditable(true);
 		keyField.setLineWrap(true);
-		keyField.setFont(font);
 		keyField.setMaximumSize(new Dimension(300,15));
 		keyField.setBorder(new CompoundBorder(BorderFactory.createLineBorder(new Color(64, 64, 64)),BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		//keyField.addKeyListener((KeyListener) controller);
-		addContactArea.add(keyField);		
-		
+		addContactArea.add(keyField);
 		
 		// Add User Button
 		JButton addUserButton = new JButton("Add User");
@@ -81,7 +74,7 @@ public class AddContactView extends View {
 		addUserButton.addActionListener(controller);
 		addContactArea.add(addUserButton);
 		
-		NavigationPane navigationPane = new NavigationPane("Account", addContactArea);
+		NavigationPane navigationPane = new NavigationPane("Add Contact", addContactArea);
 		
 		add(navigationPane);
 		

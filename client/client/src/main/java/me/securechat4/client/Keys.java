@@ -122,6 +122,7 @@ public class Keys implements Serializable {
 				User user = new User();
 				
 				int id = Integer.parseInt((String) userJson.get("id"));
+				user.setUsername((String) userJson.get("username"));
 				user.loadRSAPublicKey((String) userJson.get("rsaPublicKey"));
 				user.loadDHPublicKey((String) userJson.get("dhPublicKey"));
 				user.loadDHPrivateKey((String) userJson.get("dhPrivateKey"));
@@ -151,9 +152,10 @@ public class Keys implements Serializable {
 			JSONObject userJson = new JSONObject();
 			
 			userJson.put("id", entry.getKey().toString());
+			userJson.put("username", user.getUsername());
 			
 			if (user.getRSAPublicKey() != null) {
-				userJson.put("rsaPublicKey", user.getRSAPublicKey());
+				userJson.put("rsaPublicKey", CryptoUtil.encodeKeyToString(user.getRSAPublicKey()));
 			}
 			
 			/*
@@ -162,11 +164,11 @@ public class Keys implements Serializable {
 			 * computed a shared secret key yet.
 			 */
 			if (user.getAESKey() != null && user.getHMACKey() != null) {
-				userJson.put("aesKey", user.getAESKey());
-				userJson.put("hmacKey", user.getHMACKey());
-			} else {
-				userJson.put("dhPrivateKey", user.getDHPrivateKey());
-				userJson.put("dhPublicKey", user.getDHPublicKey());
+				userJson.put("aesKey", CryptoUtil.encodeKeyToString(user.getAESKey()));
+				userJson.put("hmacKey", CryptoUtil.encodeKeyToString(user.getHMACKey()));
+			} else if (user.getDHPrivateKey() != null && user.getDHPublicKey() != null){
+				userJson.put("dhPrivateKey", CryptoUtil.encodeKeyToString(user.getDHPrivateKey()));
+				userJson.put("dhPublicKey", CryptoUtil.encodeKeyToString(user.getDHPublicKey()));
 			}
 
 			array.add(userJson);

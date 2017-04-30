@@ -3,8 +3,10 @@ package me.securechat4.client.controllers;
 import java.awt.event.ActionEvent;
 import java.security.PublicKey;
 
+import org.json.simple.JSONObject;
 
 import me.securechat4.client.App;
+import me.securechat4.client.HttpsApi;
 import me.securechat4.client.User;
 import me.securechat4.client.crypto.RSA;
 import me.securechat4.client.models.AddContactModel;
@@ -26,15 +28,27 @@ public class AddContactController extends Controller {
 			case "Add User":
 				String username = ((AddContactView) view).getUsernameField().getText();
 				String key = ((AddContactView) view).getKeyField().getText();
-				//TODO check if username is in database
-								
-				PublicKey publicKey = RSA.loadPublicKey(key);
-				
-				User user = new User();
-				user.setRSAPublicKey(publicKey);
-				
-				// TODO need to get proper username and id from database
-				App.getUserKeys().addUser(0, user);
+				if (!username.isEmpty()) {
+					JSONObject jsonResponse = (JSONObject) HttpsApi.get("user?username=" + username);
+					int response = Integer.parseInt((String) jsonResponse.get("response"));
+					
+					if (response == 0) {
+						int userid = (int)((long) jsonResponse.get("id"));
+						username = (String) jsonResponse.get("username");
+						
+						if (!key.isEmpty()) {
+							PublicKey publicKey = RSA.loadPublicKey(key);
+							
+							User user = new User();
+							user.setUsername(username);
+							user.setRSAPublicKey(publicKey);
+	
+							App.getUserKeys().addUser(userid, user);
+						}
+					} else {
+						System.out.println("User does not exist");
+					}
+				}
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");
