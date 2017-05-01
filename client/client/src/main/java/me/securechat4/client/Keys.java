@@ -188,4 +188,9 @@ public class Keys implements Serializable {
 		}
 	}
 
+	public HashMap<Integer, User> getUsers() {
+		// TODO Auto-generated method stub
+		return users;
+	}
+
 }

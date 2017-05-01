@@ -43,6 +43,7 @@ public class MessagesView extends View {
 		
 		Font labelFont = new Font("Ariel", Font.BOLD, 14);
 		
+		//Add Contact Icon/Button
 		JButton addContact = new JButton("Add Contact");
 		addContact.setBorder(new EmptyBorder(5, 5, 5, 5));
 		addContact.setForeground(Color.BLACK);
@@ -50,6 +51,7 @@ public class MessagesView extends View {
 		addContact.setFocusPainted(false);
 		addContact.addActionListener(controller);
 		
+		//Account Icon/Button
 		JButton account = new JButton(accountIconNormal);
 		account.setActionCommand("Account");
 		account.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,6 +64,7 @@ public class MessagesView extends View {
 		account.addActionListener(controller);
 		account.addMouseListener((MouseListener) controller);
 		
+		// New Message Icon/Button
 		JButton newMessage = new JButton(newMsgIconNormal);
 		newMessage.setActionCommand("New Message");
 		newMessage.setBorder(new EmptyBorder(5, 5, 5, 5));

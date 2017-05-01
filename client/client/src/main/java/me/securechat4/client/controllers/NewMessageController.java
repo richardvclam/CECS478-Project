@@ -3,12 +3,21 @@ package me.securechat4.client.controllers;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.LinkedList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 
+import org.json.simple.JSONObject;
+
 import me.securechat4.client.App;
+import me.securechat4.client.User;
+import me.securechat4.client.models.MessagesModel;
 import me.securechat4.client.models.NewMessageModel;
+import me.securechat4.client.views.AccountView;
+import me.securechat4.client.views.MessageView;
 import me.securechat4.client.views.MessagesView;
 import me.securechat4.client.views.NewMessageView;
 
@@ -47,6 +56,19 @@ public class NewMessageController extends Controller implements MouseListener {
 		}
 	}
 
+	
+	
+	public void createContactPanels() {
+		NewMessageModel model = ((NewMessageModel) App.getControllers().get("newMessage").getModel());
+		HashMap<Integer, User> allContact = model.getAllContact();
+		
+		//((NewMessageView) view).createMessagePanels(allContact);
+	}
+	
+	
+	
+	
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		String actionCommand = ((JButton) e.getSource()).getActionCommand();
@@ -83,6 +105,13 @@ public class NewMessageController extends Controller implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void init() {
+		((NewMessageModel) model).addAllContacts();
+		((NewMessageModel) model).addContact();
+		((NewMessageView) view).init();
+
 	}
 
 }

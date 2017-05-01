@@ -3,8 +3,11 @@ package me.securechat4.client.models;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.crypto.SecretKey;
+import javax.swing.DefaultListModel;
 
 import org.json.simple.JSONObject;
 
@@ -18,6 +21,10 @@ import me.securechat4.client.crypto.RSA;
 
 public class NewMessageModel extends Model {
 
+	public DefaultListModel<User> contact;
+	private HashMap<Integer, User> allContact;
+	
+	
 	public NewMessageModel(Controller controller) {
 		super(controller);
 	}
@@ -78,5 +85,26 @@ public class NewMessageModel extends Model {
 		
 		return response;
 	}
+	// add all the user's contact to allContact variable
+	public void addAllContacts() {
+		allContact = App.getUserKeys().getUsers();
+	}
+	
+	public HashMap<Integer, User> getAllContact() {
+		return allContact;
+	}
+
+	public void addContact() {
+		
+		//get all users from allContact
+		int i = 0;
+		for (User user : allContact.values()) {
+		    contact.add(i, user);
+		    i++;
+		}
+	
+		
+	}
+	
 
 }
