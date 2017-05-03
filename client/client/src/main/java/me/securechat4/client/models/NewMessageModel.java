@@ -18,15 +18,18 @@ import me.securechat4.client.controllers.Controller;
 import me.securechat4.client.crypto.CryptoUtil;
 import me.securechat4.client.crypto.ECDHE;
 import me.securechat4.client.crypto.RSA;
+import me.securechat4.client.views.MessagesView;
 
 public class NewMessageModel extends Model {
 
 	public DefaultListModel<User> contact;
-	private HashMap<Integer, User> allContact;
+	public static DefaultListModel<String> contactList;
 	
 	
 	public NewMessageModel(Controller controller) {
 		super(controller);
+		
+		contactList = new DefaultListModel<>();
 	}
 	
 	public int createConversation(String username) {
@@ -85,25 +88,35 @@ public class NewMessageModel extends Model {
 		
 		return response;
 	}
-	// add all the user's contact to allContact variable
-	public void addAllContacts() {
-		allContact = App.getUserKeys().getUsers();
+	
+	//make it separate
+	public void getUser() {
+		
 	}
 	
-	public HashMap<Integer, User> getAllContact() {
-		return allContact;
-	}
-
-	public void addContact() {
+	
+	
+	//Add user (in strings) to the contact list if s/he does not exist already
+	public void addContact(String username) {
 		
-		//get all users from allContact
-		int i = 0;
-		for (User user : allContact.values()) {
-		    contact.add(i, user);
-		    i++;
+		//in Hashmap <int, User> format
+		HashMap<Integer, User> userList;
+		userList = 	App.getUserKeys().getUsers();
+		
+		//Parse username from Hashmap
+		for (User user : userList.values()) {
+			if (!contactList.contains(username)) {
+				contactList.addElement(username);
+			}
+		
 		}
 	
-		
+
+	}
+
+	public HashMap<Integer, User> getAllContact() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.json.simple.JSONObject;
 
@@ -21,7 +23,7 @@ import me.securechat4.client.views.MessageView;
 import me.securechat4.client.views.MessagesView;
 import me.securechat4.client.views.NewMessageView;
 
-public class NewMessageController extends Controller implements MouseListener {
+public class NewMessageController extends Controller implements ListSelectionListener, MouseListener {
 	
 	public NewMessageController() {
 		this.model = new NewMessageModel(this);
@@ -107,11 +109,19 @@ public class NewMessageController extends Controller implements MouseListener {
 		
 	}
 
-	public void init() {
-		((NewMessageModel) model).addAllContacts();
-		((NewMessageModel) model).addContact();
-		((NewMessageView) view).init();
+	public void init()
+	{
+		App.getUserKeys().writeJSONFile();
+		//App.getUserKeys().parseOutUsername();
+		
+		((NewMessageView) view).updateList();
+		
+	}
 
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

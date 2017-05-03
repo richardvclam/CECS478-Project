@@ -32,6 +32,7 @@ public class MessagesController extends Controller implements ListSelectionListe
 			case "New Message":
 				changeDetailView("newMessage");
 				((MessagesView) view).getList().clearSelection();
+				App.getUserKeys().parseOutUsername();
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");

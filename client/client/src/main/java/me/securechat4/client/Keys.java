@@ -24,6 +24,7 @@ import org.json.simple.parser.ParseException;
 
 import me.securechat4.client.crypto.CryptoUtil;
 import me.securechat4.client.crypto.RSA;
+import me.securechat4.client.models.NewMessageModel;
 
 public class Keys implements Serializable {
 	
@@ -130,11 +131,16 @@ public class Keys implements Serializable {
 				user.loadHMACKey((String) userJson.get("hmacKey"));
 				
 				users.put(id, user);
+				
+//				//add username to the contact list in New message 
+//				NewMessageModel.contactList.addElement((String) userJson.get("username"));
+//				System.out.println("Hello");
+//				System.out.println((String) userJson.get("username"));
 			});
 		}
 	}
 	
-	private void writeJSONFile() {
+	public void writeJSONFile() {
 		JSONObject json = new JSONObject();
 		
 		if (rsaPublicKey != null) {
@@ -191,6 +197,42 @@ public class Keys implements Serializable {
 	public HashMap<Integer, User> getUsers() {
 		// TODO Auto-generated method stub
 		return users;
+	}
+	
+	public void parseOutUsername() {
+		String jsonStr = "";
+		try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {
+			jsonStr = in.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		JSONParser parser = new JSONParser();
+		JSONObject json = null;
+		try {
+			json = (JSONObject) parser.parse(jsonStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		JSONArray keys = (JSONArray) json.get("keys");
+		System.out.println("Keys:" + keys);
+		if (keys != null) {
+			keys.forEach((object) -> {
+				JSONObject userJson = (JSONObject) object;
+				NewMessageModel.contactList.addElement((String) userJson.get("username"));
+			});
+		}
+		
+		
+		
+		
+//		NewMessageModel.contactList.addElement("mark");
+//		NewMessageModel.contactList.addElement("richard");
+//		NewMessageModel.contactList.addElement("Jack");
+//		
+//		System.out.println(NewMessageModel.contactList);
+
 	}
 
 }

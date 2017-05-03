@@ -2,14 +2,17 @@ package me.securechat4.client.views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,6 +39,7 @@ public class NewMessageView extends View {
 
 	public NewMessageView(Controller controller) {
 		super(controller);
+		
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.WHITE);
@@ -67,15 +71,15 @@ public class NewMessageView extends View {
 		select.setFocusPainted(false);
 		select.addActionListener(controller);
 		
+	
+//		// Label 
+//		JPanel contactListArea = new JPanel();
+//		contactListArea.setLayout(new BoxLayout(contactListArea, BoxLayout.Y_AXIS));
+//		
+//		JLabel contactListLabel = new JLabel("Contact List");
+//		contactListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+//		contactListArea.add(contactListArea);
 
-		
-
-		
-		
-		
-		
-
-		
 		
 //		NavigationPane navigationView = new NavigationPane("Messages", listScroller);
 //		navigationView.setMinimumSize(new Dimension(300, getHeight()));
@@ -84,7 +88,18 @@ public class NewMessageView extends View {
 //		navigationView.getHeader().add(newMessage, BorderLayout.EAST);
 		
 		
-		//new
+		NewMessageModel model = (NewMessageModel) getController().getModel();
+		
+		list = new JList(model.contactList);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setBorder(null);
+		list.addListSelectionListener((ListSelectionListener) getController());
+		JScrollPane listScroller = new JScrollPane(list);
+		listScroller.setBorder(null);
+		
+	
+		
+		//new 
 		NavigationPane navigationPane = new NavigationPane("New Message", listScroller);
 		navigationPane.setMinimumSize(new Dimension(300, getHeight()));
 		navigationPane.getHeader().add(addContact, BorderLayout.WEST);
@@ -97,16 +112,10 @@ public class NewMessageView extends View {
 		return list;
 	}
 
-	public void init() {
-//		NewMessageModel model = (NewMessageModel) getController().getModel();
-//		list = new JList(model.contact);
-//		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		list.setBorder(null);
-//		list.addListSelectionListener((ListSelectionListener) getController());
-//		JScrollPane listScroller = new JScrollPane(list);
-//		listScroller.setBorder(null);
-		
-		
+	public void updateList() {
+		list.revalidate();
+		list.repaint();
 	}
 
+	
 }
