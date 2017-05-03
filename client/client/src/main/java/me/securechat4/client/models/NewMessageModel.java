@@ -88,31 +88,6 @@ public class NewMessageModel extends Model {
 		
 		return response;
 	}
-	
-	//make it separate
-	public void getUser() {
-		
-	}
-	
-	
-	
-	//Add user (in strings) to the contact list if s/he does not exist already
-	public void addContact(String username) {
-		
-		//in Hashmap <int, User> format
-		HashMap<Integer, User> userList;
-		userList = 	App.getUserKeys().getUsers();
-		
-		//Parse username from Hashmap
-		for (User user : userList.values()) {
-			if (!contactList.contains(username)) {
-				contactList.addElement(username);
-			}
-		
-		}
-	
-
-	}
 
 	public HashMap<Integer, User> getAllContact() {
 		// TODO Auto-generated method stub

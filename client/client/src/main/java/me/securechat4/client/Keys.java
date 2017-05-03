@@ -140,6 +140,7 @@ public class Keys implements Serializable {
 		}
 	}
 	
+	//Create a JSON file which stores the current user's key infos, and contact lists
 	public void writeJSONFile() {
 		JSONObject json = new JSONObject();
 		
@@ -199,6 +200,9 @@ public class Keys implements Serializable {
 		return users;
 	}
 	
+	
+	
+	//Parase out the username from the JSON file to make contact List
 	public void parseOutUsername() {
 		String jsonStr = "";
 		try (BufferedReader in = new BufferedReader(new FileReader(filePath))) {

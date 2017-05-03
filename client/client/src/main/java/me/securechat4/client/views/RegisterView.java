@@ -23,9 +23,9 @@ import me.securechat4.client.Window;
 import me.securechat4.client.controllers.Controller;
 
 
-//
-//	View for the Register Page
-//
+/*
+ * 	View page for the Register page.
+ */
 public class RegisterView extends View {
 	
 	public RegisterView(Controller controller) {

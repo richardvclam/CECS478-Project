@@ -37,9 +37,12 @@ public class NewMessageView extends View {
 	private HashMap<Integer, User> user;
 	private JScrollPane listScroller;
 
+	/*
+	 * 	View page for the New Message portion.
+	 */
+	
 	public NewMessageView(Controller controller) {
 		super(controller);
-		
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.WHITE);
@@ -70,23 +73,7 @@ public class NewMessageView extends View {
 		select.setContentAreaFilled(false);
 		select.setFocusPainted(false);
 		select.addActionListener(controller);
-		
-	
-//		// Label 
-//		JPanel contactListArea = new JPanel();
-//		contactListArea.setLayout(new BoxLayout(contactListArea, BoxLayout.Y_AXIS));
-//		
-//		JLabel contactListLabel = new JLabel("Contact List");
-//		contactListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-//		contactListArea.add(contactListArea);
 
-		
-//		NavigationPane navigationView = new NavigationPane("Messages", listScroller);
-//		navigationView.setMinimumSize(new Dimension(300, getHeight()));
-//		//navigationView.getHeader().add(addContact, BorderLayout.WEST, 0);
-//		navigationView.getHeader().add(account, BorderLayout.WEST);
-//		navigationView.getHeader().add(newMessage, BorderLayout.EAST);
-		
 		
 		NewMessageModel model = (NewMessageModel) getController().getModel();
 		
@@ -96,10 +83,7 @@ public class NewMessageView extends View {
 		list.addListSelectionListener((ListSelectionListener) getController());
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setBorder(null);
-		
-	
-		
-		//new 
+
 		NavigationPane navigationPane = new NavigationPane("New Message", listScroller);
 		navigationPane.setMinimumSize(new Dimension(300, getHeight()));
 		navigationPane.getHeader().add(addContact, BorderLayout.WEST);

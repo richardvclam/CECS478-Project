@@ -112,8 +112,6 @@ public class NewMessageController extends Controller implements ListSelectionLis
 	public void init()
 	{
 		App.getUserKeys().writeJSONFile();
-		//App.getUserKeys().parseOutUsername();
-		
 		((NewMessageView) view).updateList();
 		
 	}
