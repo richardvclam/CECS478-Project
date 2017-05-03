@@ -83,7 +83,8 @@ public class NewMessageView extends View {
 		list.addListSelectionListener((ListSelectionListener) getController());
 		JScrollPane listScroller = new JScrollPane(list);
 		listScroller.setBorder(null);
-
+	
+		
 		NavigationPane navigationPane = new NavigationPane("New Message", listScroller);
 		navigationPane.setMinimumSize(new Dimension(300, getHeight()));
 		navigationPane.getHeader().add(addContact, BorderLayout.WEST);

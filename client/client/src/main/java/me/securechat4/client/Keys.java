@@ -224,6 +224,7 @@ public class Keys implements Serializable {
 		if (keys != null) {
 			keys.forEach((object) -> {
 				JSONObject userJson = (JSONObject) object;
+				if (!NewMessageModel.contactList.contains((String) userJson.get("username")))
 				NewMessageModel.contactList.addElement((String) userJson.get("username"));
 			});
 		}
