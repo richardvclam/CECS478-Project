@@ -48,7 +48,7 @@ public class NewMessageController extends Controller implements ListSelectionLis
 					((MessageController) App.getController("message")).updateView(selectedUser);
 					((NewMessageModel) model).createConversation(selectedUser);
 					((MessageController) App.getController("message")).createMessagePanel(App.getIDFromUsername(selectedUser));
-					((MessageController) App.getControllers().get("message")).updateView(selectedUser);
+					((MessageController) App.getController("message")).updateView(selectedUser);
 					((MessagesController) App.getController("messages")).changeDetailView("message");
 				}
 				break;
@@ -57,19 +57,6 @@ public class NewMessageController extends Controller implements ListSelectionLis
 				break;
 		}
 	}
-
-	
-	
-	public void createContactPanels() {
-		NewMessageModel model = ((NewMessageModel) App.getControllers().get("newMessage").getModel());
-		HashMap<Integer, User> allContact = model.getAllContact();
-		
-		//((NewMessageView) view).createMessagePanels(allContact);
-	}
-	
-	
-	
-	
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -109,16 +96,9 @@ public class NewMessageController extends Controller implements ListSelectionLis
 		
 	}
 
-	public void init()
-	{
-		App.getUserKeys().writeJSONFile();
-		((NewMessageView) view).updateList();
-		
-		
-		//App.setUserlist(App.getUserKeys().parseOutUsernameAndID());
-		
-		
-		
+	public void init() {
+		App.getKeys().writeJSONFile();
+		((NewMessageView) view).updateList();	
 	}
 
 	@Override

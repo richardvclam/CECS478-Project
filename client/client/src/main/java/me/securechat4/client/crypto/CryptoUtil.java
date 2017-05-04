@@ -15,6 +15,11 @@ import com.lambdaworks.crypto.SCryptUtil;
 
 public class CryptoUtil {
 	
+	/**
+	 * Hash the plaintext password and generate an output in the format described.
+	 * @param password - password to hash
+	 * @return hashed password
+	 */
 	public static String scrypt(String password) {
 		return scrypt(password, 16384, 8, 1);
 	}
@@ -92,6 +97,12 @@ public class CryptoUtil {
 		return Base64.getEncoder().encodeToString(key.getEncoded());
 	}
 	
+	/**
+	 * Converts a Base64 encoded string to a SecretKey
+	 * @param encodedString the Base64 encoded key string
+	 * @param algorithm is the algorithm the key will be used for
+	 * @return a SecretKey for a specific algorithm
+	 */
 	public static SecretKey convertStringToKey(String encodedString, String algorithm) {		
 		return new SecretKeySpec(Base64.getDecoder().decode(encodedString), algorithm);
 	}

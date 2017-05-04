@@ -26,8 +26,12 @@ public class MessagesModel extends Model {
 		conversations = new DefaultListModel<>();
 	}
 	
+	/** 
+	 * Add unique username to list model.
+	 * @param username is the username to add to the list model
+	 */
 	public void addConversation(String username) {
-		// Add unique username to list model
+		
 		if (!conversations.contains(username)) {
 			conversations.addElement(username);
 		}
@@ -71,16 +75,9 @@ public class MessagesModel extends Model {
 				username = (String) messageJson.get("receiver"); 
 			}
 			
-			/*
-			// Index unique user id to username
-			if (!App.getUsers().containsKey(id)) {
-				App.getUsers().put(id, username);
-			}
-			*/
-			
 			// Decrypts incoming messages 
 			// Replaces encoded encrypted json with decrypted message
-			User user = App.getUserKeys().getUser(id);
+			User user = App.getKeys().getUser(id);
 			JSONParser parser = new JSONParser();
 			try {
 				JSONObject encryptedMessageJSON = (JSONObject) parser.parse((String) messageJson.get("data"));

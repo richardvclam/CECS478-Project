@@ -97,6 +97,12 @@ public class ECDHE {
 		return null;
 	}
 	
+	/**
+	 * Derives a key from the shared key using the included salt.
+	 * @param sharedKey is the shared key to derive from
+	 * @param salt is the salt to append to the key
+	 * @return a newly derived SecretKey
+	 */
 	public static SecretKey deriveKey(byte[] sharedKey, String salt) {
 		KeySpec spec = new PBEKeySpec(new String(sharedKey).toCharArray(), new String(salt).getBytes(), 100, 256);
 		try {

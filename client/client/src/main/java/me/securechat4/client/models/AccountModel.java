@@ -8,7 +8,4 @@ public class AccountModel extends Model {
 		super(controller);
 	}
 
-	public int sendEmail() {
-		return 0;
-	}
 }

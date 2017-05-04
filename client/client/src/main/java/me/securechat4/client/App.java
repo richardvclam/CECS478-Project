@@ -1,12 +1,10 @@
 package me.securechat4.client;
 
 import java.awt.CardLayout;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 import me.securechat4.client.controllers.Controller;
 import me.securechat4.client.controllers.MessageController;
@@ -28,84 +26,124 @@ public class App {
 	private static String username;
 	private static Thread refreshMessagesThread;
 	private static HashMap<Integer, String> users = new HashMap<Integer, String>(); 
-	private static Keys userKeys;
-	private static SecretKey hmacKey;
+	private static Keys keys;
 	
-	public static HashMap<String, Controller> getControllers() {
-		if (panel == null) 
-			System.out.println("panel is null");
-		if (panel.getControllers() == null) 
-			System.err.println("controller is null");
-		return panel.getControllers();
-	}
-	
+	/**
+	 * Returns a specified controller.
+	 * @param controller is the name of the controller to return
+	 * @return a Controller
+	 */
 	public static Controller getController(String controller) {
 		return panel.getController(controller);
 	}
 	
+	/**
+	 * Returns a set of usernames.
+	 * @return a set of usersnames
+	 */
 	public static HashMap<Integer, String> getUsers() {
 		return users;
 	}
 	
-	public static  void setUserlist(HashMap<Integer, String> list) {
-		users = list;
-	}
-	
+	/**
+	 * Returns a user id from the username.
+	 * @param username is the username to search for
+	 * @return the user id
+	 */
 	public static int getIDFromUsername(String username) {
-		System.out.println("User List: " + users);
+		// Searches through the map for the username
 		for (Entry<Integer, String> entry : users.entrySet()) {	
 			if (entry.getValue().equals(username)) {
 				return entry.getKey();
 			}
 		}
-		
+		// Return -1 if cannot be found.
 		return -1;
 	}
 	
+	/**
+	 * Returns the main panel.
+	 * @return the main panel.
+	 */
 	public static MainPanel getPanel() {
 		return panel;
 	}
 	
+	/**
+	 * Returns the current client's user ID.
+	 * @return the user ID
+	 */
 	public static int getUserID() {
 		return userID;
 	}
 	
+	/**
+	 * Sets the current client's user ID.
+	 * @param userID the user ID to set
+	 */
 	public static void setUserID(int userID) {
 		App.userID = userID;
 	}
 	
+	/**
+	 * Returns the current client's username.
+	 * @return the username
+	 */
 	public static String getUsername() {
 		return username;
 	}
 	
+	/**
+	 * Sets the current client's username.
+	 * @param username the username to set
+	 */
 	public static void setUsername(String username) {
 		App.username = username;
 	}
 	
+	/**
+	 * Returns the JSON web token.
+	 * @return the JSON web token
+	 */
 	public static String getJWT() {
 		return App.jwt;
 	}
 	
+	/**
+	 * Sets the JSON web token.
+	 * @param jwt the JSON web token to set
+	 */
 	public static void setJWT(String jwt) {
 		App.jwt = jwt;
 	}
 	
+	/**
+	 * Returns the window.
+	 * @return the window
+	 */
 	public static Window getWindow() {
 		return window;
 	}
 	
+	/**
+	 * Initializes the keys.
+	 */
 	public static void initKeys() {
-		userKeys = new Keys(username);
+		keys = new Keys(username);
 	}
 	
-	public static Keys getUserKeys() {
-		return userKeys;
+	/**
+	 * Returns the set of keys.
+	 * @return the set of keys
+	 */
+	public static Keys getKeys() {
+		return keys;
 	}
 	
-	public static SecretKey getHMACKey() {
-		return hmacKey;
-	}
-	
+	/**
+	 * Starts the refresh thread used to request the server for new messages. It sends
+	 * a request to the server every 5 seconds.
+	 */
 	public static void startRefreshThread() {
 		refreshMessagesThread = new Thread() {
 			public void run() {
@@ -125,10 +163,6 @@ public class App {
 	}
 	
     public static void main(String[] args) {      
-        //JSONObject jsonObject = Crypto.encrypt("Hi world!", "public.der");
-        //System.out.println(Crypto.decrypt(jsonObject, "private.der"));
-    	hmacKey = CryptoUtil.convertStringToKey(Constants.hashKey, "HMAC");
-    	
     	panel = new MainPanel();
     	panel.init();
     	panel.addContent();
@@ -139,7 +173,7 @@ public class App {
     	// Always show login first!
     	CardLayout cardLayout = (CardLayout) App.panel.getLayout();
 		cardLayout.show(App.panel, "login");
-    	//window.pack();
+		
     	window.setVisible(true);
     }
     

@@ -17,13 +17,17 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class HttpsApi {
 	
+	/**
+	 * HTTP GET request from the server. Returns a JSON object from the server.
+	 * @param route is the route to request the server from
+	 * @return a JSON object
+	 */
 	public static Object get(String route) {
 		Object result = null;
 		
@@ -37,7 +41,7 @@ public class HttpsApi {
 					.setSSLHostnameVerifier(new NoopHostnameVerifier())
 					.build();
 			
-			HttpGet httpGet = new HttpGet(Constants.URL + route /*+ URLEncodedUtils.format(params, "utf-8")*/);
+			HttpGet httpGet = new HttpGet(Constants.URL + route);
 			
 			httpGet.setHeader(HttpHeaders.AUTHORIZATION, App.getJWT());
 			//System.out.println(App.getJWT());
@@ -61,6 +65,13 @@ public class HttpsApi {
 		return result;
 	}
 	
+	/**
+	 * HTTP POST request to the server. Returns a JSON object from the server.
+	 * @param route the route to post the request to
+	 * @param json the JSON object with the data parameters to post to
+	 * @param authenticate whether to send the JWT as a header for authentication by the server
+	 * @return a JSON object response from server
+	 */
 	public static JSONObject post(String route, JSONObject json, boolean authenticate) {
 		JSONObject result = null;
 		

@@ -42,6 +42,11 @@ public class HMAC {
 		return keygen.generateKey();
 	}
 	
+	/**
+	 * Loads a Base64 encoded HMAC key string into a SecretKey.
+	 * @param hmacKey is the Base64 encoded HMAC key string
+	 * @return a HMAC SecretKey
+	 */
 	public static SecretKey loadKey(String hmacKey) {
 		return new SecretKeySpec(Base64.getDecoder().decode(hmacKey), ALGORITHM);
 	}

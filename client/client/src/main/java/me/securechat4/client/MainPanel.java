@@ -7,16 +7,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import me.securechat4.client.controllers.AccountController;
-import me.securechat4.client.controllers.AddContactController;
-import me.securechat4.client.controllers.Controller;
-import me.securechat4.client.controllers.EmailController;
-import me.securechat4.client.controllers.LoginController;
-import me.securechat4.client.controllers.MessageController;
-import me.securechat4.client.controllers.MessagesController;
-import me.securechat4.client.controllers.NewMessageController;
-import me.securechat4.client.controllers.RegisterController;
-import me.securechat4.client.controllers.UserDetailsController;
+import me.securechat4.client.controllers.*;
 
 public class MainPanel extends JPanel {
 	
@@ -42,6 +33,9 @@ public class MainPanel extends JPanel {
 		controllers.put("details", new UserDetailsController());
 	}
 	
+	/**
+	 * Adds each of the controllers to the main panel.
+	 */
 	public void addContent() {
 		for (Map.Entry<String, Controller> e : controllers.entrySet()) {
 			if (e.getValue().isAddEnabled()) {

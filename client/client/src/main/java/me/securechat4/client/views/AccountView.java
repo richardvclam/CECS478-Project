@@ -86,8 +86,8 @@ public class AccountView extends View {
 	}
 	
 	public void updatePublicKey() {
-		if (App.getUserKeys().getRSAPublicKey() != null) {
-			publicKeyTextArea.setText(Base64.getEncoder().encodeToString(App.getUserKeys().getRSAPublicKey().getEncoded()));
+		if (App.getKeys().getRSAPublicKey() != null) {
+			publicKeyTextArea.setText(Base64.getEncoder().encodeToString(App.getKeys().getRSAPublicKey().getEncoded()));
 		}
 	}
 

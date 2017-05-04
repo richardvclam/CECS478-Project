@@ -43,7 +43,7 @@ public class AddContactController extends Controller {
 							user.setUsername(username);
 							user.setRSAPublicKey(publicKey);			
 							
-							App.getUserKeys().addUser(userid, user);
+							App.getKeys().addUser(userid, user);
 							App.getUsers().put(userid, username);
 							
 							((MessagesController) App.getController("messages")).changeDetailView("newMessage");

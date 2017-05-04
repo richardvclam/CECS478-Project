@@ -49,7 +49,7 @@ public class MessageController extends Controller implements KeyListener, MouseL
 	}
 	
 	public void createMessagePanels() {
-		MessagesModel model = ((MessagesModel) App.getControllers().get("messages").getModel());
+		MessagesModel model = ((MessagesModel) App.getController("messages").getModel());
 		HashMap<Integer, LinkedList<JSONObject>> allmessages = model.getAllMessages();
 		
 		((MessageView) view).createMessagePanels(allmessages);

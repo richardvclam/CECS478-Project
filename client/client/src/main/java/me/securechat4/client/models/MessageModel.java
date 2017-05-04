@@ -27,9 +27,13 @@ public class MessageModel extends Model {
 		currentID = userID;
 	}
 	
+	/**
+	 * Send an encrypted message to the server.
+	 * @param message is the plaintext message to encrypt and send
+	 */
 	public void sendMessage(String message) {
 		if (currentID != -1) {
-			User user = App.getUserKeys().getUser(currentID);
+			User user = App.getKeys().getUser(currentID);
 			if (user.getAESKey() != null && user.getHMACKey() != null) {
 				JSONObject encryptedData = Crypto.encrypt(message, user.getAESKey(), user.getHMACKey());
 				

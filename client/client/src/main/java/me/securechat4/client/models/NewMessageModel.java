@@ -43,14 +43,14 @@ public class NewMessageModel extends Model {
 		JSONObject jsonOut = new JSONObject();
 		jsonOut.put("id", id);
 		jsonOut.put("key", ourEncodedKey);
-		jsonOut.put("signature", RSA.sign(ourEncodedKey, App.getUserKeys().getRSAPrivateKey()));
+		jsonOut.put("signature", RSA.sign(ourEncodedKey, App.getKeys().getRSAPrivateKey()));
 		
 		// Add keys to respected user
-		User user = App.getUserKeys().getUser(id);
+		User user = App.getKeys().getUser(id);
 		user.setDHPrivateKey(ourPrivateKey);
 		user.setDHPublicKey(ourPublicKey);
 		
-		App.getUserKeys().writeJSONFile();
+		App.getKeys().writeJSONFile();
 		
 		HttpsApi.post("key", jsonOut, true);
 		
@@ -60,7 +60,7 @@ public class NewMessageModel extends Model {
 	
 	public int pullDHFromServer(int userid) {
 		JSONObject jsonResponse = (JSONObject) HttpsApi.get("key?id=" + userid);
-		User user = App.getUserKeys().getUser(userid);
+		User user = App.getKeys().getUser(userid);
 		
 		int response = Integer.parseInt((String) jsonResponse.get("response"));
 		
@@ -82,7 +82,7 @@ public class NewMessageModel extends Model {
 				user.setAESKey(aesKey);
 				user.setHMACKey(hmacKey);
 				
-				App.getUserKeys().writeJSONFile();
+				App.getKeys().writeJSONFile();
 			} else {
 				System.out.println("Error trying to verify key signature.");
 			}

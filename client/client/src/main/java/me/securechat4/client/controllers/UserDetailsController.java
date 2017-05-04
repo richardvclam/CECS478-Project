@@ -41,7 +41,7 @@ public class UserDetailsController extends Controller {
 	}
 	
 	public void update(int userid) {
-		User user = App.getUserKeys().getUser(userid);
+		User user = App.getKeys().getUser(userid);
 		
 		((UserDetailsView) view).update(user.getUsername(), user.getRSAPublicKey(), user.getAESKey(), user.getHMACKey());
 	}

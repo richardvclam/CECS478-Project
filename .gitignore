@@ -1,2 +1,3 @@
 client/client/data
+client/client/src/main/java/me/securechat4/client/Constants.java
 *.swp

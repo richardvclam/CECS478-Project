@@ -19,7 +19,7 @@ public class AccountController extends Controller{
 		System.out.println("Action: " + (!actionCommand.isEmpty() ? actionCommand : "Undefined"));
 		switch (actionCommand) {
 			case "Generate Key":
-				App.getUserKeys().generateKeys();
+				App.getKeys().generateKeys();
 				((AccountView) view).updatePublicKey();
 				break;
 			case "Email Key":
