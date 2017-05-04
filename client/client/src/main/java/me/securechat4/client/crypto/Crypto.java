@@ -2,9 +2,8 @@ package me.securechat4.client.crypto;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import org.json.simple.JSONObject;
 
-import me.securechat4.client.Util;
+import org.json.simple.JSONObject;
 
 /**
  * 
@@ -23,6 +22,7 @@ public class Crypto {
 	 * @param rsaPublicKey - the file path for the public RSA key
 	 * @return JSON object with aesCipherText, rsaCipherText, and hmacTag
 	 */
+    /*
 	public static JSONObject encrypt(String message, String rsaPublicKey) {
 		// Initialize a RSA object with a public key
 		RSA rsa = new RSA(rsaPublicKey, false);
@@ -30,7 +30,7 @@ public class Crypto {
 		AES aes = new AES();
 		
 		// Encrypt the message with AES
-		String encryptedMessage = aes.encrypt(message);
+		String encryptedMessage = AES.encrypt(message);
 		// Generate a random HMAC key
 		SecretKey hmacKey = HMAC.generateKey();
 		// Calculate the integrity hash with HMAC key
@@ -49,6 +49,28 @@ public class Crypto {
 
 		return jsonObject;
 	}
+	*/
+	
+	/**
+	 * Returns a JSON object containing encoded data from encrypting a {@code message}
+	 * and the resulting AES ciphertext and HMAC integrity tag.
+	 * @param message - the message to encrypt
+	 * @param aesKey  - the AES key used to encrypt
+	 * @param hmacKey - the HMAC key used to hash the message
+	 * @return
+	 */
+	public static JSONObject encrypt(String message, SecretKey aesKey, SecretKey hmacKey) {
+		SecretKeySpec aesKeySpec = new SecretKeySpec(aesKey.getEncoded(), "AES");
+		String encryptedMessage = AES.encrypt(message, aesKeySpec);
+		SecretKeySpec hmacKeySpec = new SecretKeySpec(hmacKey.getEncoded(), "HmacSHA256");
+		String hash = HMAC.calculateIntegrity(encryptedMessage, hmacKeySpec);
+		
+		JSONObject json = new JSONObject();
+		json.put("aesCipherText", encryptedMessage);
+		json.put("hmacTag", hash);
+		
+		return json;
+	}
 	
 	/**
 	 * Returns a decrypted string message from a JSONObject containining an encoded RSA 
@@ -57,6 +79,7 @@ public class Crypto {
 	 * @param rsaPrivateKey - the file path for the private RSA key
 	 * @return raw string message
 	 */
+	/*
 	public static String decrypt(JSONObject jsonObj, String rsaPrivateKey) {
 		SecretKey aesKey;
 		SecretKey hmacKey;
@@ -105,6 +128,32 @@ public class Crypto {
         }
         
         return decryptAESText;  
+	}
+	*/
+	
+	/**
+	 * Returns a decrypted string message from a JSONObject.
+	 * @param json    - json object containing the data
+	 * @param aesKey  - the AES key used to decrypt the message
+	 * @param hmacKey - HMAC key used to hash the message
+	 * @return decrypted message
+	 */
+	public static String decrypt(JSONObject json, SecretKey aesKey, SecretKey hmacKey) {
+		// Decode JSON obj
+		String aesCipherText = (String) json.get("aesCipherText");
+        String hmacTag = (String) json.get("hmacTag");
+        
+        // Run HMAC w/ key from JSON
+        SecretKeySpec hmacKeySpec = new SecretKeySpec(hmacKey.getEncoded(), "HmacSHA256");
+        String hash = HMAC.calculateIntegrity(aesCipherText, hmacKeySpec);
+        
+        // Compare with the input tag from JSON
+        if (hash.equals(hmacTag)) {
+        	SecretKeySpec aesKeySpec = new SecretKeySpec(aesKey.getEncoded(), "AES");
+            return AES.decrypt(aesCipherText, aesKeySpec);
+        } else {
+            return "Error: HMAC Integrity Tag does not match.";
+        }
 	}
 
 }

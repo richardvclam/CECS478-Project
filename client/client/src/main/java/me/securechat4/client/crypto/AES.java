@@ -85,7 +85,7 @@ public class AES {
 	 * @param message - the message to encrypt
 	 * @return a Base64 encoded IV and encrypted message
 	 */
-	public String encrypt(String message) {
+	public static String encrypt(String message, SecretKey key) {
 		byte[] encryptedData = null;
 		byte[] iv = new byte[IV_BYTE_SIZE];
 		
@@ -123,7 +123,7 @@ public class AES {
 	 * @param encodedData - the Base64 encoded IV and encrypted message
 	 * @return a raw decrypted string
 	 */
-	public String decrypt(String encodedData) {
+	public static String decrypt(String encodedData, SecretKey key) {
 		byte[] decodedData = Base64.getDecoder().decode(encodedData);
 		byte[] iv = new byte[IV_BYTE_SIZE];
 		byte[] encryptedMessage = new byte[decodedData.length - IV_BYTE_SIZE];

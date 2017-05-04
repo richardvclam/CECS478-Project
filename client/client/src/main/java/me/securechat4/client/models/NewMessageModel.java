@@ -38,6 +38,7 @@ public class NewMessageModel extends Model {
 		PrivateKey ourPrivateKey = keyPair.getPrivate();
 		PublicKey ourPublicKey = keyPair.getPublic();
 		String ourEncodedKey = CryptoUtil.encodeKeyToString(ourPublicKey);
+		
 		int id = App.getIDFromUsername(username);
 		JSONObject jsonOut = new JSONObject();
 		jsonOut.put("id", id);
@@ -48,6 +49,8 @@ public class NewMessageModel extends Model {
 		User user = App.getUserKeys().getUser(id);
 		user.setDHPrivateKey(ourPrivateKey);
 		user.setDHPublicKey(ourPublicKey);
+		
+		App.getUserKeys().writeJSONFile();
 		
 		HttpsApi.post("key", jsonOut, true);
 		
@@ -78,6 +81,8 @@ public class NewMessageModel extends Model {
 				// Add derived keys to JSON
 				user.setAESKey(aesKey);
 				user.setHMACKey(hmacKey);
+				
+				App.getUserKeys().writeJSONFile();
 			} else {
 				System.out.println("Error trying to verify key signature.");
 			}

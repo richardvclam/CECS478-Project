@@ -132,6 +132,7 @@ public class Keys implements Serializable {
 				
 				users.put(id, user);
 
+				App.getUsers().put(id, user.getUsername());
 			});
 		}
 	}

@@ -124,6 +124,22 @@ public class MessageView extends View {
 		return messageTextArea;
 	}
 	
+	public void createMessagePanel(int id) {
+		if (!messagePanels.containsKey(id)) {
+			JPanel panel = new JPanel();
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+			panel.setBackground(Color.WHITE);
+			
+			JScrollPane scrollPane = new JScrollPane(panel);
+			scrollPane.setBorder(null);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+			rootMessagePanel.add(scrollPane, Integer.toString(id));
+			messagePanels.put(id, panel);
+		} 
+	}
+	
 	public void createMessagePanels(HashMap<Integer, LinkedList<JSONObject>> allmessages) {
 		for (Entry<Integer, LinkedList<JSONObject>> message : allmessages.entrySet()) {
 			JPanel panel;

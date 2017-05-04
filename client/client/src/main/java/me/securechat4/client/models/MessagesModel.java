@@ -7,10 +7,13 @@ import javax.swing.DefaultListModel;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import me.securechat4.client.App;
 import me.securechat4.client.HttpsApi;
+import me.securechat4.client.User;
 import me.securechat4.client.controllers.Controller;
+import me.securechat4.client.crypto.Crypto;
 
 public class MessagesModel extends Model {
 
@@ -68,9 +71,24 @@ public class MessagesModel extends Model {
 				username = (String) messageJson.get("receiver"); 
 			}
 			
+			/*
 			// Index unique user id to username
 			if (!App.getUsers().containsKey(id)) {
 				App.getUsers().put(id, username);
+			}
+			*/
+			
+			// Decrypts incoming messages 
+			// Replaces encoded encrypted json with decrypted message
+			User user = App.getUserKeys().getUser(id);
+			JSONParser parser = new JSONParser();
+			try {
+				JSONObject encryptedMessageJSON = (JSONObject) parser.parse((String) messageJson.get("data"));
+				String decryptedMessage = Crypto.decrypt(encryptedMessageJSON, user.getAESKey(), user.getHMACKey());
+				messageJson.remove("data");
+				messageJson.put("data", decryptedMessage);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 			// Add messages to appropriate conversations

@@ -47,9 +47,10 @@ public class NewMessageController extends Controller implements ListSelectionLis
 					((MessagesController) App.getController("messages")).addConversation(selectedUser);
 					((MessageController) App.getController("message")).updateView(selectedUser);
 					((NewMessageModel) model).createConversation(selectedUser);
+					((MessageController) App.getController("message")).createMessagePanel(App.getIDFromUsername(selectedUser));
+					((MessageController) App.getControllers().get("message")).updateView(selectedUser);
+					((MessagesController) App.getController("messages")).changeDetailView("message");
 				}
-
-				((MessagesController) App.getController("messages")).changeDetailView("message");
 				break;
 			default:
 				System.out.println("Attempting to call undefined action.");
@@ -114,7 +115,7 @@ public class NewMessageController extends Controller implements ListSelectionLis
 		((NewMessageView) view).updateList();
 		
 		
-		App.setUserlist(App.getUserKeys().parseOutUsernameAndID());
+		//App.setUserlist(App.getUserKeys().parseOutUsernameAndID());
 		
 		
 		

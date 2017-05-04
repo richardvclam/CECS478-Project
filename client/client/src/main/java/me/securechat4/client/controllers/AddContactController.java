@@ -44,6 +44,9 @@ public class AddContactController extends Controller {
 							user.setRSAPublicKey(publicKey);			
 							
 							App.getUserKeys().addUser(userid, user);
+							App.getUsers().put(userid, username);
+							
+							((MessagesController) App.getController("messages")).changeDetailView("newMessage");
 						}
 					} else {
 						System.out.println("User does not exist");
