@@ -5,6 +5,8 @@ use \Firebase\JWT\JWT;
 
 class LoginController {
 
+    private static $hmacKey = "MEX3PXJ3YYs6atRQN32UJZJO4xvODtjub9fJZXDoGd8=";
+
     /**
      * Login with user credentials.
      * Returns a JSON object with a JSON web token and a response value.
@@ -112,7 +114,7 @@ class LoginController {
 
                 if ($numRows == 1) {
                     // Generate challenge key response
-                    $challenge = base64_encode(openssl_random_pseudo_bytes(32));
+                    $challenge = base64_encode(openssl_random_pseudo_bytes(100));
 
                     $challengeQuery = "INSERT INTO session (accountID, challenge, expirationTime) VALUES (?, ?, ?)";
 
@@ -183,7 +185,8 @@ class LoginController {
                         // Check if the challenge key is valid and if the challenge has not expired yet
                         if (strcmp($challengeKey, $challenge) == 0 && $expiration > time()) {
                             // Generate integrity tag for the password from challenge Key
-                            $tag = hash_hmac('sha256', $password, base64_decode($challenge), true);
+                            $passKey = hash_hmac('sha256', $password, base64_decode(self::$hmacKey), true);
+                            $tag = hash_hmac('sha256', $challenge, $passKey, true);
                             //var_dump($tag);
                             //var_dump(base64_decode($hashTag));
                             //echo $tag . '<br>';

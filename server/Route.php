@@ -19,9 +19,10 @@ class Route {
         // If there isn't a POST request, then load the view.
         switch ($api->getRequestMethod()) {
             case "POST":
-                RegisterController::register($api, $api->_request['username'], $api->_request['password']);
+                RegisterController::register($api, $api->_request['username'], $api->_request['password'], $api->_request['email']);
                 unset($_POST['username']);
                 unset($_POST['password']);
+                unset($_POST['email']);
                 break;
             default:
                 readfile("view/register.html");
@@ -77,6 +78,33 @@ class Route {
                 echo "Message";
                 break;
         }
+    }
+
+    public static function email($api) {
+        switch ($api->getRequestMethod()) {
+            case "POST":
+                EmailController::sendEmail($api, $api->_request['recipient'], $api->_request['message']);
+                break;
+        }
+    }
+
+    public static function key($api) {
+        switch ($api->getRequestMethod()) {
+            case "GET":
+                KeyController::getKey($api, $api->_request['id']);
+                break;
+            case "POST":
+                KeyController::postKey($api, $api->_request['id'], $api->_request['key'], $api->_request['signature']);
+                break;
+        }
+    }
+
+    public static function user($api) {
+        switch ($api->getRequestMethod()) {
+            case "GET":
+                UserController::checkUser($api, $api->_request['username']);
+                break;
+	}
     }
 
     public static function test($api) {

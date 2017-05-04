@@ -20,9 +20,9 @@ class RegisterController {
      * @param $user
      * @param $pass
      */
-    public static function register($api, $user, $pass) {
+    public static function register($api, $user, $pass, $email) {
         // Check if user put something in the field
-        if ($user && $pass) {
+        if ($user && $pass && $email) {
 
             // Check if username is already taken
             $checkUsernameQuery = "SELECT accountName FROM account WHERE accountName=?;";
@@ -46,10 +46,10 @@ class RegisterController {
             }
 
             // Create a prepared statement
-            $registerQuery = "INSERT INTO account (accountName, accountPassword) VALUES (?, ?);";
+            $registerQuery = "INSERT INTO account (accountName, accountPassword, email) VALUES (?, ?, ?);";
             if ($stmt = $api->getConnection()->prepare($registerQuery)) {
                 // Bind params
-                $stmt->bind_param("ss", $user, $pass);
+                $stmt->bind_param("sss", $user, $pass, $email);
 
                 // Execute query
                 $stmt->execute();
