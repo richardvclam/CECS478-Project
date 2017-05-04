@@ -41,8 +41,8 @@ public class AddContactController extends Controller {
 							
 							User user = new User();
 							user.setUsername(username);
-							user.setRSAPublicKey(publicKey);
-	
+							user.setRSAPublicKey(publicKey);			
+							
 							App.getUserKeys().addUser(userid, user);
 						}
 					} else {

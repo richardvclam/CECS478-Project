@@ -46,7 +46,6 @@ public class NewMessageController extends Controller implements ListSelectionLis
 					// Check if user conversation already exists
 					((MessagesController) App.getController("messages")).addConversation(selectedUser);
 					((MessageController) App.getController("message")).updateView(selectedUser);
-					
 					((NewMessageModel) model).createConversation(selectedUser);
 				}
 
@@ -113,6 +112,11 @@ public class NewMessageController extends Controller implements ListSelectionLis
 	{
 		App.getUserKeys().writeJSONFile();
 		((NewMessageView) view).updateList();
+		
+		
+		App.setUserlist(App.getUserKeys().parseOutUsernameAndID());
+		
+		
 		
 	}
 

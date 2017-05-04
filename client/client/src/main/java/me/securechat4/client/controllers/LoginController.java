@@ -96,7 +96,9 @@ public class LoginController extends Controller implements KeyListener, MouseLis
 					((MessagesController) App.getController("messages")).init();
 					((MessageController) App.getController("message")).createMessagePanels();
 					((NewMessageController) App.getController("newMessage")).init();
+				
 					App.startRefreshThread();
+									
 					
 					CardLayout cardLayout = (CardLayout) App.getPanel().getLayout();
 					cardLayout.show(App.getPanel(), "messages");

@@ -47,8 +47,13 @@ public class App {
 		return users;
 	}
 	
+	public static  void setUserlist(HashMap<Integer, String> list) {
+		users = list;
+	}
+	
 	public static int getIDFromUsername(String username) {
-		for (Entry<Integer, String> entry : users.entrySet()) {
+		System.out.println("User List: " + users);
+		for (Entry<Integer, String> entry : users.entrySet()) {	
 			if (entry.getValue().equals(username)) {
 				return entry.getKey();
 			}

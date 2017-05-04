@@ -38,7 +38,6 @@ public class NewMessageModel extends Model {
 		PrivateKey ourPrivateKey = keyPair.getPrivate();
 		PublicKey ourPublicKey = keyPair.getPublic();
 		String ourEncodedKey = CryptoUtil.encodeKeyToString(ourPublicKey);
-		
 		int id = App.getIDFromUsername(username);
 		JSONObject jsonOut = new JSONObject();
 		jsonOut.put("id", id);
